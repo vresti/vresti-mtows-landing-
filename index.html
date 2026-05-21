@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tus mails importantes te avisan por WhatsApp. No leemos tu mail. Aunque quisiéramos.">
+  <meta name="theme-color" content="#25D366">
+  <title>mtows — Tus mails importantes te avisan por WhatsApp</title>
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="mtows — Tus mails importantes te avisan por WhatsApp">
+  <meta property="og:description" content="Una dirección @mtows.com, te avisamos por WhatsApp cuando llegue mail importante. No leemos tu correo.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://mtows.com">
+  
+  <!-- Geist fonts (la tipografía moderna que uso para diferenciar de Inter genérico) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================
+       RESET Y BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      /* Paleta WhatsApp */
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F0F2F5;
+      --bg-tertiary: #FAFAFA;
+      --text-primary: #111B21;
+      --text-secondary: #667781;
+      --text-tertiary: #8696A0;
+      
+      /* Verdes WhatsApp */
+      --ws-green: #25D366;
+      --ws-green-dark: #128C7E;
+      --ws-green-darker: #075E54;
+      --ws-green-light: #DCF8C6;
+      
+      /* Otros */
+      --border-subtle: #E9EDEF;
+      --shadow-sm: 0 1px 2px rgba(11, 20, 26, 0.05);
+      --shadow-md: 0 4px 12px rgba(11, 20, 26, 0.08);
+      --shadow-lg: 0 12px 24px rgba(11, 20, 26, 0.10);
+      --shadow-bubble: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+      
+      /* Tipografía */
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      overflow-x: hidden;
+    }
+    
+    /* Sutil textura de grano en el body para darle atmósfera */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    img, svg {
+      max-width: 100%;
+      display: block;
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    
+    /* ============================================
+       NAVBAR
+       ============================================ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    
+    .navbar.scrolled {
+      border-bottom-color: var(--border-subtle);
+    }
+    
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    
+    .wordmark {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+    
+    .wordmark .dot {
+      color: var(--ws-green);
+    }
+    
+    .nav-cta {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ws-green-dark);
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+    
+    .nav-cta:hover {
+      background: var(--bg-secondary);
+    }
+    
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      padding: 80px 0 120px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    
+    .hero-content {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ws-green-dark);
+      background: var(--ws-green-light);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    
+    .hero-eyebrow::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--ws-green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.4); }
+    }
+    
+    .hero h1 {
+      font-size: clamp(40px, 5vw, 60px);
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+    
+    .hero h1 .highlight {
+      color: var(--ws-green-dark);
+      position: relative;
+      white-space: nowrap;
+    }
+    
+    .hero-subtitle {
+      font-size: 19px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      max-width: 500px;
+    }
+    
+    .hero-subtitle strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ws-green);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 500;
+      padding: 16px 32px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
+    }
+    
+    .hero-cta:hover {
+      background: var(--ws-green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    }
+    
+    .hero-cta:active {
+      transform: translateY(0);
+    }
+    
+    .hero-cta-arrow {
+      transition: transform 0.2s ease;
+    }
+    
+    .hero-cta:hover .hero-cta-arrow {
+      transform: translateX(3px);
+    }
+    
+    .hero-footnote {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+    
+    /* ============================================
+       MOCKUP CELULAR (Hero derecho)
+       ============================================ */
+    .phone-wrapper {
+      display: flex;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .phone {
+      width: 320px;
+      height: 640px;
+      background: #000;
+      border-radius: 44px;
+      padding: 12px;
+      box-shadow: 
+        0 0 0 2px #1A1A1A,
+        0 30px 60px rgba(11, 20, 26, 0.25),
+        0 10px 30px rgba(11, 20, 26, 0.15);
+      position: relative;
+    }
+    
+    .phone-notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 18px 18px;
+      z-index: 10;
+    }
+    
+    .phone-screen {
+      width: 100%;
+      height: 100%;
+      background: #ECE5DD;
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+      /* Patrón sutil de fondo tipo wallpaper WS */
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.4) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.3) 0%, transparent 50%),
+        linear-gradient(180deg, #ECE5DD 0%, #DDD4C7 100%);
+    }
+    
+    .ws-header {
+      background: #075E54;
+      color: white;
+      padding: 38px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .ws-back {
+      font-size: 22px;
+      color: rgba(255,255,255,0.9);
+    }
+    
+    .ws-avatar {
+      width: 36px;
+      height: 36px;
+      background: var(--ws-green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 16px;
+      color: white;
+    }
+    
+    .ws-contact {
+      flex: 1;
+    }
+    
+    .ws-contact-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: white;
+    }
+    
+    .ws-contact-status {
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+    }
+    
+    .ws-icons {
+      display: flex;
+      gap: 16px;
+      color: rgba(255,255,255,0.9);
+      font-size: 18px;
+    }
+    
+    .ws-chat {
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .ws-date {
+      align-self: center;
+      background: rgba(225, 245, 254, 0.95);
+      color: #1F2C34;
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: var(--shadow-bubble);
+      margin-bottom: 4px;
+    }
+    
+    .ws-bubble {
+      background: white;
+      border-radius: 8px;
+      padding: 8px 10px 6px;
+      max-width: 85%;
+      box-shadow: var(--shadow-bubble);
+      position: relative;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: bubbleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .ws-bubble:nth-of-type(1) { animation-delay: 1.2s; }
+    .ws-bubble:nth-of-type(2) { animation-delay: 2.0s; }
+    .ws-bubble:nth-of-type(3) { animation-delay: 2.8s; }
+    
+    @keyframes bubbleIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .ws-bubble::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -8px;
+      width: 0;
+      height: 0;
+      border: 8px solid transparent;
+      border-top-color: white;
+      border-right-color: white;
+    }
+    
+    .ws-bubble-title {
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--ws-green-darker);
+      margin-bottom: 2px;
+    }
+    
+    .ws-bubble-content {
+      font-size: 13px;
+      line-height: 1.4;
+      color: #303942;
+    }
+    
+    .ws-bubble-content strong {
+      font-weight: 600;
+    }
+    
+    .ws-bubble-time {
+      font-size: 10px;
+      color: var(--text-tertiary);
+      text-align: right;
+      margin-top: 2px;
+    }
+    
+    /* ============================================
+       CÓMO FUNCIONA
+       ============================================ */
+    .how {
+      background: var(--bg-tertiary);
+      padding: 100px 0;
+      position: relative;
+    }
+    
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 64px;
+    }
+    
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ws-green-dark);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    
+    .section-title {
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    
+    .section-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+    
+    .how-step {
+      background: white;
+      padding: 36px 28px;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .how-step:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .how-step-number {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ws-green);
+      margin-bottom: 16px;
+    }
+    
+    .how-step-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    
+    .how-step-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    
+    .how-step-desc {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+    
+    .how-step-desc code {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      background: var(--ws-green-light);
+      color: var(--ws-green-darker);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    
+    /* ============================================
+       PRIVACIDAD (No te pedimos)
+       ============================================ */
+    .privacy {
+      padding: 100px 0;
+      background: var(--bg-primary);
+    }
+    
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .privacy-card {
+      padding: 36px;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+    }
+    
+    .privacy-card.deny {
+      background: #FEF2F2;
+      border-color: #FECACA;
+    }
+    
+    .privacy-card.accept {
+      background: var(--ws-green-light);
+      border-color: #BBDFB4;
+    }
+    
+    .privacy-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .privacy-card-emoji {
+      font-size: 28px;
+    }
+    
+    .privacy-card-title {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    
+    .privacy-card.deny .privacy-card-title {
+      color: #991B1B;
+    }
+    
+    .privacy-card.accept .privacy-card-title {
+      color: var(--ws-green-darker);
+    }
+    
+    .privacy-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .privacy-list li {
+      font-size: 15px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    
+    .privacy-list .icon {
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 600;
+      width: 18px;
+    }
+    
+    .privacy-card.deny .icon {
+      color: #991B1B;
+    }
+    
+    .privacy-card.accept .icon {
+      color: var(--ws-green-dark);
+    }
+    
+    .privacy-card.deny li {
+      color: #7F1D1D;
+    }
+    
+    .privacy-card.accept li {
+      color: var(--ws-green-darker);
+    }
+    
+    .privacy-conclusion {
+      text-align: center;
+      max-width: 600px;
+      margin: 64px auto 0;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+    
+    .privacy-conclusion strong {
+      color: var(--ws-green-dark);
+      font-weight: 600;
+    }
+    
+    /* ============================================
+       MAILS COMPATIBLES
+       ============================================ */
+    .mails {
+      padding: 80px 0;
+      background: var(--bg-tertiary);
+      text-align: center;
+    }
+    
+    .mails-title {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+    
+    .mails-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      opacity: 0.7;
+    }
+    
+    .mails-logos span {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: -0.01em;
+    }
+    
+    /* ============================================
+       PRICING
+       ============================================ */
+    .pricing {
+      padding: 100px 0;
+      background: var(--bg-primary);
+    }
+    
+    .pricing-card {
+      max-width: 480px;
+      margin: 0 auto;
+      background: white;
+      border: 2px solid var(--ws-green);
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(37, 211, 102, 0.15);
+      position: relative;
+    }
+    
+    .pricing-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ws-green);
+      color: white;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 100px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    
+    .pricing-trial {
+      font-size: 14px;
+      color: var(--ws-green-dark);
+      font-weight: 500;
+      margin-bottom: 20px;
+      font-family: var(--font-mono);
+    }
+    
+    .pricing-amount {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+    
+    .pricing-currency {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    
+    .pricing-number {
+      font-size: 64px;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    
+    .pricing-period {
+      font-size: 16px;
+      color: var(--text-secondary);
+    }
+    
+    .pricing-equiv {
+      font-size: 14px;
+      color: var(--text-tertiary);
+      margin-bottom: 36px;
+      font-family: var(--font-mono);
+    }
+    
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      max-width: 320px;
+      margin: 0 auto 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+    
+    .pricing-features .check {
+      color: var(--ws-green);
+      font-weight: 700;
+      flex-shrink: 0;
+      width: 20px;
+    }
+    
+    .pricing-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ws-green);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 500;
+      padding: 16px 32px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .pricing-cta:hover {
+      background: var(--ws-green-dark);
+      transform: translateY(-1px);
+    }
+    
+    .pricing-foot {
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--text-tertiary);
+    }
+    
+    /* ============================================
+       FAQ
+       ============================================ */
+    .faq {
+      padding: 100px 0;
+      background: var(--bg-tertiary);
+    }
+    
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .faq-item {
+      background: white;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+    
+    .faq-item:hover {
+      border-color: var(--ws-green);
+    }
+    
+    .faq-question {
+      width: 100%;
+      padding: 20px 24px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    
+    .faq-question::after {
+      content: "+";
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--ws-green);
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-item.open .faq-question::after {
+      transform: rotate(45deg);
+    }
+    
+    .faq-answer {
+      padding: 0 24px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding: 0 24px 20px;
+    }
+    
+    /* ============================================
+       CTA FINAL
+       ============================================ */
+    .final-cta {
+      padding: 120px 0;
+      background: linear-gradient(135deg, #075E54 0%, #128C7E 100%);
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .final-cta::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(37, 211, 102, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(37, 211, 102, 0.15) 0%, transparent 50%);
+    }
+    
+    .final-cta-content {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .final-cta h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    
+    .final-cta p {
+      font-size: 19px;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 40px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .final-cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--ws-green);
+      color: white;
+      font-family: var(--font-sans);
+      font-size: 17px;
+      font-weight: 500;
+      padding: 18px 36px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    }
+    
+    .final-cta-button:hover {
+      background: #1DAA52;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+    }
+    
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background: var(--text-primary);
+      color: rgba(255, 255, 255, 0.7);
+      padding: 48px 0 32px;
+    }
+    
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    
+    .footer-brand {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      font-weight: 600;
+      color: white;
+    }
+    
+    .footer-brand .dot {
+      color: var(--ws-green);
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      transition: color 0.2s ease;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-copyright {
+      width: 100%;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: center;
+    }
+    
+    /* ============================================
+       ANIMACIONES
+       ============================================ */
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        text-align: left;
+      }
+      
+      .hero {
+        padding: 60px 0 80px;
+      }
+      
+      .phone-wrapper {
+        order: 2;
+      }
+      
+      .phone {
+        width: 280px;
+        height: 560px;
+      }
+      
+      .how-steps {
+        grid-template-columns: 1fr;
+      }
+      
+      .privacy-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .footer-links {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 0 20px;
+      }
+      
+      .hero {
+        padding: 40px 0 60px;
+      }
+      
+      .how, .privacy, .pricing, .faq, .final-cta {
+        padding: 60px 0;
+      }
+      
+      .pricing-card {
+        padding: 36px 24px;
+      }
+      
+      .pricing-number {
+        font-size: 52px;
+      }
+      
+      .phone {
+        width: 260px;
+        height: 520px;
+      }
+      
+      .mails-logos {
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <div class="navbar-inner">
+        <a href="#" class="wordmark">mtows<span class="dot">.</span></a>
+        <a href="#registro" class="nav-cta">Quiero mi dirección →</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-eyebrow">No leemos tu mail. Aunque quisiéramos.</div>
+          
+          <h1>
+            Tus mails importantes te avisan por <span class="highlight">WhatsApp</span>.
+          </h1>
+          
+          <p class="hero-subtitle">
+            Te damos una dirección <strong>@mtows.com</strong>. Cuando alguien te escriba ahí, 
+            te avisamos por WhatsApp con un resumen claro. El mail completo te sigue llegando a tu Gmail.
+          </p>
+          
+          <a href="#registro" class="hero-cta">
+            Quiero mi dirección
+            <span class="hero-cta-arrow">→</span>
+          </a>
+          
+          <p class="hero-footnote">7 días gratis, sin tarjeta. Después USD 60/año.</p>
+        </div>
+        
+        <!-- MOCKUP CELULAR -->
+        <div class="phone-wrapper">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="ws-header">
+                <span class="ws-back">‹</span>
+                <div class="ws-avatar">m</div>
+                <div class="ws-contact">
+                  <div class="ws-contact-name">mtows</div>
+                  <div class="ws-contact-status">en línea</div>
+                </div>
+                <div class="ws-icons">📞 ⋮</div>
+              </div>
+              
+              <div class="ws-chat">
+                <div class="ws-date">HOY</div>
+                
+                <div class="ws-bubble">
+                  <div class="ws-bubble-title">🧾 Sarah · Madison Realty</div>
+                  <div class="ws-bubble-content">
+                    Lease payment due <strong>tomorrow</strong>. USD 2,400. 
+                    Wire transfer details attached.
+                  </div>
+                  <div class="ws-bubble-time">9:15 ✓✓</div>
+                </div>
+                
+                <div class="ws-bubble">
+                  <div class="ws-bubble-title">💬 Dr. Chen · Internal Medicine</div>
+                  <div class="ws-bubble-content">
+                    Appointment confirmed <strong>Thursday 10:30 AM</strong>. 
+                    Medical Center, Suite 402.
+                  </div>
+                  <div class="ws-bubble-time">10:42 ✓✓</div>
+                </div>
+                
+                <div class="ws-bubble">
+                  <div class="ws-bubble-title">🚨 Brennan & Co. · Accounting</div>
+                  <div class="ws-bubble-content">
+                    Tax deadline <strong>today 6 PM</strong>. Important reminder.
+                  </div>
+                  <div class="ws-bubble-time">14:08 ✓✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="how" id="como-funciona">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Cómo funciona</div>
+        <h2 class="section-title">Tres pasos, ningún misterio.</h2>
+      </div>
+      
+      <div class="how-steps">
+        <div class="how-step">
+          <div class="how-step-number">01</div>
+          <span class="how-step-icon">📧</span>
+          <h3 class="how-step-title">Te damos tu dirección</h3>
+          <p class="how-step-desc">
+            Elegís <code>tunombre@mtows.com</code> y se la das a contactos que te mandan mail importante: contador, médico, inmobiliaria, banco.
+          </p>
+        </div>
+        
+        <div class="how-step">
+          <div class="how-step-number">02</div>
+          <span class="how-step-icon">💬</span>
+          <h3 class="how-step-title">Te avisamos por WhatsApp</h3>
+          <p class="how-step-desc">
+            Cuando te escriben, una IA arma un resumen claro con lo importante: montos, fechas, deadlines. Lo recibís en segundos.
+          </p>
+        </div>
+        
+        <div class="how-step">
+          <div class="how-step-number">03</div>
+          <span class="how-step-icon">📬</span>
+          <h3 class="how-step-title">El mail llega a tu correo</h3>
+          <p class="how-step-desc">
+            El mail completo sigue llegando a tu correo habitual. <strong>No tocamos tu correo. Solo avisamos.</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACIDAD -->
+  <section class="privacy">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Privacidad</div>
+        <h2 class="section-title">Lo justo y necesario. Punto.</h2>
+        <p class="section-subtitle">
+          Mtows hace una sola cosa y la hace bien. Por eso no te pedimos lo que no necesita.
+        </p>
+      </div>
+      
+      <div class="privacy-grid">
+        <div class="privacy-card deny">
+          <div class="privacy-card-header">
+            <span class="privacy-card-emoji">🚫</span>
+            <h3 class="privacy-card-title">No te pedimos</h3>
+          </div>
+          <ul class="privacy-list">
+            <li><span class="icon">✗</span> Tu nombre</li>
+            <li><span class="icon">✗</span> Tu apellido</li>
+            <li><span class="icon">✗</span> Tu DNI</li>
+            <li><span class="icon">✗</span> Tu dirección</li>
+            <li><span class="icon">✗</span> Tu fecha de nacimiento</li>
+            <li><span class="icon">✗</span> Tu profesión</li>
+          </ul>
+        </div>
+        
+        <div class="privacy-card accept">
+          <div class="privacy-card-header">
+            <span class="privacy-card-emoji">✅</span>
+            <h3 class="privacy-card-title">Solo necesitamos</h3>
+          </div>
+          <ul class="privacy-list">
+            <li><span class="icon">✓</span> Un WhatsApp donde avisarte</li>
+            <li><span class="icon">✓</span> Un mail donde reenviarte los originales</li>
+          </ul>
+        </div>
+      </div>
+      
+      <p class="privacy-conclusion">
+        No guardamos tus mails. <strong>Aunque quisiéramos.</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- COMPATIBILIDAD -->
+  <section class="mails">
+    <div class="container">
+      <p class="mails-title">Funciona con tu correo de siempre</p>
+      <div class="mails-logos">
+        <span>Gmail</span>
+        <span>Outlook</span>
+        <span>iCloud</span>
+        <span>Yahoo</span>
+        <span>ProtonMail</span>
+        <span>El de tu trabajo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="precio">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Precio</div>
+        <h2 class="section-title">Un solo plan. Sin sorpresas.</h2>
+      </div>
+      
+      <div class="pricing-card">
+        <div class="pricing-badge">7 días gratis</div>
+        
+        <p class="pricing-trial">PRUEBA SIN TARJETA</p>
+        
+        <div class="pricing-amount">
+          <span class="pricing-currency">USD</span>
+          <span class="pricing-number">60</span>
+          <span class="pricing-period">/año</span>
+        </div>
+        
+        <p class="pricing-equiv">≈ USD 5/mes equivalente</p>
+        
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> Tu dirección @mtows.com</li>
+          <li><span class="check">✓</span> Avisos por WhatsApp con resumen IA</li>
+          <li><span class="check">✓</span> Reenvío del mail original</li>
+          <li><span class="check">✓</span> Anti-spam configurable</li>
+          <li><span class="check">✓</span> Cancelás cuando quieras</li>
+        </ul>
+        
+        <a href="#registro" class="pricing-cta">
+          Empezar ahora
+          <span>→</span>
+        </a>
+        
+        <p class="pricing-foot">Sin auto-renovación silenciosa. Decidís cada año.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Preguntas</div>
+        <h2 class="section-title">Las dudas más comunes.</h2>
+      </div>
+      
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question">¿Por qué dicen "no leemos tu mail"?</button>
+          <div class="faq-answer">
+            Porque técnicamente no lo guardamos. Procesamos el mail con IA para hacer el resumen y lo descartamos. El original se reenvía intacto a tu correo. No tenemos base de datos de tus mails. No los podemos consultar después. No podemos darlos a nadie aunque nos los pidan.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">¿Y si quiero contestarle al que me escribió?</button>
+          <div class="faq-answer">
+            Lo contestás desde tu Gmail (o Outlook) como siempre. El mail original te llegó completo. Mtows solo te avisó por WhatsApp para que no te lo pierdas — pero el mail sigue siendo tuyo, en tu casilla, como cualquier mail.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">¿Cómo decide qué es importante?</button>
+          <div class="faq-answer">
+            Todos los mails que recibís en tu dirección @mtows.com se avisan por WhatsApp. La clave está en a quién le das tu @mtows.com: tu contador, tu médico, tu inmobiliaria. Los que te mandan publicidad no necesitan saberla. Si igual entra spam, lo detectamos con IA y no te molestamos.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">¿Qué pasa si no pago a los 7 días?</button>
+          <div class="faq-answer">
+            El servicio sigue funcionando. Vamos a recordarte cada tanto que te falta pagar, pero no te cortamos nada. Filosofía WinZip — molestamos, no bloqueamos. Si decidís que no lo necesitás, no pagás y listo.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">¿Puedo cambiar de dirección @mtows.com después?</button>
+          <div class="faq-answer">
+            Sí, pero significa cancelar la actual y crear una nueva. Por eso te recomendamos pensarla bien antes. Una vez creada, tus contactos ya tienen esa dirección — cambiarla implica avisarles a todos.
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question">¿Y si pierdo mi WhatsApp o cambio de número?</button>
+          <div class="faq-answer">
+            Al darte de alta te damos un código de recuperación que tenés que guardar. Con ese código podés recuperar tu cuenta y cambiar el WhatsApp destino. Si perdés el código <strong>y</strong> el acceso al mail, no podemos recuperar tu cuenta — es parte de "no guardamos nada".
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="final-cta" id="registro">
+    <div class="container">
+      <div class="final-cta-content">
+        <h2>Tu próximo mail importante no se te tiene que escapar.</h2>
+        <p>Empezá ahora. 7 días gratis para probar, sin tarjeta de crédito.</p>
+        <a href="/registro" class="final-cta-button">
+          Quiero mi dirección
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">mtows<span class="dot">.</span></div>
+        <div class="footer-links">
+          <a href="#como-funciona">Cómo funciona</a>
+          <a href="#precio">Precio</a>
+          <a href="mailto:info@mtows.com">info@mtows.com</a>
+          <a href="/terminos">Términos</a>
+          <a href="/privacidad">Privacidad</a>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        © 2026 mtows · Para gente que no quiere perder mails importantes.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scrolled state
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+    
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.parentElement;
+        const wasOpen = item.classList.contains('open');
+        // Cerrar todas
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        // Abrir esta si no estaba abierta
+        if (!wasOpen) {
+          item.classList.add('open');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
