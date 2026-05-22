@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Creá tu cuenta en mtows.com — Tus mails importantes te avisan por WhatsApp.">
+  <meta name="theme-color" content="#25D366">
+  <title>Registro — mtows</title>
+  
+  <!-- Geist fonts (consistente con la landing) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================
+       RESET Y BASE
+       ============================================ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      /* Paleta WhatsApp (consistente con landing) */
+      --bg-primary: #FFFFFF;
+      --bg-secondary: #F0F2F5;
+      --bg-tertiary: #FAFAFA;
+      --text-primary: #111B21;
+      --text-secondary: #667781;
+      --text-tertiary: #8696A0;
+      
+      --ws-green: #25D366;
+      --ws-green-dark: #128C7E;
+      --ws-green-darker: #075E54;
+      --ws-green-light: #DCF8C6;
+      
+      --border-subtle: #E9EDEF;
+      --border-input: #D1D7DB;
+      --error: #DC2626;
+      --error-bg: #FEF2F2;
+      --success: #25D366;
+      
+      --shadow-sm: 0 1px 2px rgba(11, 20, 26, 0.05);
+      --shadow-md: 0 4px 12px rgba(11, 20, 26, 0.08);
+      --shadow-input-focus: 0 0 0 3px rgba(37, 211, 102, 0.15);
+      
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
+      
+      /* === CONFIGURACIÓN BACKEND === */
+      /* Esta es la URL del Web App del GAS — la única que toca cambiar si se redeploya con nueva versión */
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Sutil textura de grano (consistente con landing) */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.02;
+      pointer-events: none;
+      z-index: 100;
+    }
+    
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+    
+    input {
+      font-family: inherit;
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    /* ============================================
+       HEADER MINIMALISTA
+       ============================================ */
+    .header {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    .wordmark {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+    }
+    
+    .wordmark .dot {
+      color: var(--ws-green);
+    }
+    
+    .back-link {
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .back-link:hover {
+      color: var(--text-primary);
+    }
+    
+    /* ============================================
+       STEPPER
+       ============================================ */
+    .stepper {
+      max-width: 480px;
+      margin: 0 auto 40px;
+      width: 100%;
+      padding: 0 32px;
+    }
+    
+    .stepper-track {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .stepper-dot {
+      flex: 1;
+      height: 4px;
+      background: var(--border-subtle);
+      border-radius: 2px;
+      transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .stepper-dot.active {
+      background: var(--ws-green);
+    }
+    
+    .stepper-dot.completed {
+      background: var(--ws-green-dark);
+    }
+    
+    .stepper-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+      text-align: center;
+      margin-top: 12px;
+      letter-spacing: 0.02em;
+    }
+    
+    /* ============================================
+       MAIN — ÁREA CENTRAL
+       ============================================ */
+    .main {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0 32px 80px;
+    }
+    
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: white;
+      border-radius: 16px;
+      padding: 48px 40px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-subtle);
+    }
+    
+    .step {
+      display: none;
+      animation: stepEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .step.active {
+      display: block;
+    }
+    
+    @keyframes stepEnter {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .step-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--ws-green-dark);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    
+    .step-title {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    
+    .step-description {
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+    
+    /* ============================================
+       INPUTS
+       ============================================ */
+    .input-group {
+      margin-bottom: 24px;
+    }
+    
+    .input-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    
+    .input-wrapper {
+      position: relative;
+    }
+    
+    .input-prefix {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--text-tertiary);
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .input-suffix {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      color: var(--text-tertiary);
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .input {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 16px;
+      color: var(--text-primary);
+      background: white;
+      border: 1.5px solid var(--border-input);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+    
+    .input.with-prefix {
+      padding-left: 36px;
+    }
+    
+    .input.with-suffix {
+      padding-right: 100px;
+    }
+    
+    .input:focus {
+      outline: none;
+      border-color: var(--ws-green);
+      box-shadow: var(--shadow-input-focus);
+    }
+    
+    .input::placeholder {
+      color: var(--text-tertiary);
+    }
+    
+    .input-help {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    
+    .input-error {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--error);
+      display: none;
+    }
+    
+    .input-error.visible {
+      display: block;
+    }
+    
+    .input.error {
+      border-color: var(--error);
+    }
+    
+    .input.error:focus {
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+    }
+    
+    .input-status {
+      margin-top: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 18px;
+    }
+    
+    .input-status.success {
+      color: var(--ws-green-dark);
+    }
+    
+    .input-status.error {
+      color: var(--error);
+    }
+    
+    .input-status.checking {
+      color: var(--text-tertiary);
+    }
+    
+    /* ============================================
+       BOTONES
+       ============================================ */
+    .btn-primary {
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--ws-green);
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .btn-primary:hover:not(:disabled) {
+      background: var(--ws-green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    }
+    
+    .btn-primary:active:not(:disabled) {
+      transform: translateY(0);
+    }
+    
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    
+    .btn-primary .arrow {
+      transition: transform 0.2s ease;
+    }
+    
+    .btn-primary:hover:not(:disabled) .arrow {
+      transform: translateX(3px);
+    }
+    
+    /* Botón especial wa.me */
+    .btn-whatsapp {
+      width: 100%;
+      padding: 18px 24px;
+      background: var(--ws-green);
+      color: white;
+      font-size: 17px;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+    }
+    
+    .btn-whatsapp:hover {
+      background: var(--ws-green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(37, 211, 102, 0.4);
+    }
+    
+    .btn-whatsapp-icon {
+      font-size: 22px;
+    }
+    
+    /* ============================================
+       LOADING / SPINNER
+       ============================================ */
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    
+    .spinner.large {
+      width: 32px;
+      height: 32px;
+      border-width: 3px;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* ============================================
+       WAITING SCREEN (polling)
+       ============================================ */
+    .waiting-box {
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 32px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .waiting-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--ws-green-light);
+      border-radius: 50%;
+      color: var(--ws-green-dark);
+      font-size: 28px;
+    }
+    
+    .waiting-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    
+    .waiting-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    
+    .waiting-status {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-tertiary);
+    }
+    
+    /* Animación de pulso para "en espera" */
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ws-green);
+      animation: pulse-dot 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+    
+    /* ============================================
+       SUCCESS BOX (verde)
+       ============================================ */
+    .success-box {
+      background: var(--ws-green-light);
+      border: 1px solid #BBDFB4;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .success-box-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--ws-green);
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    
+    .success-box-text {
+      font-size: 14px;
+      color: var(--ws-green-darker);
+      font-weight: 500;
+    }
+    
+    /* ============================================
+       ERROR BOX (rojo)
+       ============================================ */
+    .error-box {
+      background: var(--error-bg);
+      border: 1px solid #FECACA;
+      border-radius: 12px;
+      padding: 16px 20px;
+      display: none;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .error-box.visible {
+      display: flex;
+    }
+    
+    .error-box-icon {
+      color: var(--error);
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    
+    .error-box-content {
+      flex: 1;
+    }
+    
+    .error-box-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #991B1B;
+      margin-bottom: 4px;
+    }
+    
+    .error-box-text {
+      font-size: 13px;
+      color: #7F1D1D;
+      line-height: 1.4;
+    }
+    
+    /* ============================================
+       RECOVERY TOKEN DISPLAY
+       ============================================ */
+    .token-display {
+      background: var(--bg-tertiary);
+      border: 2px dashed var(--ws-green);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    
+    .token-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    
+    .token-code {
+      font-family: var(--font-mono);
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+      user-select: all;
+      word-break: break-all;
+    }
+    
+    .token-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid var(--border-input);
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: all 0.2s ease;
+    }
+    
+    .token-copy-btn:hover {
+      background: var(--ws-green-light);
+      border-color: var(--ws-green);
+    }
+    
+    .token-copy-btn.copied {
+      background: var(--ws-green);
+      color: white;
+      border-color: var(--ws-green);
+    }
+    
+    /* Checkbox de confirmación */
+    .checkbox-confirm {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 24px;
+      transition: background 0.2s ease;
+    }
+    
+    .checkbox-confirm:hover {
+      background: var(--bg-secondary);
+    }
+    
+    .checkbox-confirm input[type="checkbox"] {
+      margin-top: 2px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--ws-green);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    
+    .checkbox-confirm-text {
+      font-size: 14px;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+    
+    /* ============================================
+       SUCCESS FINAL (paso 5)
+       ============================================ */
+    .final-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: var(--ws-green);
+      border-radius: 50%;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    @keyframes scaleIn {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    .final-email {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--ws-green-dark);
+      text-align: center;
+      padding: 16px;
+      background: var(--ws-green-light);
+      border-radius: 10px;
+      margin-bottom: 24px;
+      word-break: break-all;
+    }
+    
+    .next-steps {
+      background: var(--bg-tertiary);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .next-steps-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+    }
+    
+    .next-steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .next-steps-list li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    
+    .next-steps-list .num {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      background: var(--ws-green);
+      color: white;
+      border-radius: 50%;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 600px) {
+      .header {
+        padding: 16px 20px;
+      }
+      
+      .stepper {
+        padding: 0 20px;
+        margin-bottom: 24px;
+      }
+      
+      .main {
+        padding: 0 16px 60px;
+      }
+      
+      .card {
+        padding: 32px 24px;
+      }
+      
+      .step-title {
+        font-size: 24px;
+      }
+      
+      .final-email {
+        font-size: 18px;
+      }
+    }
+    
+    /* ============================================
+       UTILS
+       ============================================ */
+    .hidden {
+      display: none !important;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .mt-4 {
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <a href="https://mtows.com" class="wordmark">mtows<span class="dot">.</span></a>
+    <a href="https://mtows.com" class="back-link">← Volver a mtows.com</a>
+  </header>
+
+  <!-- STEPPER -->
+  <div class="stepper">
+    <div class="stepper-track">
+      <div class="stepper-dot active" id="dot-1"></div>
+      <div class="stepper-dot" id="dot-2"></div>
+      <div class="stepper-dot" id="dot-3"></div>
+      <div class="stepper-dot" id="dot-4"></div>
+      <div class="stepper-dot" id="dot-5"></div>
+    </div>
+    <p class="stepper-label" id="stepper-label">Paso 1 de 5</p>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="card">
+
+      <!-- ============================================
+           PASO 1 — Intro y teléfono
+           ============================================ -->
+      <div class="step active" data-step="1">
+        <p class="step-eyebrow">Empezá tu cuenta</p>
+        <h1 class="step-title">¿Cuál es tu WhatsApp?</h1>
+        <p class="step-description">
+          Te vamos a avisar acá cuando llegue un mail importante a tu dirección @mtows.com.
+        </p>
+        
+        <div class="input-group">
+          <label for="phone-input" class="input-label">Número con código de país</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">+</span>
+            <input 
+              type="tel" 
+              id="phone-input" 
+              class="input with-prefix" 
+              placeholder="5491136597788"
+              autocomplete="tel"
+              inputmode="numeric"
+            >
+          </div>
+          <p class="input-help">Ej: 549 11 3659-7788 (Argentina). Solo números, con código de país.</p>
+          <p class="input-error" id="phone-error">El número parece incorrecto. Mínimo 10 dígitos.</p>
+        </div>
+        
+        <button class="btn-primary" id="btn-step-1">
+          Continuar
+          <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- ============================================
+           PASO 2 — Verificación por WhatsApp (wa.me)
+           ============================================ -->
+      <div class="step" data-step="2">
+        <p class="step-eyebrow">Verificación</p>
+        <h1 class="step-title">Confirmá tu WhatsApp</h1>
+        <p class="step-description">
+          Tocá el botón verde para mandarnos un mensaje. Es la forma más segura — vos iniciás el contacto.
+        </p>
+        
+        <div class="error-box" id="error-step-2">
+          <span class="error-box-icon">⚠</span>
+          <div class="error-box-content">
+            <div class="error-box-title">Algo falló</div>
+            <div class="error-box-text" id="error-step-2-text">No pudimos generar el link. Probá de nuevo.</div>
+          </div>
+        </div>
+        
+        <a class="btn-whatsapp" id="wa-btn" target="_blank" rel="noopener noreferrer">
+          <span class="btn-whatsapp-icon">💬</span>
+          <span>Enviar mensaje por WhatsApp</span>
+        </a>
+        
+        <!-- Pantalla de espera (aparece después de hacer click en wa-btn) -->
+        <div class="waiting-box hidden mt-4" id="waiting-ws">
+          <div class="waiting-icon">⏳</div>
+          <div class="waiting-title">Esperando tu mensaje...</div>
+          <div class="waiting-text">
+            Apretá <strong>Enviar</strong> en WhatsApp.<br>
+            En cuanto lo recibamos, seguimos.
+          </div>
+          <div class="waiting-status">
+            <span class="pulse-dot"></span>
+            <span id="waiting-counter">verificando</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           PASO 3 — Mail destino
+           ============================================ -->
+      <div class="step" data-step="3">
+        <p class="step-eyebrow">Tu correo</p>
+        <h1 class="step-title">¿A qué correo te reenviamos?</h1>
+        <p class="step-description">
+          Los mails que recibas en @mtows.com los reenviamos completos a tu correo habitual.
+        </p>
+        
+        <div class="error-box" id="error-step-3">
+          <span class="error-box-icon">⚠</span>
+          <div class="error-box-content">
+            <div class="error-box-title">No pudimos registrar el mail</div>
+            <div class="error-box-text" id="error-step-3-text">Probá de nuevo en unos segundos.</div>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="email-input" class="input-label">Tu correo electrónico</label>
+          <input 
+            type="email" 
+            id="email-input" 
+            class="input" 
+            placeholder="tu.correo@gmail.com"
+            autocomplete="email"
+          >
+          <p class="input-error" id="email-error">El correo parece incorrecto.</p>
+        </div>
+        
+        <button class="btn-primary" id="btn-step-3">
+          Continuar
+          <span class="arrow">→</span>
+        </button>
+        
+        <!-- Pantalla de espera de verificación mail (aparece después de hacer click) -->
+        <div class="waiting-box hidden mt-4" id="waiting-email">
+          <div class="waiting-icon">📬</div>
+          <div class="waiting-title">Revisá tu correo</div>
+          <div class="waiting-text">
+            Te mandamos un mail de <strong>Cloudflare</strong> (nuestro proveedor) con un botón "Verify email address".<br><br>
+            Hacé click ahí y volvé. Esta página detecta automáticamente cuando verificás.
+          </div>
+          <div class="waiting-status">
+            <span class="pulse-dot"></span>
+            <span id="waiting-email-counter">verificando</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           PASO 4 — Elección de alias
+           ============================================ -->
+      <div class="step" data-step="4">
+        <p class="step-eyebrow">Tu dirección</p>
+        <h1 class="step-title">Elegí tu @mtows.com</h1>
+        <p class="step-description">
+          Esta es tu dirección — la que les vas a dar a quienes te mandan mail importante.
+        </p>
+        
+        <div class="error-box" id="error-step-4">
+          <span class="error-box-icon">⚠</span>
+          <div class="error-box-content">
+            <div class="error-box-title">Algo falló</div>
+            <div class="error-box-text" id="error-step-4-text"></div>
+          </div>
+        </div>
+        
+        <div class="input-group">
+          <label for="alias-input" class="input-label">Tu nombre antes de @mtows.com</label>
+          <div class="input-wrapper">
+            <input 
+              type="text" 
+              id="alias-input" 
+              class="input with-suffix" 
+              placeholder="tunombre"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+            >
+            <span class="input-suffix">@mtows.com</span>
+          </div>
+          <div class="input-status" id="alias-status"></div>
+        </div>
+        
+        <button class="btn-primary" id="btn-step-4" disabled>
+          Continuar
+          <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- ============================================
+           PASO 5 — Token de recuperación + Crear cuenta
+           ============================================ -->
+      <div class="step" data-step="5">
+        <p class="step-eyebrow">Último paso</p>
+        <h1 class="step-title">Guardá este código</h1>
+        <p class="step-description">
+          Es la única forma de recuperar tu cuenta si perdés acceso a tu WhatsApp o correo. <strong>Guardalo bien.</strong>
+        </p>
+        
+        <div class="error-box" id="error-step-5">
+          <span class="error-box-icon">⚠</span>
+          <div class="error-box-content">
+            <div class="error-box-title">Algo falló</div>
+            <div class="error-box-text" id="error-step-5-text">No pudimos crear la cuenta. Probá de nuevo.</div>
+          </div>
+        </div>
+        
+        <div class="token-display">
+          <div class="token-label">Tu código de recuperación</div>
+          <div class="token-code" id="recovery-token-display">—</div>
+          <button class="token-copy-btn" id="btn-copy-token">
+            <span id="copy-icon">📋</span>
+            <span id="copy-text">Copiar</span>
+          </button>
+        </div>
+        
+        <label class="checkbox-confirm">
+          <input type="checkbox" id="checkbox-saved">
+          <span class="checkbox-confirm-text">
+            <strong>Guardé el código en un lugar seguro.</strong><br>
+            Entiendo que si lo pierdo y pierdo acceso a mi WhatsApp o correo, no puedo recuperar la cuenta.
+          </span>
+        </label>
+        
+        <button class="btn-primary" id="btn-step-5" disabled>
+          Crear mi cuenta
+          <span class="arrow">→</span>
+        </button>
+      </div>
+
+      <!-- ============================================
+           PASO 6 — Cuenta lista (success final)
+           ============================================ -->
+      <div class="step" data-step="6">
+        <div class="final-icon">✓</div>
+        <h1 class="step-title text-center">Tu cuenta está lista</h1>
+        <p class="step-description text-center">
+          Ya podés empezar a usarla. Esta es tu dirección:
+        </p>
+        
+        <div class="final-email" id="final-email">tu@mtows.com</div>
+        
+        <div class="next-steps">
+          <div class="next-steps-title">Próximos pasos</div>
+          <ul class="next-steps-list">
+            <li>
+              <span class="num">1</span>
+              <span>Mandate un mail a tu nueva dirección para probarla.</span>
+            </li>
+            <li>
+              <span class="num">2</span>
+              <span>Dásela a tus contactos importantes: contador, médico, inmobiliaria.</span>
+            </li>
+            <li>
+              <span class="num">3</span>
+              <span>Te avisamos por WhatsApp cuando llegue mail importante.</span>
+            </li>
+          </ul>
+        </div>
+        
+        <a href="https://mtows.com" class="btn-primary" style="text-decoration:none;">
+          Volver a mtows.com
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    // ============================================
+    // CONFIG
+    // ============================================
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbyYOJhoh5zwQUxMiPneD8qYpAEwtnzEOJ-hWPLFWupX2mQJxQOR1vmFayu27dNPcrDN5Q/exec';
+    const POLL_INTERVAL_MS = 3000;  // 3 segundos
+    
+    // ============================================
+    // ESTADO GLOBAL (en memoria — se pierde al recargar)
+    // ============================================
+    let state = {
+      currentStep: 1,
+      telefono: null,
+      onboardingToken: null,
+      waLink: null,
+      email: null,
+      alias: null,
+      recoveryToken: null
+    };
+    
+    let pollIntervalWS = null;
+    let pollIntervalEmail = null;
+    let aliasCheckTimeout = null;
+    
+    // Sin persistencia: estado solo en memoria, se pierde al recargar
+    function saveState() { /* noop */ }
+    function clearState() { /* noop */ }
+    
+    // ============================================
+    // NAVEGACIÓN ENTRE PASOS
+    // ============================================
+    function goToStep(stepNum) {
+      // Esconder todos los pasos
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      
+      // Mostrar el actual
+      const target = document.querySelector(`.step[data-step="${stepNum}"]`);
+      if (target) target.classList.add('active');
+      
+      // Actualizar stepper
+      for (let i = 1; i <= 5; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (!dot) continue;
+        dot.classList.remove('active', 'completed');
+        if (i < stepNum) dot.classList.add('completed');
+        else if (i === stepNum) dot.classList.add('active');
+      }
+      
+      // Label del stepper
+      const label = document.getElementById('stepper-label');
+      if (stepNum <= 5) {
+        label.textContent = `Paso ${stepNum} de 5`;
+      } else {
+        label.textContent = '¡Listo!';
+        // En paso 6, marcamos todo como completed
+        document.querySelectorAll('.stepper-dot').forEach(d => {
+          d.classList.remove('active');
+          d.classList.add('completed');
+        });
+      }
+      
+      state.currentStep = stepNum;
+      saveState();
+      
+      // Scroll al inicio
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // ============================================
+    // HELPERS GENERALES
+    // ============================================
+    function showError(stepNum, message) {
+      const errorBox = document.getElementById(`error-step-${stepNum}`);
+      const errorText = document.getElementById(`error-step-${stepNum}-text`);
+      if (errorText && message) errorText.textContent = message;
+      if (errorBox) errorBox.classList.add('visible');
+    }
+    
+    function hideError(stepNum) {
+      const errorBox = document.getElementById(`error-step-${stepNum}`);
+      if (errorBox) errorBox.classList.remove('visible');
+    }
+    
+    async function apiGet(action, params = {}) {
+      const url = new URL(GAS_URL);
+      url.searchParams.set('action', action);
+      Object.keys(params).forEach(k => url.searchParams.set(k, params[k]));
+      
+      const response = await fetch(url.toString());
+      return await response.json();
+    }
+    
+    async function apiPost(action, params = {}) {
+      const formData = new FormData();
+      formData.append('action', action);
+      Object.keys(params).forEach(k => formData.append(k, params[k]));
+      
+      const response = await fetch(GAS_URL, {
+        method: 'POST',
+        body: formData
+      });
+      return await response.json();
+    }
+    
+    // ============================================
+    // PASO 1 — Teléfono
+    // ============================================
+    document.getElementById('phone-input').addEventListener('input', (e) => {
+      // Solo números
+      e.target.value = e.target.value.replace(/[^0-9]/g, '');
+      document.getElementById('phone-error').classList.remove('visible');
+      e.target.classList.remove('error');
+    });
+    
+    document.getElementById('phone-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('btn-step-1').click();
+      }
+    });
+    
+    document.getElementById('btn-step-1').addEventListener('click', async () => {
+      const phoneInput = document.getElementById('phone-input');
+      const phone = phoneInput.value.replace(/[^0-9]/g, '');
+      
+      // Validar
+      if (phone.length < 10) {
+        phoneInput.classList.add('error');
+        document.getElementById('phone-error').classList.add('visible');
+        phoneInput.focus();
+        return;
+      }
+      
+      // Guardar y avanzar
+      state.telefono = phone;
+      saveState();
+      
+      // Pedir el link wa.me al backend
+      const btn = document.getElementById('btn-step-1');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Generando link...';
+      
+      try {
+        const result = await apiPost('startOnboarding', { telefono: phone });
+        
+        if (result.ok) {
+          state.onboardingToken = result.token;
+          state.waLink = result.wa_link;
+          saveState();
+          
+          // Configurar el botón wa.me
+          document.getElementById('wa-btn').href = result.wa_link;
+          
+          // Avanzar al paso 2
+          goToStep(2);
+        } else {
+          showError(2, result.message || 'No pudimos generar el link. Probá de nuevo.');
+        }
+      } catch (err) {
+        showError(2, 'Error de conexión. Verificá tu internet y probá de nuevo.');
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Continuar <span class="arrow">→</span>';
+      }
+    });
+    
+    // ============================================
+    // PASO 2 — WhatsApp verification (polling)
+    // ============================================
+    document.getElementById('wa-btn').addEventListener('click', () => {
+      // Mostrar la pantalla de espera
+      document.getElementById('waiting-ws').classList.remove('hidden');
+      hideError(2);
+      
+      // Empezar polling
+      startPollingWS();
+    });
+    
+    function startPollingWS() {
+      if (pollIntervalWS) clearInterval(pollIntervalWS);
+      
+      // Mostrar el waiting box
+      document.getElementById('waiting-ws').classList.remove('hidden');
+      
+      let attempts = 0;
+      
+      pollIntervalWS = setInterval(async () => {
+        attempts++;
+        document.getElementById('waiting-counter').textContent = 
+          `verificando (${attempts})`;
+        
+        try {
+          const result = await apiGet('checkOnboardingStatus', { 
+            token: state.onboardingToken 
+          });
+          
+          if (result.verified) {
+            clearInterval(pollIntervalWS);
+            pollIntervalWS = null;
+            // Avanzar al paso 3
+            setTimeout(() => goToStep(3), 600);
+          } else if (result.expired) {
+            clearInterval(pollIntervalWS);
+            pollIntervalWS = null;
+            showError(2, 'El link expiró (10 minutos). Recargá la página y probá de nuevo.');
+            document.getElementById('waiting-ws').classList.add('hidden');
+          }
+          // Si está waiting, seguimos esperando
+        } catch (err) {
+          console.error('Error en polling WS:', err);
+        }
+        
+        // Timeout total: 10 minutos (200 intentos × 3 seg)
+        if (attempts >= 200) {
+          clearInterval(pollIntervalWS);
+          pollIntervalWS = null;
+          showError(2, 'Se agotó el tiempo de espera. Recargá la página y probá de nuevo.');
+          document.getElementById('waiting-ws').classList.add('hidden');
+        }
+      }, POLL_INTERVAL_MS);
+    }
+    
+    // ============================================
+    // PASO 3 — Email destino
+    // ============================================
+    document.getElementById('email-input').addEventListener('input', (e) => {
+      document.getElementById('email-error').classList.remove('visible');
+      e.target.classList.remove('error');
+    });
+    
+    document.getElementById('email-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('btn-step-3').click();
+      }
+    });
+    
+    document.getElementById('btn-step-3').addEventListener('click', async () => {
+      const emailInput = document.getElementById('email-input');
+      const email = emailInput.value.trim().toLowerCase();
+      
+      // Validar formato
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        emailInput.classList.add('error');
+        document.getElementById('email-error').classList.add('visible');
+        emailInput.focus();
+        return;
+      }
+      
+      state.email = email;
+      saveState();
+      
+      const btn = document.getElementById('btn-step-3');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Registrando...';
+      hideError(3);
+      
+      try {
+        const result = await apiPost('registerEmail', { email });
+        
+        if (result.ok) {
+          if (result.status === 'already_verified') {
+            // Skip directo al paso 4
+            goToStep(4);
+          } else {
+            // Mostrar pantalla de espera
+            document.getElementById('waiting-email').classList.remove('hidden');
+            startPollingEmail();
+          }
+        } else {
+          showError(3, result.message || 'No pudimos registrar el mail. Probá de nuevo.');
+        }
+      } catch (err) {
+        showError(3, 'Error de conexión. Verificá tu internet.');
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Continuar <span class="arrow">→</span>';
+      }
+    });
+    
+    function startPollingEmail() {
+      if (pollIntervalEmail) clearInterval(pollIntervalEmail);
+      
+      let attempts = 0;
+      
+      pollIntervalEmail = setInterval(async () => {
+        attempts++;
+        document.getElementById('waiting-email-counter').textContent = 
+          `verificando (${attempts})`;
+        
+        try {
+          const result = await apiGet('checkEmailStatus', { email: state.email });
+          
+          if (result.verified) {
+            clearInterval(pollIntervalEmail);
+            pollIntervalEmail = null;
+            setTimeout(() => goToStep(4), 600);
+          }
+        } catch (err) {
+          console.error('Error en polling email:', err);
+        }
+        
+        // Timeout: 15 minutos (300 intentos × 3 seg)
+        if (attempts >= 300) {
+          clearInterval(pollIntervalEmail);
+          pollIntervalEmail = null;
+          showError(3, 'Se agotó el tiempo de espera. Revisá tu casilla de mail y recargá si ya verificaste.');
+          document.getElementById('waiting-email').classList.add('hidden');
+        }
+      }, POLL_INTERVAL_MS);
+    }
+    
+    // ============================================
+    // PASO 4 — Elección de alias
+    // ============================================
+    document.getElementById('alias-input').addEventListener('input', (e) => {
+      // Normalizar
+      e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9._-]/g, '');
+      
+      const alias = e.target.value;
+      const statusEl = document.getElementById('alias-status');
+      const btn = document.getElementById('btn-step-4');
+      
+      // Limpiar estado previo
+      statusEl.className = 'input-status';
+      statusEl.textContent = '';
+      btn.disabled = true;
+      e.target.classList.remove('error');
+      
+      if (alias.length === 0) return;
+      
+      if (alias.length < 3) {
+        statusEl.classList.add('error');
+        statusEl.innerHTML = '✗ Mínimo 3 caracteres';
+        return;
+      }
+      
+      // Debounce: esperar 400ms antes de hacer el check
+      if (aliasCheckTimeout) clearTimeout(aliasCheckTimeout);
+      
+      statusEl.classList.add('checking');
+      statusEl.innerHTML = '<span class="spinner" style="width:12px;height:12px;border-width:2px;"></span> Verificando...';
+      
+      aliasCheckTimeout = setTimeout(async () => {
+        try {
+          const result = await apiGet('checkAlias', { alias });
+          
+          if (result.available) {
+            statusEl.className = 'input-status success';
+            statusEl.innerHTML = '✓ Disponible';
+            btn.disabled = false;
+            state.alias = alias;
+            saveState();
+          } else {
+            statusEl.className = 'input-status error';
+            const reasons = {
+              'taken': '✗ Ya está tomado, probá otro',
+              'reserved': '✗ Es un nombre reservado',
+              'too_short': '✗ Mínimo 3 caracteres',
+              'too_long': '✗ Máximo 30 caracteres',
+              'invalid_format': '✗ Solo letras, números, puntos y guiones',
+              'system_error': '✗ Error del sistema, probá de nuevo'
+            };
+            statusEl.innerHTML = reasons[result.reason] || '✗ No disponible';
+            btn.disabled = true;
+          }
+        } catch (err) {
+          statusEl.className = 'input-status error';
+          statusEl.innerHTML = '✗ Error de conexión';
+          console.error(err);
+        }
+      }, 400);
+    });
+    
+    document.getElementById('alias-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !document.getElementById('btn-step-4').disabled) {
+        e.preventDefault();
+        document.getElementById('btn-step-4').click();
+      }
+    });
+    
+    document.getElementById('btn-step-4').addEventListener('click', async () => {
+      // Generar el recovery token (cliente-side, después lo mandamos al backend)
+      // Lo generamos del lado cliente para que el backend solo reciba el plaintext una vez
+      const recoveryToken = generateRecoveryToken();
+      state.recoveryToken = recoveryToken;
+      saveState();
+      
+      // Mostrar en pantalla 5
+      document.getElementById('recovery-token-display').textContent = recoveryToken;
+      
+      // Avanzar
+      goToStep(5);
+    });
+    
+    function generateRecoveryToken() {
+      const chars = '0123456789ABCDEF';
+      const segment = () => {
+        let s = '';
+        for (let i = 0; i < 4; i++) {
+          s += chars.charAt(Math.floor(Math.random() * 16));
+        }
+        return s;
+      };
+      return `MTW-${segment()}-${segment()}-${segment()}`;
+    }
+    
+    // ============================================
+    // PASO 5 — Token + crear cuenta
+    // ============================================
+    document.getElementById('btn-copy-token').addEventListener('click', async () => {
+      const token = document.getElementById('recovery-token-display').textContent;
+      const btn = document.getElementById('btn-copy-token');
+      const iconEl = document.getElementById('copy-icon');
+      const textEl = document.getElementById('copy-text');
+      
+      try {
+        await navigator.clipboard.writeText(token);
+        btn.classList.add('copied');
+        iconEl.textContent = '✓';
+        textEl.textContent = '¡Copiado!';
+        
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          iconEl.textContent = '📋';
+          textEl.textContent = 'Copiar';
+        }, 2000);
+      } catch (err) {
+        // Fallback para navegadores viejos
+        const range = document.createRange();
+        range.selectNode(document.getElementById('recovery-token-display'));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+        alert('Token copiado al portapapeles');
+      }
+    });
+    
+    document.getElementById('checkbox-saved').addEventListener('change', (e) => {
+      document.getElementById('btn-step-5').disabled = !e.target.checked;
+    });
+    
+    document.getElementById('btn-step-5').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-step-5');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Creando cuenta...';
+      hideError(5);
+      
+      try {
+        const result = await apiPost('createAccount', {
+          alias: state.alias,
+          telefono: state.telefono,
+          mail_destino: state.email,
+          recovery_token: state.recoveryToken,
+          nombre_contacto: state.alias
+        });
+        
+        if (result.ok) {
+          // Mostrar el mail final
+          document.getElementById('final-email').textContent = result.full_email;
+          
+          // Cuenta creada exitosamente
+          clearState();
+          
+          // Avanzar al paso 6 (success)
+          goToStep(6);
+        } else {
+          showError(5, result.message || 'No pudimos crear la cuenta. Probá de nuevo.');
+          btn.disabled = false;
+          btn.innerHTML = 'Crear mi cuenta <span class="arrow">→</span>';
+        }
+      } catch (err) {
+        showError(5, 'Error de conexión. Verificá tu internet y probá de nuevo.');
+        btn.disabled = false;
+        btn.innerHTML = 'Crear mi cuenta <span class="arrow">→</span>';
+        console.error(err);
+      }
+    });
+    
+  </script>
+
+</body>
+</html>
