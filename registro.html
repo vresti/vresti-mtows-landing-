@@ -1026,7 +1026,7 @@
               type="tel" 
               id="phone-input" 
               class="input with-prefix" 
-              placeholder="11 8888-8888"
+              placeholder=""
               autocomplete="tel"
               inputmode="numeric"
               disabled
@@ -1539,6 +1539,24 @@
     ];
     
     let selectedCountry = null;
+    let autoPrefix = '';  // Prefijo automático según país (ej: "9" para Argentina)
+    
+    // Reglas específicas por país para WhatsApp
+    // Si un país necesita un prefijo automático o instrucciones especiales, va acá.
+    const WS_RULES = {
+      'AR': {
+        auto_prefix: '9',
+        placeholder: '11 1234-5678',
+        help: 'Código de ciudad sin 0 + tu número. Agregamos el 9 automáticamente.'
+      }
+      // En el futuro: agregar otros países si surgen casos de confusión
+    };
+    
+    const WS_RULE_DEFAULT = {
+      auto_prefix: '',
+      placeholder: 'Tu número',
+      help: 'Tu número de WhatsApp sin código de país.'
+    };
     
     // Renderizar lista de países
     function renderCountryList(filter = '') {
@@ -1580,6 +1598,10 @@
     function selectCountry(country) {
       selectedCountry = country;
       
+      // Aplicar reglas específicas del país (o default)
+      const rule = WS_RULES[country.code] || WS_RULE_DEFAULT;
+      autoPrefix = rule.auto_prefix;
+      
       // Actualizar el trigger
       const triggerLabel = document.getElementById('country-trigger-label');
       triggerLabel.outerHTML = `
@@ -1590,7 +1612,7 @@
         </span>
       `;
       
-      // Habilitar el input de teléfono
+      // Habilitar el input de teléfono con prefijo del país y reglas
       const phoneInput = document.getElementById('phone-input');
       const phonePrefix = document.getElementById('phone-prefix');
       const phoneHelp = document.getElementById('phone-help');
@@ -1598,7 +1620,8 @@
       phonePrefix.textContent = '+' + country.dial;
       phoneInput.disabled = false;
       phoneInput.value = '';
-      phoneHelp.textContent = 'Solo números, sin código de país (ya está agregado).';
+      phoneInput.placeholder = rule.placeholder;
+      phoneHelp.textContent = rule.help;
       
       // Cerrar dropdown
       closeCountryDropdown();
@@ -1680,8 +1703,8 @@
         return;
       }
       
-      // Armar teléfono completo (code dial + número)
-      const fullPhone = selectedCountry.dial + phoneOnly;
+      // Armar teléfono completo: código país + auto-prefix (si aplica) + número local
+      const fullPhone = selectedCountry.dial + autoPrefix + phoneOnly;
       
       // Guardar y avanzar
       state.telefono = fullPhone;
