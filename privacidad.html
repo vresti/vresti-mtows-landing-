@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidad — mtows.com</title>
+<meta name="description" content="Política de Privacidad de mtows.com. Cómo manejamos tus datos personales con respeto y transparencia.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Política de Privacidad — mtows.com">
+<meta property="og:description" content="Cómo manejamos tus datos personales.">
+<meta property="og:url" content="https://mtows.com/privacidad.html">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #fafafa;
+    --bg-card: #ffffff;
+    --text: #0a0a0a;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+    --border: #e5e7eb;
+    --accent: #25D366;
+    --accent-dark: #1ea952;
+    --bg-soft: #f5f5f5;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Navbar */
+  .navbar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .navbar-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-dot { color: var(--accent); }
+
+  .navbar-back {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+
+  .navbar-back:hover {
+    color: var(--text);
+    background: var(--bg-soft);
+  }
+
+  /* Container */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Header */
+  .doc-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .doc-subtitle {
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  .doc-date {
+    color: var(--text-light);
+    font-size: 13px;
+    margin-top: 8px;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* TOC / Sections */
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h2:first-of-type { margin-top: 0; }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 28px;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  p {
+    margin-bottom: 16px;
+    color: var(--text);
+    font-size: 16px;
+  }
+
+  ul, ol {
+    margin: 0 0 18px 24px;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Highlight Card */
+  .highlight {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    margin: 24px 0;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .highlight strong {
+    color: var(--accent-dark);
+  }
+
+  /* Datos del operador */
+  .operator-data {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .operator-data strong {
+    color: var(--text);
+    display: inline-block;
+    min-width: 140px;
+  }
+
+  .operator-data .data-row {
+    margin-bottom: 4px;
+  }
+
+  /* Links */
+  a {
+    color: var(--accent-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover { color: var(--accent); }
+
+  /* Code-like inline */
+  code {
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  th {
+    background: var(--bg-soft);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
+  }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .doc-footer a {
+    color: var(--text-muted);
+    margin: 0 8px;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    h1 { font-size: 28px; }
+    h2 { font-size: 19px; }
+    h3 { font-size: 16px; }
+    .container { padding: 32px 20px 60px; }
+    .operator-data strong { display: block; min-width: 0; margin-bottom: 2px; }
+    .operator-data .data-row { margin-bottom: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-content">
+    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
+    <a href="/" class="navbar-back">← Volver al inicio</a>
+  </div>
+</nav>
+
+<main class="container">
+
+<div class="doc-header">
+  <h1>Política de Privacidad</h1>
+  <div class="doc-subtitle">Cómo manejamos tus datos personales</div>
+  <div class="doc-date">Vigente desde: 23 de mayo de 2026</div>
+</div>
+
+<!-- ============================================== -->
+<h2>1. Quiénes somos</h2>
+
+<p>mtows.com es un servicio operado por <strong>Victor Mario Resti</strong>, bajo el nombre comercial <strong>"Mtows"</strong>. Somos un emprendimiento unipersonal radicado en la República Argentina.</p>
+
+<div class="operator-data">
+  <div class="data-row"><strong>Responsable:</strong> Victor Mario Resti</div>
+  <div class="data-row"><strong>Nombre comercial:</strong> Mtows</div>
+  <div class="data-row"><strong>CUIT:</strong> 20-14462601-0</div>
+  <div class="data-row"><strong>Condición ante AFIP:</strong> Responsable Inscripto</div>
+  <div class="data-row"><strong>Domicilio:</strong> Gral. Urquiza 241, 4° piso, Acassuso (CP 1641), Provincia de Buenos Aires, Argentina</div>
+  <div class="data-row"><strong>Contacto:</strong> <a href="mailto:info@mtows.com">info@mtows.com</a></div>
+</div>
+
+<!-- ============================================== -->
+<h2>2. La filosofía detrás de esta política</h2>
+
+<div class="highlight">
+  <p><strong>No leemos tu mail. Aunque quisiéramos.</strong></p>
+  <p style="margin: 0;">mtows está diseñado para procesar tus correos electrónicos, resumirlos con inteligencia artificial y enviártelos por WhatsApp. Para hacerlo, tu correo pasa por nuestros sistemas. Pero nuestra filosofía es minimizar todo lo que recolectamos, guardamos y compartimos.</p>
+</div>
+
+<p>Esta política explica con claridad qué datos tomamos, por qué, con quién los compartimos y cuáles son tus derechos. Si algo no te queda claro, escribinos a <a href="mailto:info@mtows.com">info@mtows.com</a>.</p>
+
+<!-- ============================================== -->
+<h2>3. Qué datos recolectamos</h2>
+
+<p>Recolectamos el <strong>mínimo absoluto</strong> de datos necesarios para que el servicio funcione:</p>
+
+<h3>3.1. Datos que vos nos das al registrarte</h3>
+<ul>
+  <li><strong>Alias elegido</strong> (por ejemplo, "john" para "john@mtows.com")</li>
+  <li><strong>Número de WhatsApp</strong> donde querés recibir los resúmenes</li>
+  <li><strong>Dirección de correo destino</strong> donde se reenvía tu mail original</li>
+  <li><strong>País</strong> de residencia (para configuración técnica de WhatsApp)</li>
+</ul>
+
+<h3>3.2. Datos que generamos automáticamente</h3>
+<ul>
+  <li><strong>Fecha de registro</strong></li>
+  <li><strong>Plan elegido</strong> (mensual o anual)</li>
+  <li><strong>Estado de tu cuenta</strong> (activa, cancelada)</li>
+  <li><strong>Saldo a pagar</strong> y movimientos de cuenta corriente</li>
+  <li><strong>Filtros</strong> que configurás (whitelist/blacklist de remitentes)</li>
+  <li><strong>Tokens de sesión</strong> cuando entrás al panel (caducan en 7 días)</li>
+  <li><strong>Tokens de recuperación</strong> emitidos durante el registro</li>
+</ul>
+
+<h3>3.3. Datos de los correos electrónicos</h3>
+
+<div class="highlight">
+  <p style="margin: 0;"><strong>Tus correos NO se guardan en nuestros servidores.</strong> Son procesados en tiempo real y descartados inmediatamente después.</p>
+</div>
+
+<p>Cuando llega un correo a tu dirección <code>@mtows.com</code>, hacemos esto:</p>
+<ol>
+  <li>Recibimos el correo a través de Cloudflare Email Routing</li>
+  <li>Extraemos el remitente, asunto y cuerpo del mensaje</li>
+  <li>Pedimos a Anthropic (Claude) que genere un resumen corto</li>
+  <li>Te enviamos el resumen por WhatsApp</li>
+  <li>Reenviamos el correo original a tu dirección de correo destino</li>
+  <li>Descartamos el contenido procesado</li>
+</ol>
+
+<p>Solo registramos <strong>metadatos mínimos</strong> de cada procesamiento (timestamp, alias del usuario, longitud del correo) para fines técnicos y de facturación. Estos metadatos <strong>no incluyen</strong> el remitente específico, el asunto, ni el contenido del correo.</p>
+
+<!-- ============================================== -->
+<h2>4. Qué datos NO recolectamos</h2>
+
+<p>Por diseño y por filosofía, mtows <strong>NO</strong> recolecta:</p>
+
+<ul>
+  <li>El contenido de tus correos electrónicos (no se guarda)</li>
+  <li>El remitente específico de cada correo recibido</li>
+  <li>El asunto de los correos</li>
+  <li>Datos de geolocalización</li>
+  <li>Información de tus dispositivos (más allá de lo técnicamente imprescindible)</li>
+  <li>Datos biométricos</li>
+  <li>Información financiera detallada (los pagos los procesan terceros como Mercado Pago o Stripe)</li>
+  <li>Cookies de seguimiento de terceros</li>
+  <li>Datos sensibles (salud, religión, opiniones políticas, etc.)</li>
+</ul>
+
+<!-- ============================================== -->
+<h2>5. Por qué procesamos tus datos</h2>
+
+<p>Procesamos tus datos exclusivamente para:</p>
+
+<ol>
+  <li><strong>Proveer el servicio:</strong> recibir tus correos, resumirlos, enviarlos por WhatsApp, reenviar el original a tu correo destino.</li>
+  <li><strong>Autenticarte:</strong> verificar tu identidad cuando entrás al panel de usuario (mediante código por WhatsApp).</li>
+  <li><strong>Facturarte:</strong> registrar tu suscripción, calcular tu saldo, generar comprobantes.</li>
+  <li><strong>Comunicarnos:</strong> avisarte de novedades importantes del servicio, recordatorios de pago, cambios en estos términos.</li>
+  <li><strong>Cumplir obligaciones legales:</strong> contables, fiscales, o requerimientos de autoridades competentes.</li>
+</ol>
+
+<p><strong>No usamos tus datos para marketing dirigido, no los vendemos, no los cedemos para publicidad.</strong></p>
+
+<!-- ============================================== -->
+<h2>6. Con quién compartimos tus datos</h2>
+
+<p>Para que mtows funcione, algunos terceros procesan parte de tus datos. Todos son proveedores tecnológicos profesionales con sus propias políticas de privacidad:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Proveedor</th>
+      <th>Qué procesa</th>
+      <th>Para qué</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Cloudflare</strong></td>
+      <td>Tus correos entrantes y la dirección de destino</td>
+      <td>Routing de correo electrónico</td>
+    </tr>
+    <tr>
+      <td><strong>Anthropic</strong></td>
+      <td>El texto de cada correo (en el momento del resumen)</td>
+      <td>Generación del resumen con IA (Claude)</td>
+    </tr>
+    <tr>
+      <td><strong>Meta / WhatsApp</strong></td>
+      <td>Tu número de WhatsApp y los mensajes que te enviamos</td>
+      <td>Entrega de los resúmenes y códigos de seguridad</td>
+    </tr>
+    <tr>
+      <td><strong>Google</strong></td>
+      <td>Datos de tu cuenta y registros operativos</td>
+      <td>Infraestructura backend (Apps Script + Sheets)</td>
+    </tr>
+    <tr>
+      <td><strong>Mercado Pago / Stripe</strong></td>
+      <td>Datos de pago (próximamente)</td>
+      <td>Procesamiento de pagos del servicio</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>No compartimos tus datos con anunciantes, redes de publicidad, brokers de datos, ni terceros con fines comerciales no relacionados con la operación del servicio.</p>
+
+<!-- ============================================== -->
+<h2>7. Cuánto tiempo guardamos tus datos</h2>
+
+<h3>7.1. Tus correos electrónicos</h3>
+<p>El contenido de los correos <strong>no se guarda</strong>. Se procesa y se descarta.</p>
+
+<h3>7.2. Tu cuenta y datos personales</h3>
+<ul>
+  <li>Mientras tu cuenta esté activa: los conservamos para prestar el servicio.</li>
+  <li>Si cancelás tu cuenta: marcamos la cuenta como inactiva. Los datos identificatorios (alias, número WhatsApp) se conservan por hasta <strong>5 años</strong> por obligaciones fiscales y contables argentinas.</li>
+  <li>Los movimientos de cuenta corriente se conservan por <strong>10 años</strong>, según exigencias del Código Civil y Comercial argentino.</li>
+</ul>
+
+<h3>7.3. Tokens y sesiones</h3>
+<ul>
+  <li>Tokens de sesión del panel: <strong>7 días</strong> desde su creación.</li>
+  <li>Tokens de recuperación generados en el registro: hasta que el usuario los reemplace o cancele su cuenta.</li>
+</ul>
+
+<!-- ============================================== -->
+<h2>8. Tus derechos (Ley 25.326 de Argentina)</h2>
+
+<p>Como titular de los datos, la legislación argentina te garantiza derechos. Podés ejercerlos en cualquier momento escribiéndonos a <a href="mailto:info@mtows.com">info@mtows.com</a>.</p>
+
+<h3>8.1. Derecho de acceso</h3>
+<p>Tenés derecho a saber qué datos tuyos tenemos. Te los enviamos en un plazo de 10 días hábiles.</p>
+
+<h3>8.2. Derecho de rectificación</h3>
+<p>Podés pedirnos que corrijamos datos inexactos o incompletos. Lo hacemos en máximo 5 días hábiles.</p>
+
+<h3>8.3. Derecho de supresión</h3>
+<p>Podés pedirnos que eliminemos tus datos. Tené en cuenta que algunos datos los debemos conservar por obligaciones legales (por ejemplo, registros fiscales por 5-10 años).</p>
+
+<h3>8.4. Derecho de oposición</h3>
+<p>Podés oponerte a determinado tratamiento de tus datos, siempre que la ley lo permita.</p>
+
+<h3>8.5. Cómo ejercer tus derechos</h3>
+<p>Escribí a <a href="mailto:info@mtows.com">info@mtows.com</a> con el asunto <strong>"Ejercicio de derechos - Ley 25.326"</strong>, indicando qué derecho querés ejercer.</p>
+
+<h3>8.6. Autoridad de control</h3>
+<p>Si considerás que no respondemos adecuadamente, podés presentar una denuncia ante la <strong>Agencia de Acceso a la Información Pública</strong> de Argentina (<a href="https://www.argentina.gob.ar/aaip" target="_blank" rel="noopener">argentina.gob.ar/aaip</a>), que es la autoridad de aplicación de la Ley 25.326.</p>
+
+<!-- ============================================== -->
+<h2>9. Seguridad</h2>
+
+<p>Aplicamos medidas técnicas y organizativas razonables para proteger tus datos:</p>
+
+<ul>
+  <li>Comunicación cifrada (HTTPS) en todos los formularios y APIs</li>
+  <li>Tokens de sesión con expiración automática</li>
+  <li>Cifrado SHA-256 de tokens de recuperación</li>
+  <li>Hashing seguro de códigos de verificación 2FA</li>
+  <li>Limpieza automática de sesiones expiradas</li>
+  <li>Acceso restringido a infraestructura backend</li>
+</ul>
+
+<p>A pesar de estas medidas, ningún sistema online es 100% invulnerable. Si detectamos un incidente que afecte tus datos, te notificaremos por WhatsApp y/o mail dentro de las 72 horas.</p>
+
+<!-- ============================================== -->
+<h2>10. Cookies y almacenamiento local</h2>
+
+<p>mtows.com <strong>no usa cookies de seguimiento</strong>, publicidad, ni analítica de terceros.</p>
+
+<p>Lo único que usamos es <strong>localStorage</strong> de tu navegador, exclusivamente para:</p>
+<ul>
+  <li>Mantener tu sesión activa en el panel de usuario (token de sesión de 7 días)</li>
+</ul>
+
+<p>Podés borrarlo en cualquier momento desde la configuración de tu navegador. Si lo borrás, se cerrará tu sesión y tendrás que volver a ingresar.</p>
+
+<!-- ============================================== -->
+<h2>11. Menores de edad</h2>
+
+<p>mtows está pensado para mayores de 18 años. No solicitamos ni recolectamos datos de menores de edad. Si descubrimos que estamos procesando datos de un menor, los eliminaremos inmediatamente.</p>
+
+<p>Si sos padre/madre/tutor y creés que un menor a tu cargo está usando mtows, escribinos a <a href="mailto:info@mtows.com">info@mtows.com</a> y resolvemos.</p>
+
+<!-- ============================================== -->
+<h2>12. Transferencias internacionales</h2>
+
+<p>Algunos de nuestros proveedores (Anthropic, Meta, Google, Cloudflare) tienen servidores fuera de Argentina. Por lo tanto, parte de tus datos pueden ser procesados en otros países.</p>
+
+<p>Todos estos proveedores cumplen con estándares internacionales de protección de datos (GDPR europeo, marcos de transferencia internacional). Al usar mtows, aceptás que tus datos puedan ser procesados en estas jurisdicciones.</p>
+
+<!-- ============================================== -->
+<h2>13. Cambios a esta política</h2>
+
+<p>Esta política puede actualizarse. Si hacemos cambios importantes:</p>
+
+<ul>
+  <li>Te avisamos por WhatsApp y/o al correo destino que tenemos registrado</li>
+  <li>Actualizamos la fecha al inicio de este documento</li>
+  <li>Si los cambios afectan derechos importantes, te damos al menos <strong>30 días</strong> para revisarlos antes de que entren en vigencia</li>
+</ul>
+
+<p>Si no estás de acuerdo con los cambios, podés cancelar tu cuenta antes de que entren en vigencia.</p>
+
+<!-- ============================================== -->
+<h2>14. Contacto</h2>
+
+<p>Para cualquier consulta, ejercicio de derechos, queja, sugerencia o reclamo sobre esta política o sobre el tratamiento de tus datos:</p>
+
+<div class="operator-data">
+  <div class="data-row"><strong>Email:</strong> <a href="mailto:info@mtows.com">info@mtows.com</a></div>
+  <div class="data-row"><strong>Asunto sugerido:</strong> "Privacidad - [tu consulta]"</div>
+  <div class="data-row"><strong>Plazo de respuesta:</strong> hasta 10 días hábiles</div>
+</div>
+
+<p>También podés consultar nuestros <a href="/terminos.html">Términos y Condiciones</a> para entender en detalle cómo funciona el servicio.</p>
+
+<!-- ============================================== -->
+<div class="doc-footer">
+  <div>© 2026 Mtows. Operado por Victor Mario Resti.</div>
+  <div style="margin-top: 8px;">
+    <a href="/">Inicio</a> · 
+    <a href="/terminos.html">Términos y Condiciones</a> · 
+    <a href="/privacidad.html">Privacidad</a>
+  </div>
+</div>
+
+</main>
+
+</body>
+</html>

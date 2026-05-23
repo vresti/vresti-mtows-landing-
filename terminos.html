@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Términos y Condiciones — mtows.com</title>
+<meta name="description" content="Términos y Condiciones de uso de mtows.com. Reglas claras y transparentes del servicio.">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Términos y Condiciones — mtows.com">
+<meta property="og:description" content="Las reglas del servicio, transparentes y simples.">
+<meta property="og:url" content="https://mtows.com/terminos.html">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #fafafa;
+    --bg-card: #ffffff;
+    --text: #0a0a0a;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+    --border: #e5e7eb;
+    --accent: #25D366;
+    --accent-dark: #1ea952;
+    --bg-soft: #f5f5f5;
+    --warn: #f59e0b;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Navbar */
+  .navbar {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .navbar-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-dot { color: var(--accent); }
+
+  .navbar-back {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: all 0.15s;
+  }
+
+  .navbar-back:hover {
+    color: var(--text);
+    background: var(--bg-soft);
+  }
+
+  /* Container */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* Header */
+  .doc-header {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .doc-subtitle {
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+
+  .doc-date {
+    color: var(--text-light);
+    font-size: 13px;
+    margin-top: 8px;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* Sections */
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h2:first-of-type { margin-top: 0; }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 28px;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+
+  p {
+    margin-bottom: 16px;
+    color: var(--text);
+    font-size: 16px;
+  }
+
+  ul, ol {
+    margin: 0 0 18px 24px;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 8px;
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Highlights */
+  .highlight {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    margin: 24px 0;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .highlight strong { color: var(--accent-dark); }
+
+  .warn-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid var(--warn);
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    margin: 24px 0;
+    color: #92400e;
+  }
+
+  /* Operator info */
+  .operator-data {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 24px 0;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .operator-data strong {
+    color: var(--text);
+    display: inline-block;
+    min-width: 140px;
+  }
+
+  .operator-data .data-row {
+    margin-bottom: 4px;
+  }
+
+  /* Pricing table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    text-align: left;
+  }
+
+  th {
+    background: var(--bg-soft);
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text-muted);
+  }
+
+  /* Links */
+  a {
+    color: var(--accent-dark);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  a:hover { color: var(--accent); }
+
+  /* Code-like inline */
+  code {
+    background: var(--bg-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .doc-footer a {
+    color: var(--text-muted);
+    margin: 0 8px;
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    h1 { font-size: 28px; }
+    h2 { font-size: 19px; }
+    h3 { font-size: 16px; }
+    .container { padding: 32px 20px 60px; }
+    .operator-data strong { display: block; min-width: 0; margin-bottom: 2px; }
+    .operator-data .data-row { margin-bottom: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar-content">
+    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
+    <a href="/" class="navbar-back">← Volver al inicio</a>
+  </div>
+</nav>
+
+<main class="container">
+
+<div class="doc-header">
+  <h1>Términos y Condiciones</h1>
+  <div class="doc-subtitle">Las reglas del servicio, claras y simples</div>
+  <div class="doc-date">Vigente desde: 23 de mayo de 2026</div>
+</div>
+
+<!-- ============================================== -->
+<h2>1. Sobre estos términos</h2>
+
+<p>Estos Términos y Condiciones (los "<strong>Términos</strong>") regulan el uso del servicio mtows.com (el "<strong>Servicio</strong>"). Al registrarte o usar el Servicio, aceptás estos Términos.</p>
+
+<p>Si no estás de acuerdo con algún punto, simplemente no uses el Servicio. Si ya estás registrado y no aceptás cambios futuros, podés <a href="#cancelacion">cancelar tu cuenta</a> en cualquier momento.</p>
+
+<p>Estos Términos se complementan con nuestra <a href="/privacidad.html">Política de Privacidad</a>, que forma parte integral del contrato.</p>
+
+<!-- ============================================== -->
+<h2>2. Quiénes somos</h2>
+
+<div class="operator-data">
+  <div class="data-row"><strong>Responsable:</strong> Victor Mario Resti</div>
+  <div class="data-row"><strong>Nombre comercial:</strong> Mtows</div>
+  <div class="data-row"><strong>CUIT:</strong> 20-14462601-0</div>
+  <div class="data-row"><strong>Condición ante AFIP:</strong> Responsable Inscripto</div>
+  <div class="data-row"><strong>Domicilio:</strong> Gral. Urquiza 241, 4° piso, Acassuso (CP 1641), Provincia de Buenos Aires, Argentina</div>
+  <div class="data-row"><strong>Contacto:</strong> <a href="mailto:info@mtows.com">info@mtows.com</a></div>
+</div>
+
+<p>En adelante, "<strong>nosotros</strong>" o "<strong>Mtows</strong>" se refiere a Victor Mario Resti operando bajo el nombre comercial Mtows. "<strong>Vos</strong>" o "<strong>Usuario</strong>" se refiere a la persona que utiliza el Servicio.</p>
+
+<!-- ============================================== -->
+<h2>3. Qué es el Servicio</h2>
+
+<p>mtows.com es un servicio que:</p>
+
+<ol>
+  <li>Te asigna una dirección de correo electrónico personalizada con el dominio <code>@mtows.com</code> (por ejemplo, <code>tu-alias@mtows.com</code>)</li>
+  <li>Recibe los correos que llegan a esa dirección</li>
+  <li>Genera un resumen corto usando inteligencia artificial (Claude, de Anthropic)</li>
+  <li>Te envía ese resumen por WhatsApp al número que registraste</li>
+  <li>Reenvía el correo original íntegro al correo electrónico que vos configuraste como destino</li>
+</ol>
+
+<div class="highlight">
+  <p style="margin: 0;"><strong>La filosofía es simple:</strong> que los mails importantes lleguen a tu WhatsApp resumidos, sin que tengas que abrir el cliente de correo. Y que el mail original siempre llegue a tu casilla habitual.</p>
+</div>
+
+<!-- ============================================== -->
+<h2>4. Quién puede usar el Servicio</h2>
+
+<p>Para usar el Servicio:</p>
+
+<ul>
+  <li>Tenés que ser <strong>mayor de 18 años</strong></li>
+  <li>Tenés que tener un <strong>número de WhatsApp activo</strong> donde recibir los mensajes</li>
+  <li>Tenés que tener una <strong>dirección de correo electrónico</strong> válida donde reenviar los mails originales</li>
+  <li>Tenés que <strong>aceptar estos Términos</strong> y la <a href="/privacidad.html">Política de Privacidad</a></li>
+</ul>
+
+<p>El Servicio está disponible globalmente, pero algunas funcionalidades pueden estar limitadas según restricciones técnicas o regulatorias en ciertos países.</p>
+
+<!-- ============================================== -->
+<h2>5. Tu cuenta</h2>
+
+<h3>5.1. Registro</h3>
+<p>Para crear tu cuenta tenés que pasar por nuestro proceso de registro en <a href="/registro.html">mtows.com/registro</a>. Al registrarte:</p>
+<ul>
+  <li>Elegís un alias único (la parte antes del <code>@mtows.com</code>)</li>
+  <li>Verificás tu número de WhatsApp con un código de un solo uso</li>
+  <li>Verificás tu correo destino con un código de Cloudflare</li>
+  <li>Recibís un <strong>token de recuperación</strong> que tenés que guardar en lugar seguro</li>
+</ul>
+
+<h3>5.2. Tu responsabilidad</h3>
+<p>Sos responsable de:</p>
+<ul>
+  <li>Mantener seguro el acceso a tu WhatsApp (es tu método principal de autenticación)</li>
+  <li>Guardar el token de recuperación que te damos al registrarte</li>
+  <li>Mantener actualizada tu dirección de correo destino</li>
+  <li>Toda actividad que ocurra desde tu cuenta</li>
+</ul>
+
+<h3>5.3. Una cuenta por persona</h3>
+<p>Cada persona puede tener una sola cuenta. No está permitido revender el Servicio ni crear cuentas para otras personas.</p>
+
+<!-- ============================================== -->
+<h2>6. Precios y facturación</h2>
+
+<h3>6.1. Planes disponibles</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th>Precio</th>
+      <th>Ahorro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Mensual</strong></td>
+      <td>USD 6 por mes</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td><strong>Anual</strong></td>
+      <td>USD 60 por año</td>
+      <td>USD 12 (equivale a 2 meses gratis)</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Los precios están en dólares estadounidenses. Si pagás en pesos argentinos, se aplicará el tipo de cambio del medio de pago utilizado al momento del pago.</p>
+
+<h3>6.2. Cuándo te facturamos</h3>
+
+<p>Te facturamos <strong>el día 1° de cada mes</strong>, aplicando la siguiente regla:</p>
+
+<div class="highlight">
+  <p style="margin: 0;"><strong>Regla de los 10 días:</strong> facturamos al usuario si la diferencia entre la fecha actual y su fecha de registro es <strong>mayor o igual a 10 días</strong>. Si te registraste hace menos de 10 días al momento de la facturación, ese mes no te cobramos.</p>
+</div>
+
+<p>Ejemplos:</p>
+<ul>
+  <li>Te registrás el 23 de mayo → el 1° de junio (9 días) <strong>no te facturamos</strong></li>
+  <li>Te registrás el 23 de mayo → el 1° de julio (39 días) <strong>te facturamos USD 6</strong></li>
+  <li>Te registrás el 20 de mayo → el 1° de junio (12 días) <strong>te facturamos USD 6</strong></li>
+</ul>
+
+<h3>6.3. Sin prorrateo</h3>
+<p>No prorrateamos cobros parciales. Cada 1° de mes generamos la factura completa según el plan elegido.</p>
+
+<h3>6.4. Cambio de plan</h3>
+<p>Podés cambiar entre plan mensual y anual desde el <a href="/panel.html">panel de usuario</a>. El cambio impacta a partir de la próxima facturación.</p>
+
+<!-- ============================================== -->
+<h2>7. Política de saldo y servicio continuo</h2>
+
+<div class="highlight">
+  <p><strong>Esta es una de las decisiones más importantes del Servicio:</strong></p>
+  <p style="margin: 0;">Si no pagás tu saldo a tiempo, <strong>NO interrumpimos automáticamente el Servicio</strong>. Tu saldo simplemente se acumula y vos podés ponerlo al día cuando puedas.</p>
+</div>
+
+<h3>7.1. Cómo funciona</h3>
+<ul>
+  <li>Cada 1° de mes que corresponda facturarte, se agrega un cargo a tu cuenta corriente</li>
+  <li>Si pagás: el saldo se reduce o queda en cero</li>
+  <li>Si no pagás: el saldo se acumula mes a mes</li>
+  <li>Mientras tanto, <strong>el Servicio sigue funcionando normalmente</strong></li>
+</ul>
+
+<h3>7.2. Por qué hacemos esto</h3>
+<p>Creemos que cortar un servicio por una demora en el pago es una práctica agresiva e innecesaria. Confiamos en que cuando puedas, pagarás. Y mientras tanto, los mails importantes deben seguir llegando.</p>
+
+<h3>7.3. Pero no es ilimitado</h3>
+<div class="warn-box">
+  <p style="margin: 0;"><strong>Aclaración importante:</strong> Si tu saldo se vuelve excesivamente alto (en general, más de 12 meses sin pago alguno), nos reservamos el derecho de contactarte para acordar un plan de pago, suspender funciones del panel, o eventualmente cerrar la cuenta. <strong>Siempre con aviso previo por WhatsApp y/o correo</strong>. Nunca de un día para otro.</p>
+</div>
+
+<h3>7.4. El saldo es deuda</h3>
+<p>Tu saldo pendiente representa una deuda comercial real. Al usar el Servicio, reconocés esa deuda y te comprometés a pagarla cuando te sea posible. Conservamos el derecho de gestionar el cobro por las vías habituales.</p>
+
+<h3>7.5. Medios de pago</h3>
+<p>Próximamente integraremos Mercado Pago y Stripe. Mientras tanto, podés coordinar el pago escribiéndonos a <a href="mailto:info@mtows.com">info@mtows.com</a>.</p>
+
+<!-- ============================================== -->
+<h2>8. Uso aceptable</h2>
+
+<p>Al usar mtows.com te comprometés a NO:</p>
+
+<ul>
+  <li>Usar el Servicio para enviar o recibir <strong>spam</strong> o correo no solicitado</li>
+  <li>Usar el Servicio para actividades <strong>ilegales</strong> según las leyes argentinas o las leyes del país donde estés</li>
+  <li>Usar el Servicio para <strong>acosar, amenazar o dañar</strong> a terceros</li>
+  <li>Intentar <strong>vulnerar la seguridad</strong> del Servicio, hacer ingeniería inversa, escanear puertos, ejecutar ataques, etc.</li>
+  <li>Crear <strong>múltiples cuentas</strong> con la misma persona o el mismo número de WhatsApp</li>
+  <li><strong>Revender</strong> el Servicio sin autorización escrita nuestra</li>
+  <li>Usar el Servicio como <strong>canal de transferencia de archivos masivos</strong> o contenido que viole derechos de autor de terceros</li>
+  <li>Hacerse pasar por otra persona o entidad</li>
+  <li>Usar el Servicio para <strong>distribuir malware, virus o código malicioso</strong></li>
+</ul>
+
+<p>Si violas estos puntos, nos reservamos el derecho de suspender o cancelar tu cuenta, con o sin aviso según la gravedad del caso.</p>
+
+<!-- ============================================== -->
+<h2>9. Disponibilidad del Servicio</h2>
+
+<h3>9.1. Lo intentamos al máximo</h3>
+<p>Hacemos todo lo posible para que el Servicio esté disponible 24/7. Tenemos monitoreo, backups y una arquitectura distribuida.</p>
+
+<h3>9.2. Pero no garantizamos 100%</h3>
+<p>El Servicio depende de terceros (Cloudflare, Meta/WhatsApp, Anthropic, Google) y de infraestructura de internet en general. Cualquiera de esos sistemas puede tener interrupciones que afecten a mtows.</p>
+
+<h3>9.3. Qué hacemos si hay caída</h3>
+<ul>
+  <li>Trabajamos en restablecer el servicio lo antes posible</li>
+  <li>Si la caída es significativa y prolongada, podemos ofrecer compensación en saldo a criterio nuestro</li>
+  <li>No nos hacemos responsables por consecuencias indirectas de una caída del Servicio (mails no recibidos a tiempo, oportunidades perdidas, etc.)</li>
+</ul>
+
+<!-- ============================================== -->
+<h2>10. Limitación de responsabilidad</h2>
+
+<p>El Servicio se ofrece "<strong>tal cual</strong>", sin garantías expresas o implícitas más allá de las exigidas por la legislación argentina aplicable al consumo.</p>
+
+<p>Específicamente, NO somos responsables por:</p>
+<ul>
+  <li><strong>Mails que no lleguen</strong> por causas ajenas al Servicio (problemas del remitente, problemas de tu correo destino, problemas con WhatsApp, etc.)</li>
+  <li><strong>Errores o imprecisiones</strong> en los resúmenes generados por inteligencia artificial. La IA puede equivocarse: SIEMPRE revisá el correo original para tomar decisiones importantes</li>
+  <li><strong>Daños indirectos o consecuentes</strong> (pérdida de oportunidades comerciales, pérdida de datos, pérdida de tiempo, etc.)</li>
+  <li><strong>Decisiones que tomes</strong> basadas en resúmenes generados por IA</li>
+  <li><strong>Acciones de terceros</strong> (proveedores de internet, proveedores de mail, redes sociales, etc.)</li>
+</ul>
+
+<div class="warn-box">
+  <p style="margin: 0;"><strong>Importante:</strong> los resúmenes generados por inteligencia artificial son una ayuda, no un sustituto del mail original. Para decisiones importantes (legales, médicas, financieras, profesionales) <strong>siempre leé el mail original completo</strong>.</p>
+</div>
+
+<p>En cualquier caso, nuestra responsabilidad total acumulada hacia un Usuario no excederá el monto total pagado por ese Usuario en los últimos 6 meses.</p>
+
+<!-- ============================================== -->
+<h2>11. Propiedad intelectual</h2>
+
+<h3>11.1. Lo nuestro es nuestro</h3>
+<p>El nombre "mtows", el dominio mtows.com, el diseño, el código, las marcas, los textos y los gráficos del Servicio son propiedad de Victor Mario Resti. No podés copiarlos, modificarlos ni usarlos comercialmente sin permiso escrito.</p>
+
+<h3>11.2. Lo tuyo es tuyo</h3>
+<p>Los correos que recibís y los datos que generás son tuyos. No reclamamos ningún derecho sobre su contenido.</p>
+
+<h3>11.3. Lo que vos nos das</h3>
+<p>Al usar el Servicio, nos das una licencia limitada y no exclusiva para procesar tus correos exclusivamente con el fin de proveerte el Servicio (resumirlos, enviarlos por WhatsApp, reenviarlos a tu correo destino). Esa licencia termina apenas cancelás tu cuenta.</p>
+
+<!-- ============================================== -->
+<h2 id="cancelacion">12. Cancelación</h2>
+
+<h3>12.1. Cancelación por vos</h3>
+<p>Podés cancelar tu cuenta en cualquier momento desde el <a href="/panel.html">panel de usuario</a>, sección Configuración → "Cancelar cuenta".</p>
+
+<p>Al cancelar:</p>
+<ul>
+  <li>Inmediatamente dejamos de procesar mails que lleguen a tu dirección <code>@mtows.com</code></li>
+  <li>Tu sesión actual del panel se cierra</li>
+  <li>Tu alias queda reservado durante 90 días por si querés reactivarla</li>
+  <li>Si tenés saldo pendiente, sigue registrado y mantiene su validez como deuda</li>
+  <li>Los datos de tu cuenta se conservan según lo indicado en la <a href="/privacidad.html">Política de Privacidad</a></li>
+</ul>
+
+<h3>12.2. Cancelación por nosotros</h3>
+<p>Podemos cancelar tu cuenta si:</p>
+<ul>
+  <li>Violás de manera grave o reiterada estos Términos</li>
+  <li>Usás el Servicio para actividades ilegales</li>
+  <li>Tu saldo pendiente excede los 12 meses sin pago alguno y no respondés a nuestros intentos de contacto</li>
+  <li>El Servicio deja de ser viable operativa o comercialmente</li>
+</ul>
+
+<p>Salvo casos graves, te avisaremos por WhatsApp y/o correo con al menos <strong>15 días de antelación</strong>.</p>
+
+<h3>12.3. Sin reembolsos</h3>
+<p>El Servicio se factura por mes calendario. <strong>No emitimos reembolsos</strong> de meses ya facturados, aún si cancelás antes de fin de mes. Podés seguir usando el Servicio hasta que se cumpla el período facturado.</p>
+
+<!-- ============================================== -->
+<h2>13. Cambios al Servicio y a estos Términos</h2>
+
+<h3>13.1. Mejoras y cambios al Servicio</h3>
+<p>El Servicio evoluciona constantemente. Agregamos funcionalidades, mejoramos diseño, ajustamos infraestructura. La mayoría de estos cambios son transparentes y no requieren aviso.</p>
+
+<h3>13.2. Cambios materiales</h3>
+<p>Si hacemos cambios importantes (precios, política de saldo, derechos de los usuarios), te avisamos por WhatsApp y/o correo con al menos <strong>30 días de antelación</strong>.</p>
+
+<h3>13.3. Si no estás de acuerdo</h3>
+<p>Si no aceptás cambios materiales a estos Términos, podés cancelar tu cuenta antes de que entren en vigencia, sin penalización. Si seguís usando el Servicio después de la fecha de vigencia, asumimos que aceptaste los cambios.</p>
+
+<!-- ============================================== -->
+<h2>14. Notificaciones</h2>
+
+<p>Para todo lo relacionado con el Servicio, te notificaremos a través de los siguientes canales:</p>
+<ul>
+  <li>Tu <strong>número de WhatsApp</strong> registrado (canal principal)</li>
+  <li>Tu <strong>correo destino</strong> registrado (canal secundario)</li>
+  <li>Avisos en el <strong>panel de usuario</strong></li>
+</ul>
+
+<p>Es tu responsabilidad mantener actualizada tu información de contacto.</p>
+
+<!-- ============================================== -->
+<h2>15. Jurisdicción y ley aplicable</h2>
+
+<p>Estos Términos se rigen por las <strong>leyes de la República Argentina</strong>.</p>
+
+<p>Cualquier controversia que no pueda resolverse de forma amigable se someterá a los <strong>Tribunales Ordinarios de la Ciudad Autónoma de Buenos Aires</strong>, renunciando expresamente a cualquier otra jurisdicción que pudiera corresponder.</p>
+
+<p>Si sos un consumidor amparado por la Ley 24.240 de Defensa del Consumidor, conservás todos los derechos que dicha ley te otorga, incluyendo la posibilidad de iniciar reclamos ante las autoridades de aplicación de tu jurisdicción.</p>
+
+<!-- ============================================== -->
+<h2>16. Disposiciones generales</h2>
+
+<h3>16.1. Acuerdo completo</h3>
+<p>Estos Términos y la <a href="/privacidad.html">Política de Privacidad</a> constituyen el acuerdo completo entre vos y nosotros sobre el uso del Servicio.</p>
+
+<h3>16.2. Divisibilidad</h3>
+<p>Si alguna disposición de estos Términos es declarada inválida o inaplicable, el resto de las disposiciones continúan en pleno vigor.</p>
+
+<h3>16.3. No renuncia</h3>
+<p>El hecho de que no exijamos el cumplimiento de alguna disposición en un momento determinado no implica renuncia a hacerlo en el futuro.</p>
+
+<h3>16.4. Cesión</h3>
+<p>No podés ceder tus derechos u obligaciones bajo estos Términos sin nuestro consentimiento escrito. Nosotros podemos ceder estos Términos a un sucesor o adquirente del Servicio, notificándote previamente.</p>
+
+<!-- ============================================== -->
+<h2>17. Contacto</h2>
+
+<p>Para cualquier consulta, reclamo, sugerencia o ejercicio de derechos relacionados con estos Términos:</p>
+
+<div class="operator-data">
+  <div class="data-row"><strong>Email:</strong> <a href="mailto:info@mtows.com">info@mtows.com</a></div>
+  <div class="data-row"><strong>Asunto sugerido:</strong> "Términos y Condiciones - [tu consulta]"</div>
+  <div class="data-row"><strong>Plazo de respuesta:</strong> hasta 10 días hábiles</div>
+</div>
+
+<p>Para temas específicos de privacidad y datos personales, consultá nuestra <a href="/privacidad.html">Política de Privacidad</a>.</p>
+
+<!-- ============================================== -->
+<div class="doc-footer">
+  <div>© 2026 Mtows. Operado por Victor Mario Resti.</div>
+  <div style="margin-top: 8px;">
+    <a href="/">Inicio</a> · 
+    <a href="/terminos.html">Términos y Condiciones</a> · 
+    <a href="/privacidad.html">Privacidad</a>
+  </div>
+</div>
+
+</main>
+
+</body>
+</html>
