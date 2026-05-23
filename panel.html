@@ -753,7 +753,7 @@
     <div class="field">
       <label for="login-email">Tu dirección @mtows.com</label>
       <div class="email-input-group">
-        <input type="text" id="login-email" placeholder="vresti" autocomplete="username" autocapitalize="off" autocorrect="off">
+        <input type="text" id="login-email" placeholder="tu-direccion" autocomplete="username" autocapitalize="off" autocorrect="off">
         <span class="email-suffix">@mtows.com</span>
       </div>
     </div>
@@ -1146,18 +1146,44 @@ async function requestLoginCode() {
   hideAlert('login-alert');
   hideAlert('code-alert');
   
-  let email = $('login-email').value.trim().toLowerCase();
+  const raw = $('login-email').value.trim().toLowerCase();
   
-  // Permitir que pongan solo el alias o el completo
-  if (email.indexOf('@') === -1) {
-    email = email + '@mtows.com';
-  }
-  
-  if (!email || email.length < 5) {
+  // 1. Validar que NO esté vacío
+  if (!raw) {
     showAlert('login-alert', 'Ingresá tu dirección @mtows.com');
+    $('login-email').focus();
     return;
   }
   
+  // 2. Si tipearon un @, tomar solo lo de antes del @
+  //    (acepta "alias", "alias@mtows.com", o "alias@otrodominio.com" y se queda con "alias")
+  let alias = raw;
+  if (alias.indexOf('@') !== -1) {
+    alias = alias.split('@')[0].trim();
+  }
+  
+  // 3. Validar alias no vacío después de procesar
+  if (!alias || alias.length < 2) {
+    showAlert('login-alert', 'Ingresá tu dirección @mtows.com');
+    $('login-email').focus();
+    return;
+  }
+  
+  // 4. Validar caracteres permitidos en el alias
+  if (!/^[a-z0-9._-]+$/.test(alias)) {
+    showAlert('login-alert', 'El alias solo puede tener letras, números, puntos, guiones y guiones bajos');
+    $('login-email').focus();
+    return;
+  }
+  
+  // 5. Validar longitud razonable
+  if (alias.length > 50) {
+    showAlert('login-alert', 'Alias demasiado largo');
+    return;
+  }
+  
+  // 6. Construir email final
+  const email = alias + '@mtows.com';
   PENDING_EMAIL = email;
   
   setLoading('btn-request-code', true);
@@ -1189,8 +1215,16 @@ async function verifyLoginCode() {
   hideAlert('code-alert');
   const code = $('login-code').value.trim();
   
-  if (!code || code.length < 4) {
-    showAlert('code-alert', 'Ingresá el código completo');
+  // Código debe ser exactamente 6 dígitos numéricos
+  if (!code) {
+    showAlert('code-alert', 'Ingresá el código que te llegó por WhatsApp');
+    $('login-code').focus();
+    return;
+  }
+  
+  if (code.length !== 6 || !/^\d{6}$/.test(code)) {
+    showAlert('code-alert', 'El código son 6 números');
+    $('login-code').focus();
     return;
   }
   
@@ -1348,11 +1382,49 @@ function openFilterModal(tipo) {
 }
 
 async function saveFilter() {
+  hideAlert('filter-alert');
+  
   const tipo = $('filter-tipo').value;
   const patron = $('filter-patron').value.trim().toLowerCase();
   
-  if (!patron || patron.length < 3) {
-    showAlert('filter-alert', 'Ingresá un patrón válido');
+  // 1. Validar que NO esté vacío
+  if (!patron) {
+    showAlert('filter-alert', 'Ingresá un patrón');
+    $('filter-patron').focus();
+    return;
+  }
+  
+  // 2. Validar longitud mínima razonable
+  if (patron.length < 4) {
+    showAlert('filter-alert', 'Patrón demasiado corto');
+    return;
+  }
+  
+  // 3. Validar longitud máxima
+  if (patron.length > 100) {
+    showAlert('filter-alert', 'Patrón demasiado largo');
+    return;
+  }
+  
+  // 4. Validar que sean caracteres permitidos en emails
+  //    Letras, números, puntos, guiones, guiones bajos, @ y +
+  if (!/^[a-z0-9._@+-]+$/.test(patron)) {
+    showAlert('filter-alert', 'El patrón solo puede tener letras, números, puntos, guiones, @ y +');
+    return;
+  }
+  
+  // 5. Validar formato: debe ser @dominio.com o usuario@dominio.com
+  const isDomain = patron.startsWith('@') && patron.indexOf('.') > 1;
+  const isFullEmail = patron.indexOf('@') > 0 && patron.indexOf('.', patron.indexOf('@')) > patron.indexOf('@');
+  
+  if (!isDomain && !isFullEmail) {
+    showAlert('filter-alert', 'Formato inválido. Usá @dominio.com o usuario@dominio.com');
+    return;
+  }
+  
+  // 6. No puede ser solo "@" o "@."
+  if (patron === '@' || patron.startsWith('@.') || patron.endsWith('@')) {
+    showAlert('filter-alert', 'Formato inválido');
     return;
   }
   
