@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Mi cuenta — mtows.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fafafa;
+    --bg-card: #ffffff;
+    --text: #0a0a0a;
+    --text-muted: #6b7280;
+    --text-light: #9ca3af;
+    --border: #e5e7eb;
+    --border-strong: #d1d5db;
+    --accent: #25D366;
+    --accent-dark: #1ea952;
+    --danger: #ef4444;
+    --warn: #f59e0b;
+    --bg-soft: #f5f5f5;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 32px 20px 64px;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-dot {
+    color: var(--accent);
+  }
+
+  .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+
+  .btn-logout {
+    background: transparent;
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+
+  .btn-logout:hover {
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+
+  /* LOGIN SCREENS */
+  .login-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 32px;
+    box-shadow: var(--shadow);
+    max-width: 440px;
+    margin: 60px auto 0;
+  }
+
+  .login-card h1 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .login-card p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .login-card .field {
+    margin-bottom: 16px;
+  }
+
+  .login-card label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .email-input-group {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    background: white;
+    overflow: hidden;
+    transition: all 0.15s;
+  }
+
+  .email-input-group:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37,211,102,0.1);
+  }
+
+  .email-input-group input {
+    flex: 1;
+    border: none;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    background: transparent;
+    outline: none;
+    min-width: 0;
+  }
+
+  .email-suffix {
+    background: var(--bg-soft);
+    color: var(--text-muted);
+    padding: 12px 14px;
+    font-size: 15px;
+    border-left: 1px solid var(--border);
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .code-input {
+    width: 100%;
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 24px;
+    font-family: 'Geist Mono', monospace;
+    text-align: center;
+    letter-spacing: 0.4em;
+    outline: none;
+    transition: all 0.15s;
+  }
+
+  .code-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37,211,102,0.1);
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 13px 20px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    margin-top: 8px;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent-dark);
+  }
+
+  .btn-primary:disabled {
+    background: var(--border-strong);
+    cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    background: white;
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    border-color: var(--text-muted);
+  }
+
+  .btn-secondary:disabled {
+    color: var(--text-light);
+    cursor: not-allowed;
+  }
+
+  .btn-link {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 4px;
+    font-family: inherit;
+    text-decoration: underline;
+  }
+
+  .btn-link:hover { color: var(--accent-dark); }
+
+  .btn-danger {
+    background: white;
+    color: var(--danger);
+    border: 1px solid var(--border-strong);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .btn-danger:hover {
+    border-color: var(--danger);
+    background: #fef2f2;
+  }
+
+  /* GREETING */
+  .greeting {
+    margin-bottom: 36px;
+  }
+  .greeting-label {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .greeting-email {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    word-break: break-all;
+    color: var(--text);
+    font-family: 'Geist Mono', monospace;
+  }
+
+  /* SECTIONS */
+  .section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title-icon {
+    font-size: 16px;
+  }
+
+  /* CUENTA — datos clave */
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--bg-soft);
+    font-size: 14px;
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--text-muted); }
+  .info-value { color: var(--text); font-weight: 500; }
+
+  /* SALDO destacado */
+  .balance-card {
+    text-align: center;
+    padding: 8px 0 16px;
+  }
+  .balance-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .balance-amount {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+    font-family: 'Geist', sans-serif;
+  }
+  .balance-amount.zero { color: var(--text-light); }
+  .balance-currency {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  .balance-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* PAYMENT BUTTONS — placeholder */
+  .btn-pay {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 11px 22px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .btn-pay:hover:not(:disabled) { background: var(--accent-dark); }
+  .btn-pay:disabled {
+    background: var(--border-strong);
+    cursor: not-allowed;
+    color: white;
+  }
+
+  .pay-soon-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-light);
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  /* FILTROS */
+  .filter-group {
+    margin-bottom: 20px;
+  }
+  .filter-group:last-child { margin-bottom: 0; }
+
+  .filter-group-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .filter-pass { color: var(--accent-dark); }
+  .filter-block { color: var(--danger); }
+
+  .filter-list {
+    list-style: none;
+    margin: 0 0 10px;
+    padding: 0;
+  }
+
+  .filter-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: var(--bg-soft);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-family: 'Geist Mono', monospace;
+  }
+
+  .filter-item-text {
+    color: var(--text);
+  }
+
+  .filter-remove {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .filter-remove:hover {
+    color: var(--danger);
+    background: white;
+  }
+
+  .filter-empty {
+    color: var(--text-light);
+    font-size: 13px;
+    font-style: italic;
+    padding: 8px 0;
+  }
+
+  .btn-add-filter {
+    background: transparent;
+    border: 1px dashed var(--border-strong);
+    color: var(--text-muted);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .btn-add-filter:hover {
+    border-color: var(--accent);
+    color: var(--accent-dark);
+    background: rgba(37,211,102,0.04);
+  }
+
+  /* CONFIG */
+  .config-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: transform 0.2s;
+  }
+  .modal-backdrop.active .modal {
+    transform: translateY(0);
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .modal-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 20px;
+    padding: 4px 8px;
+    line-height: 1;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+
+  /* CTA CORRIENTE TABLE */
+  .cc-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  .cc-table th {
+    text-align: left;
+    padding: 8px 6px;
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .cc-table th.amount, .cc-table td.amount {
+    text-align: right;
+    font-family: 'Geist Mono', monospace;
+  }
+  .cc-table td {
+    padding: 10px 6px;
+    border-bottom: 1px solid var(--bg-soft);
+    color: var(--text);
+  }
+  .cc-table td.fecha {
+    color: var(--text-muted);
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+  }
+  .cc-amount-charge { color: var(--text); }
+  .cc-amount-pay { color: var(--accent-dark); }
+
+  .cc-saldo-row {
+    background: var(--bg-soft);
+    font-weight: 600;
+  }
+  .cc-saldo-row td {
+    border-bottom: none;
+    padding: 12px 6px;
+  }
+  .cc-empty {
+    text-align: center;
+    color: var(--text-light);
+    font-style: italic;
+    padding: 24px 0;
+  }
+
+  /* FORM in modals */
+  .form-field {
+    margin-bottom: 14px;
+  }
+  .form-field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .form-field input[type="text"], .form-field input[type="email"] {
+    width: 100%;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.15s;
+  }
+  .form-field input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37,211,102,0.1);
+  }
+  .form-field-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .radio-option:hover {
+    border-color: var(--border-strong);
+  }
+  .radio-option.selected {
+    border-color: var(--accent);
+    background: rgba(37,211,102,0.04);
+  }
+  .radio-option input[type="radio"] { accent-color: var(--accent); }
+  .radio-option-label {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .radio-option-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ALERTS */
+  .alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+    border: 1px solid;
+  }
+  .alert-info {
+    background: rgba(37,211,102,0.06);
+    border-color: rgba(37,211,102,0.2);
+    color: var(--accent-dark);
+  }
+  .alert-warn {
+    background: #fffbeb;
+    border-color: #fde68a;
+    color: #b45309;
+  }
+  .alert-error {
+    background: #fef2f2;
+    border-color: #fecaca;
+    color: var(--danger);
+  }
+
+  /* LOADING SPINNER */
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .loading-screen .spinner {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 14px;
+  }
+
+  /* HIDDEN UTIL */
+  .hidden { display: none !important; }
+
+  /* RESPONSIVE */
+  @media (max-width: 540px) {
+    .container { padding: 20px 16px 40px; }
+    .login-card { padding: 28px 20px; }
+    .greeting-email { font-size: 18px; }
+    .balance-amount { font-size: 36px; }
+    .header { margin-bottom: 32px; }
+  }
+
+  /* Subtle plan badge */
+  .plan-badge {
+    display: inline-block;
+    background: rgba(37,211,102,0.1);
+    color: var(--accent-dark);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-left: 8px;
+  }
+
+  .plan-actions {
+    margin-top: 10px;
+  }
+
+  .plan-toggle {
+    font-size: 12px;
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    text-decoration: underline;
+    font-family: inherit;
+  }
+  .plan-toggle:hover { color: var(--accent-dark); }
+</style>
+</head>
+<body>
+
+<!-- ========================================= -->
+<!-- VISTA 1: LOGIN — pedir email                -->
+<!-- ========================================= -->
+<div id="view-login" class="container">
+  <header class="header">
+    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
+  </header>
+  
+  <div class="login-card">
+    <h1>Ingresá a tu cuenta</h1>
+    <p>Te mandamos un código por WhatsApp para verificar.</p>
+    
+    <div id="login-alert" class="alert alert-error hidden"></div>
+    
+    <div class="field">
+      <label for="login-email">Tu dirección @mtows.com</label>
+      <div class="email-input-group">
+        <input type="text" id="login-email" placeholder="vresti" autocomplete="username" autocapitalize="off" autocorrect="off">
+        <span class="email-suffix">@mtows.com</span>
+      </div>
+    </div>
+    
+    <button class="btn-primary" id="btn-request-code" onclick="requestLoginCode()">
+      Enviar código por WhatsApp →
+    </button>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- VISTA 2: VERIFICACIÓN — pegar código       -->
+<!-- ========================================= -->
+<div id="view-code" class="container hidden">
+  <header class="header">
+    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
+  </header>
+  
+  <div class="login-card">
+    <h1>Revisá tu WhatsApp</h1>
+    <p>Te mandamos un código de 6 dígitos a <strong id="code-target-phone"></strong>.</p>
+    
+    <div id="code-alert" class="alert alert-error hidden"></div>
+    
+    <div class="field">
+      <label for="login-code">Código</label>
+      <input type="text" id="login-code" class="code-input" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="······">
+    </div>
+    
+    <button class="btn-primary" id="btn-verify-code" onclick="verifyLoginCode()">
+      Verificar →
+    </button>
+    
+    <div style="text-align: center; margin-top: 16px;">
+      <button class="btn-link" onclick="requestLoginCode()">¿No te llegó? Reenviar código</button>
+    </div>
+    <div style="text-align: center; margin-top: 4px;">
+      <button class="btn-link" onclick="backToLogin()" style="color: var(--text-muted);">← Cambiar email</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- VISTA 3: LOADING                           -->
+<!-- ========================================= -->
+<div id="view-loading" class="container hidden">
+  <header class="header">
+    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
+  </header>
+  <div class="loading-screen">
+    <div class="spinner"></div>
+    <div>Cargando tu cuenta…</div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- VISTA 4: DASHBOARD principal               -->
+<!-- ========================================= -->
+<div id="view-dashboard" class="container hidden">
+  <header class="header">
+    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
+    <div class="user-menu">
+      <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <div class="greeting">
+    <div class="greeting-label">Hola,</div>
+    <div class="greeting-email" id="dash-email">—</div>
+  </div>
+
+  <!-- DATOS DE LA CUENTA -->
+  <section class="section">
+    <div class="section-title">
+      <span class="section-title-icon">📊</span>
+      <span>Tu cuenta</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Suscripto desde</span>
+      <span class="info-value" id="dash-creado">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Tiempo activo</span>
+      <span class="info-value" id="dash-dias">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Plan</span>
+      <span class="info-value" id="dash-plan-text">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Próxima factura</span>
+      <span class="info-value" id="dash-proxima">—</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">Última factura</span>
+      <span class="info-value" id="dash-ultima">—</span>
+    </div>
+    <div class="plan-actions">
+      <button class="plan-toggle" id="btn-toggle-plan" onclick="openPlanModal()">Cambiar plan</button>
+    </div>
+  </section>
+
+  <!-- A PAGAR -->
+  <section class="section">
+    <div class="section-title">
+      <span class="section-title-icon">💰</span>
+      <span>A pagar</span>
+    </div>
+    <div class="balance-card">
+      <div class="balance-amount" id="dash-balance">USD 0</div>
+      <div class="balance-actions">
+        <button class="btn-pay" id="btn-pay" disabled>Pagar ahora</button>
+        <button class="btn-secondary" onclick="openCtaCteModal()">Ver cta. cte.</button>
+      </div>
+      <div class="pay-soon-note">Próximamente: pago con Mercado Pago / Stripe</div>
+    </div>
+  </section>
+
+  <!-- FILTROS -->
+  <section class="section">
+    <div class="section-title">
+      <span class="section-title-icon">🛡️</span>
+      <span>Filtros de correo</span>
+    </div>
+    
+    <div class="filter-group">
+      <div class="filter-group-title filter-pass">
+        <span>✅</span>
+        <span>Pasar directo (sin resumen IA)</span>
+      </div>
+      <ul class="filter-list" id="whitelist-list"></ul>
+      <button class="btn-add-filter" onclick="openFilterModal('whitelist')">+ Agregar a whitelist</button>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-group-title filter-block">
+        <span>🚫</span>
+        <span>Rechazar (no llega WhatsApp)</span>
+      </div>
+      <ul class="filter-list" id="blacklist-list"></ul>
+      <button class="btn-add-filter" onclick="openFilterModal('blacklist')">+ Agregar a blacklist</button>
+    </div>
+  </section>
+
+  <!-- CONFIG -->
+  <section class="section">
+    <div class="section-title">
+      <span class="section-title-icon">⚙️</span>
+      <span>Configuración</span>
+    </div>
+    <div class="config-actions">
+      <button class="btn-secondary" onclick="openMailDestinoModal()">Cambiar mail destino</button>
+      <button class="btn-danger" onclick="openCancelModal()">Cancelar cuenta</button>
+    </div>
+  </section>
+</div>
+
+<!-- ========================================= -->
+<!-- MODAL: CUENTA CORRIENTE                    -->
+<!-- ========================================= -->
+<div class="modal-backdrop" id="modal-cta-cte">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Cuenta corriente</div>
+      <button class="modal-close" onclick="closeModal('modal-cta-cte')">✕</button>
+    </div>
+    <div id="cta-cte-body">
+      <div class="loading-screen" style="padding: 40px 0;">
+        <div class="spinner"></div>
+        <div>Cargando movimientos…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- MODAL: AGREGAR FILTRO                      -->
+<!-- ========================================= -->
+<div class="modal-backdrop" id="modal-add-filter">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="filter-modal-title">Agregar filtro</div>
+      <button class="modal-close" onclick="closeModal('modal-add-filter')">✕</button>
+    </div>
+    
+    <div id="filter-alert" class="alert alert-error hidden"></div>
+    
+    <div class="form-field">
+      <label>Patrón a filtrar</label>
+      <input type="text" id="filter-patron" placeholder="@empresa.com o nombre@empresa.com" autocapitalize="off" autocorrect="off">
+      <div class="form-field-hint">
+        Podés filtrar un dominio completo (<code>@empresa.com</code>) 
+        o un mail específico (<code>juan@empresa.com</code>).
+      </div>
+    </div>
+
+    <input type="hidden" id="filter-tipo">
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-add-filter')">Cancelar</button>
+      <button class="btn-primary" id="btn-save-filter" onclick="saveFilter()" style="width: auto;">Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- MODAL: CAMBIAR MAIL DESTINO                -->
+<!-- ========================================= -->
+<div class="modal-backdrop" id="modal-mail-destino">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Cambiar mail destino</div>
+      <button class="modal-close" onclick="closeModal('modal-mail-destino')">✕</button>
+    </div>
+    
+    <div id="mail-destino-alert" class="alert alert-warn">
+      ⚠️ El mail nuevo se valida con Cloudflare antes de quedar activo. Te avisamos cuando esté listo.
+    </div>
+
+    <div class="form-field">
+      <label>Mail destino actual</label>
+      <input type="text" id="mail-destino-actual" readonly style="background: var(--bg-soft); color: var(--text-muted);">
+    </div>
+
+    <div class="form-field">
+      <label>Nuevo mail destino</label>
+      <input type="email" id="mail-destino-nuevo" placeholder="tu@nuevo-mail.com" autocapitalize="off" autocorrect="off">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-mail-destino')">Cancelar</button>
+      <button class="btn-primary" id="btn-save-mail-destino" onclick="saveMailDestino()" style="width: auto;">Cambiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- MODAL: CAMBIAR PLAN                        -->
+<!-- ========================================= -->
+<div class="modal-backdrop" id="modal-plan">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Cambiar plan</div>
+      <button class="modal-close" onclick="closeModal('modal-plan')">✕</button>
+    </div>
+
+    <div id="plan-alert" class="alert alert-error hidden"></div>
+
+    <div class="form-field">
+      <label>Elegí tu plan</label>
+      <div class="radio-group" id="plan-options">
+        <label class="radio-option" data-plan="mensual">
+          <input type="radio" name="plan" value="mensual">
+          <div>
+            <div class="radio-option-label">Mensual — USD 6/mes</div>
+            <div class="radio-option-desc">Se factura el 1° de cada mes</div>
+          </div>
+        </label>
+        <label class="radio-option" data-plan="anual">
+          <input type="radio" name="plan" value="anual">
+          <div>
+            <div class="radio-option-label">Anual — USD 60/año <span class="plan-badge">Ahorra 12</span></div>
+            <div class="radio-option-desc">Pago anual, 2 meses gratis</div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-plan')">Cancelar</button>
+      <button class="btn-primary" id="btn-save-plan" onclick="savePlan()" style="width: auto;">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================= -->
+<!-- MODAL: CANCELAR CUENTA                     -->
+<!-- ========================================= -->
+<div class="modal-backdrop" id="modal-cancel">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Cancelar cuenta</div>
+      <button class="modal-close" onclick="closeModal('modal-cancel')">✕</button>
+    </div>
+
+    <div class="alert alert-warn">
+      ⚠️ Si cancelás, dejamos de procesar mails que lleguen a tu @mtows.com.
+      Si tenés saldo pendiente, seguirá registrado.
+    </div>
+
+    <p style="font-size: 14px; margin-bottom: 8px;">Estás a punto de cancelar tu cuenta. Esta acción:</p>
+    <ul style="font-size: 14px; padding-left: 24px; margin-bottom: 20px; color: var(--text-muted); line-height: 1.7;">
+      <li>Deja de procesar mails entrantes</li>
+      <li>Cierra tu sesión actual</li>
+      <li>No elimina tu historial</li>
+      <li>No te corre el cobro de saldo pendiente</li>
+    </ul>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal('modal-cancel')">Mantener mi cuenta</button>
+      <button class="btn-danger" id="btn-confirm-cancel" onclick="confirmCancel()">Sí, cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+'use strict';
+
+// ====================== CONFIG ======================
+const API_BASE = 'https://script.google.com/macros/s/AKfycbyYOJhoh5zwQUxMiPneD8qYpAEwtnzEOJ-hWPLFWupX2mQJxQOR1vmFayu27dNPcrDN5Q/exec';
+const SESSION_KEY = 'mtows_session_token';
+
+// State
+let SESSION_TOKEN = null;
+let ACCOUNT_DATA = null;
+let PENDING_EMAIL = null;
+
+// ====================== HELPERS ======================
+function $(id) { return document.getElementById(id); }
+
+function showView(viewId) {
+  ['view-login', 'view-code', 'view-loading', 'view-dashboard'].forEach(id => {
+    $(id).classList.add('hidden');
+  });
+  $(viewId).classList.remove('hidden');
+}
+
+function showAlert(alertId, message, type = 'error') {
+  const el = $(alertId);
+  el.textContent = message;
+  el.className = 'alert alert-' + type;
+  el.classList.remove('hidden');
+}
+
+function hideAlert(alertId) {
+  $(alertId).classList.add('hidden');
+}
+
+function openModal(modalId) {
+  $(modalId).classList.add('active');
+}
+
+function closeModal(modalId) {
+  $(modalId).classList.remove('active');
+}
+
+function setLoading(btnId, loading, normalText) {
+  const btn = $(btnId);
+  if (loading) {
+    btn.disabled = true;
+    btn._originalText = btn._originalText || btn.textContent;
+    btn.innerHTML = '<span class="spinner"></span>';
+  } else {
+    btn.disabled = false;
+    btn.textContent = normalText || btn._originalText || btn.textContent;
+  }
+}
+
+async function apiPost(action, params = {}) {
+  const formData = new URLSearchParams();
+  formData.append('action', action);
+  Object.keys(params).forEach(k => {
+    if (params[k] !== undefined && params[k] !== null) {
+      formData.append(k, params[k]);
+    }
+  });
+  const res = await fetch(API_BASE, {
+    method: 'POST',
+    body: formData
+  });
+  return await res.json();
+}
+
+async function apiGet(action, params = {}) {
+  const qs = new URLSearchParams();
+  qs.append('action', action);
+  Object.keys(params).forEach(k => {
+    if (params[k] !== undefined && params[k] !== null) {
+      qs.append(k, params[k]);
+    }
+  });
+  const res = await fetch(API_BASE + '?' + qs.toString());
+  return await res.json();
+}
+
+// ====================== LOGIN FLOW ======================
+
+async function requestLoginCode() {
+  hideAlert('login-alert');
+  hideAlert('code-alert');
+  
+  let email = $('login-email').value.trim().toLowerCase();
+  
+  // Permitir que pongan solo el alias o el completo
+  if (email.indexOf('@') === -1) {
+    email = email + '@mtows.com';
+  }
+  
+  if (!email || email.length < 5) {
+    showAlert('login-alert', 'Ingresá tu dirección @mtows.com');
+    return;
+  }
+  
+  PENDING_EMAIL = email;
+  
+  setLoading('btn-request-code', true);
+  setLoading('btn-verify-code', true);
+  
+  try {
+    const result = await apiPost('requestPanelLogin', { email: email });
+    
+    if (result.ok) {
+      // Mostramos vista de código (no revelamos si el mail existía o no)
+      $('code-target-phone').textContent = 'tu número registrado';
+      showView('view-code');
+      setTimeout(() => $('login-code').focus(), 100);
+    } else {
+      const msg = result.retry_in_seconds 
+        ? `Esperá ${result.retry_in_seconds}s antes de pedir otro código.`
+        : (result.message || 'No pudimos enviar el código. Probá de nuevo.');
+      showAlert('login-alert', msg);
+    }
+  } catch (err) {
+    showAlert('login-alert', 'Error de conexión. Revisá tu internet.');
+  } finally {
+    setLoading('btn-request-code', false, 'Enviar código por WhatsApp →');
+    setLoading('btn-verify-code', false, 'Verificar →');
+  }
+}
+
+async function verifyLoginCode() {
+  hideAlert('code-alert');
+  const code = $('login-code').value.trim();
+  
+  if (!code || code.length < 4) {
+    showAlert('code-alert', 'Ingresá el código completo');
+    return;
+  }
+  
+  if (!PENDING_EMAIL) {
+    backToLogin();
+    return;
+  }
+  
+  setLoading('btn-verify-code', true);
+  
+  try {
+    const result = await apiPost('verifyPanelLogin', {
+      email: PENDING_EMAIL,
+      code: code
+    });
+    
+    if (result.ok && result.session_token) {
+      SESSION_TOKEN = result.session_token;
+      localStorage.setItem(SESSION_KEY, SESSION_TOKEN);
+      await loadDashboard();
+    } else {
+      showAlert('code-alert', result.message || 'Código incorrecto');
+    }
+  } catch (err) {
+    showAlert('code-alert', 'Error de conexión.');
+  } finally {
+    setLoading('btn-verify-code', false, 'Verificar →');
+  }
+}
+
+function backToLogin() {
+  PENDING_EMAIL = null;
+  $('login-code').value = '';
+  hideAlert('code-alert');
+  hideAlert('login-alert');
+  showView('view-login');
+}
+
+async function logout() {
+  if (!confirm('¿Cerrar sesión?')) return;
+  try {
+    if (SESSION_TOKEN) await apiPost('logoutPanel', { session_token: SESSION_TOKEN });
+  } catch (e) { /* ignorar */ }
+  localStorage.removeItem(SESSION_KEY);
+  SESSION_TOKEN = null;
+  ACCOUNT_DATA = null;
+  PENDING_EMAIL = null;
+  $('login-email').value = '';
+  backToLogin();
+}
+
+// ====================== DASHBOARD ======================
+
+async function loadDashboard() {
+  showView('view-loading');
+  
+  try {
+    const acc = await apiGet('getPanelAccount', { session_token: SESSION_TOKEN });
+    
+    if (!acc.ok) {
+      // sesión inválida
+      localStorage.removeItem(SESSION_KEY);
+      SESSION_TOKEN = null;
+      backToLogin();
+      showAlert('login-alert', acc.message || 'Tu sesión expiró. Ingresá de nuevo.');
+      return;
+    }
+    
+    ACCOUNT_DATA = acc;
+    renderDashboard();
+    await loadFilters();
+    showView('view-dashboard');
+    
+  } catch (err) {
+    showAlert('login-alert', 'Error al cargar tu cuenta.');
+    backToLogin();
+  }
+}
+
+function renderDashboard() {
+  const acc = ACCOUNT_DATA;
+  
+  $('dash-email').textContent = acc.email;
+  $('dash-creado').textContent = acc.creado;
+  $('dash-dias').textContent = acc.dias_activa + (acc.dias_activa === 1 ? ' día' : ' días');
+  
+  // Plan
+  const planText = acc.plan === 'anual' 
+    ? `USD ${acc.precio_anual}/año` 
+    : `USD ${acc.precio_mensual}/mes`;
+  $('dash-plan-text').textContent = planText;
+  
+  $('dash-proxima').textContent = acc.proxima_factura;
+  $('dash-ultima').textContent = acc.ultima_factura;
+  
+  // Balance
+  const balanceEl = $('dash-balance');
+  if (acc.balance === 0) {
+    balanceEl.textContent = 'USD 0';
+    balanceEl.classList.add('zero');
+  } else {
+    balanceEl.textContent = `USD ${acc.balance}`;
+    balanceEl.classList.remove('zero');
+  }
+}
+
+// ====================== FILTROS ======================
+
+async function loadFilters() {
+  try {
+    const result = await apiGet('getFilters', { session_token: SESSION_TOKEN });
+    if (!result.ok) return;
+    
+    renderFilterList('whitelist-list', result.whitelist, 'whitelist');
+    renderFilterList('blacklist-list', result.blacklist, 'blacklist');
+  } catch (err) {
+    console.error('Error cargando filtros:', err);
+  }
+}
+
+function renderFilterList(elId, items, tipo) {
+  const el = $(elId);
+  el.innerHTML = '';
+  
+  if (!items || items.length === 0) {
+    const li = document.createElement('li');
+    li.className = 'filter-empty';
+    li.textContent = 'Ningún filtro todavía.';
+    el.appendChild(li);
+    return;
+  }
+  
+  items.forEach(item => {
+    const li = document.createElement('li');
+    li.className = 'filter-item';
+    li.innerHTML = `
+      <span class="filter-item-text"></span>
+      <button class="filter-remove">Quitar</button>
+    `;
+    li.querySelector('.filter-item-text').textContent = item.patron;
+    li.querySelector('.filter-remove').onclick = () => removeFilter(tipo, item.patron);
+    el.appendChild(li);
+  });
+}
+
+function openFilterModal(tipo) {
+  $('filter-tipo').value = tipo;
+  $('filter-patron').value = '';
+  $('filter-modal-title').textContent = tipo === 'whitelist' 
+    ? 'Agregar a whitelist (paso directo)' 
+    : 'Agregar a blacklist (rechazar)';
+  hideAlert('filter-alert');
+  openModal('modal-add-filter');
+  setTimeout(() => $('filter-patron').focus(), 100);
+}
+
+async function saveFilter() {
+  const tipo = $('filter-tipo').value;
+  const patron = $('filter-patron').value.trim().toLowerCase();
+  
+  if (!patron || patron.length < 3) {
+    showAlert('filter-alert', 'Ingresá un patrón válido');
+    return;
+  }
+  
+  setLoading('btn-save-filter', true);
+  
+  try {
+    const result = await apiPost('addFilter', {
+      session_token: SESSION_TOKEN,
+      tipo: tipo,
+      patron: patron
+    });
+    
+    if (result.ok) {
+      closeModal('modal-add-filter');
+      await loadFilters();
+    } else {
+      showAlert('filter-alert', result.message || 'No pudimos agregar el filtro');
+    }
+  } catch (err) {
+    showAlert('filter-alert', 'Error de conexión');
+  } finally {
+    setLoading('btn-save-filter', false, 'Agregar');
+  }
+}
+
+async function removeFilter(tipo, patron) {
+  if (!confirm(`¿Quitar "${patron}" de ${tipo}?`)) return;
+  
+  try {
+    const result = await apiPost('removeFilter', {
+      session_token: SESSION_TOKEN,
+      tipo: tipo,
+      patron: patron
+    });
+    
+    if (result.ok) {
+      await loadFilters();
+    } else {
+      alert(result.message || 'No pudimos quitar el filtro');
+    }
+  } catch (err) {
+    alert('Error de conexión');
+  }
+}
+
+// ====================== CTA CTE ======================
+
+async function openCtaCteModal() {
+  openModal('modal-cta-cte');
+  $('cta-cte-body').innerHTML = `
+    <div class="loading-screen" style="padding: 40px 0;">
+      <div class="spinner"></div>
+      <div>Cargando movimientos…</div>
+    </div>
+  `;
+  
+  try {
+    const result = await apiGet('getBilling', { session_token: SESSION_TOKEN });
+    
+    if (!result.ok) {
+      $('cta-cte-body').innerHTML = `<div class="alert alert-error">${result.message || 'Error al cargar'}</div>`;
+      return;
+    }
+    
+    renderCtaCte(result.movimientos, result.balance);
+    
+  } catch (err) {
+    $('cta-cte-body').innerHTML = `<div class="alert alert-error">Error de conexión</div>`;
+  }
+}
+
+function renderCtaCte(movimientos, balance) {
+  const body = $('cta-cte-body');
+  
+  if (!movimientos || movimientos.length === 0) {
+    body.innerHTML = `
+      <div class="cc-empty">Todavía no hay movimientos.</div>
+      <div style="text-align: center; padding: 20px 0;">
+        <div class="balance-label">Saldo actual</div>
+        <div class="balance-amount zero" style="font-size: 28px;">USD 0</div>
+      </div>
+    `;
+    return;
+  }
+  
+  let html = `
+    <table class="cc-table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Concepto</th>
+          <th class="amount">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  
+  movimientos.forEach(m => {
+    const isCharge = m.monto > 0;
+    const amountClass = isCharge ? 'cc-amount-charge' : 'cc-amount-pay';
+    const sign = isCharge ? '+' : '';
+    html += `
+      <tr>
+        <td class="fecha">${m.fecha}</td>
+        <td>${m.descripcion}</td>
+        <td class="amount ${amountClass}">${sign}USD ${m.monto}</td>
+      </tr>
+    `;
+  });
+  
+  html += `
+        <tr class="cc-saldo-row">
+          <td colspan="2">Saldo actual</td>
+          <td class="amount">USD ${balance}</td>
+        </tr>
+      </tbody>
+    </table>
+  `;
+  
+  body.innerHTML = html;
+}
+
+// ====================== CAMBIAR PLAN ======================
+
+function openPlanModal() {
+  $('plan-alert').classList.add('hidden');
+  
+  // Marcar el plan actual
+  document.querySelectorAll('input[name="plan"]').forEach(r => {
+    r.checked = (r.value === ACCOUNT_DATA.plan);
+  });
+  document.querySelectorAll('.radio-option').forEach(opt => {
+    opt.classList.toggle('selected', opt.dataset.plan === ACCOUNT_DATA.plan);
+  });
+  
+  openModal('modal-plan');
+}
+
+document.querySelectorAll('.radio-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    opt.querySelector('input[type="radio"]').checked = true;
+  });
+});
+
+async function savePlan() {
+  const selected = document.querySelector('input[name="plan"]:checked');
+  if (!selected) {
+    showAlert('plan-alert', 'Elegí un plan');
+    return;
+  }
+  
+  const newPlan = selected.value;
+  if (newPlan === ACCOUNT_DATA.plan) {
+    closeModal('modal-plan');
+    return;
+  }
+  
+  setLoading('btn-save-plan', true);
+  
+  try {
+    const result = await apiPost('updatePlan', {
+      session_token: SESSION_TOKEN,
+      new_plan: newPlan
+    });
+    
+    if (result.ok) {
+      closeModal('modal-plan');
+      await loadDashboard();
+    } else {
+      showAlert('plan-alert', result.message || 'No pudimos cambiar el plan');
+    }
+  } catch (err) {
+    showAlert('plan-alert', 'Error de conexión');
+  } finally {
+    setLoading('btn-save-plan', false, 'Guardar');
+  }
+}
+
+// ====================== CAMBIAR MAIL DESTINO ======================
+
+function openMailDestinoModal() {
+  $('mail-destino-actual').value = ACCOUNT_DATA.mail_destino || '';
+  $('mail-destino-nuevo').value = '';
+  openModal('modal-mail-destino');
+  setTimeout(() => $('mail-destino-nuevo').focus(), 100);
+}
+
+async function saveMailDestino() {
+  const nuevo = $('mail-destino-nuevo').value.trim().toLowerCase();
+  
+  if (!nuevo || nuevo.indexOf('@') === -1) {
+    alert('Ingresá un mail válido');
+    return;
+  }
+  
+  if (nuevo === ACCOUNT_DATA.mail_destino) {
+    closeModal('modal-mail-destino');
+    return;
+  }
+  
+  setLoading('btn-save-mail-destino', true);
+  
+  try {
+    const result = await apiPost('updateMailDestino', {
+      session_token: SESSION_TOKEN,
+      new_mail: nuevo
+    });
+    
+    if (result.ok) {
+      closeModal('modal-mail-destino');
+      await loadDashboard();
+    } else {
+      alert(result.message || 'No pudimos cambiar el mail. Probá de nuevo.');
+    }
+  } catch (err) {
+    alert('Error de conexión');
+  } finally {
+    setLoading('btn-save-mail-destino', false, 'Cambiar');
+  }
+}
+
+// ====================== CANCELAR CUENTA ======================
+
+function openCancelModal() {
+  openModal('modal-cancel');
+}
+
+async function confirmCancel() {
+  if (!confirm('¿Confirmás cancelar tu cuenta?')) return;
+  
+  setLoading('btn-confirm-cancel', true);
+  
+  try {
+    const result = await apiPost('cancelAccount', {
+      session_token: SESSION_TOKEN
+    });
+    
+    if (result.ok) {
+      closeModal('modal-cancel');
+      alert('Tu cuenta fue cancelada. ¡Gracias por usar mtows!');
+      localStorage.removeItem(SESSION_KEY);
+      SESSION_TOKEN = null;
+      ACCOUNT_DATA = null;
+      window.location.href = '/';
+    } else {
+      alert(result.message || 'No pudimos cancelar. Probá de nuevo.');
+    }
+  } catch (err) {
+    alert('Error de conexión');
+  } finally {
+    setLoading('btn-confirm-cancel', false, 'Sí, cancelar');
+  }
+}
+
+// ====================== EVENT LISTENERS GENERALES ======================
+
+// Enter en email → request code
+$('login-email').addEventListener('keypress', e => {
+  if (e.key === 'Enter') requestLoginCode();
+});
+
+// Enter en code → verify
+$('login-code').addEventListener('keypress', e => {
+  if (e.key === 'Enter') verifyLoginCode();
+});
+
+// Solo números en code input
+$('login-code').addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
+});
+
+// Enter en filter patron → save
+$('filter-patron').addEventListener('keypress', e => {
+  if (e.key === 'Enter') saveFilter();
+});
+
+// Click backdrop cierra modal
+document.querySelectorAll('.modal-backdrop').forEach(bd => {
+  bd.addEventListener('click', e => {
+    if (e.target === bd) bd.classList.remove('active');
+  });
+});
+
+// ESC cierra modales
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
+  }
+});
+
+// ====================== INIT ======================
+
+(async function init() {
+  const savedToken = localStorage.getItem(SESSION_KEY);
+  
+  if (savedToken) {
+    SESSION_TOKEN = savedToken;
+    // Intentar cargar dashboard con token guardado
+    showView('view-loading');
+    try {
+      const acc = await apiGet('getPanelAccount', { session_token: SESSION_TOKEN });
+      if (acc.ok) {
+        ACCOUNT_DATA = acc;
+        renderDashboard();
+        await loadFilters();
+        showView('view-dashboard');
+        return;
+      }
+    } catch (err) {
+      // ignorar y seguir al login
+    }
+    localStorage.removeItem(SESSION_KEY);
+    SESSION_TOKEN = null;
+  }
+  
+  showView('view-login');
+  setTimeout(() => $('login-email').focus(), 100);
+})();
+</script>
+
+</body>
+</html>
