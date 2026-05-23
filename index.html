@@ -138,6 +138,26 @@
       color: var(--ws-green);
     }
     
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .nav-login {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+    
+    .nav-login:hover {
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+    
     .nav-cta {
       font-size: 14px;
       font-weight: 500;
@@ -149,6 +169,13 @@
     
     .nav-cta:hover {
       background: var(--bg-secondary);
+    }
+    
+    /* Mobile: ocultar "Iniciar sesión" texto, dejar solo CTA */
+    @media (max-width: 540px) {
+      .nav-login {
+        display: none;
+      }
     }
     
     /* ============================================
@@ -1108,7 +1135,10 @@
     <div class="container">
       <div class="navbar-inner">
         <a href="#" class="wordmark">mtows<span class="dot">.</span></a>
-        <a href="/registro.html" class="nav-cta">Quiero mi dirección →</a>
+        <div class="nav-right">
+          <a href="/panel.html" class="nav-login">Iniciar sesión</a>
+          <a href="/registro.html" class="nav-cta">Quiero mi dirección →</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -1403,8 +1433,8 @@
           <a href="#como-funciona">Cómo funciona</a>
           <a href="#precio">Precio</a>
           <a href="mailto:info@mtows.com">info@mtows.com</a>
-          <a href="/terminos">Términos</a>
-          <a href="/privacidad">Privacidad</a>
+          <a href="/terminos.html">Términos</a>
+          <a href="/privacidad.html">Privacidad</a>
         </div>
       </div>
       <div class="footer-copyright">

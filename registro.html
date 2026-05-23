@@ -1206,6 +1206,13 @@
           </span>
         </label>
         
+        <label class="checkbox-confirm">
+          <input type="checkbox" id="checkbox-terms">
+          <span class="checkbox-confirm-text">
+            Acepto los <a href="/terminos.html" target="_blank" style="color: var(--ws-green-dark); text-decoration: underline;">Términos y Condiciones</a> y la <a href="/privacidad.html" target="_blank" style="color: var(--ws-green-dark); text-decoration: underline;">Política de Privacidad</a> de mtows.
+          </span>
+        </label>
+        
         <button class="btn-primary" id="btn-step-5" disabled>
           Crear mi cuenta
           <span class="arrow">→</span>
@@ -2014,9 +2021,15 @@
       }
     });
     
-    document.getElementById('checkbox-saved').addEventListener('change', (e) => {
-      document.getElementById('btn-step-5').disabled = !e.target.checked;
-    });
+    // Función que verifica si ambos checkboxes están marcados
+    function checkBothCheckboxes() {
+      const savedChecked = document.getElementById('checkbox-saved').checked;
+      const termsChecked = document.getElementById('checkbox-terms').checked;
+      document.getElementById('btn-step-5').disabled = !(savedChecked && termsChecked);
+    }
+    
+    document.getElementById('checkbox-saved').addEventListener('change', checkBothCheckboxes);
+    document.getElementById('checkbox-terms').addEventListener('change', checkBothCheckboxes);
     
     document.getElementById('btn-step-5').addEventListener('click', async () => {
       const btn = document.getElementById('btn-step-5');
