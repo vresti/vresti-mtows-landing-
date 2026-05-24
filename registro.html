@@ -1630,6 +1630,11 @@
       phoneInput.placeholder = rule.placeholder;
       phoneHelp.textContent = rule.help;
       
+      // Padding-left dinámico según ancho del prefijo
+      // 24 (margen izq + colchón) + chars * 9 (ancho aprox por char en mono 15px)
+      const prefixLength = ('+' + country.dial).length;
+      phoneInput.style.paddingLeft = (24 + prefixLength * 9) + 'px';
+      
       // Cerrar dropdown
       closeCountryDropdown();
       
