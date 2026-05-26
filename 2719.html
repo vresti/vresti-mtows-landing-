@@ -258,6 +258,47 @@
     background: #c8e6c9;
   }
   
+  .btn-delete {
+    background: #ffebee;
+    color: #c62828;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .btn-delete:hover {
+    background: #ffcdd2;
+  }
+  
+  .btn-danger {
+    background: #c62828;
+    color: white;
+  }
+  
+  .btn-danger:hover:not(:disabled) {
+    background: #b71c1c;
+  }
+  
+  .btn-danger:disabled {
+    background: #e0e0e0;
+    color: #9e9e9e;
+    cursor: not-allowed;
+  }
+  
+  .modal-warning {
+    background: #fff3e0;
+    border-left: 3px solid #e65100;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #5d4037;
+    margin-bottom: 16px;
+    line-height: 1.45;
+  }
+  
+  .modal-warning strong {
+    color: #c62828;
+  }
+  
   .btn-logout {
     background: transparent;
     color: #c0392b;
@@ -536,6 +577,32 @@
 </div>
 
 
+<!-- MODAL BORRAR CLIENTE -->
+<div id="modal-delete" class="modal-backdrop hidden">
+  <div class="modal">
+    <h2 style="color: #c62828;">🗑️ Borrar cliente</h2>
+    <p id="modal-delete-subtitle">Esta acción es irreversible.</p>
+    
+    <div class="modal-warning">
+      Se va a borrar <strong>todo</strong> sobre este cliente: cuenta, sesiones, filtros, ventanas de conversación, logs de mails entrantes y billing.<br>
+      Onboarding y verificaciones se borran sólo si el teléfono no está compartido con otro user activo.
+    </div>
+    
+    <div id="delete-alert"></div>
+    
+    <div class="form-group">
+      <label for="delete-confirm-input">Para confirmar, escribí el alias exacto: <strong id="delete-alias-name"></strong></label>
+      <input type="text" id="delete-confirm-input" placeholder="alias" autocomplete="off">
+    </div>
+    
+    <div class="modal-actions">
+      <button id="btn-delete-cancel" class="btn btn-secondary">Cancelar</button>
+      <button id="btn-delete-confirm" class="btn btn-danger" disabled>Borrar definitivamente</button>
+    </div>
+  </div>
+</div>
+
+
 <script>
 // ============================================================
 // CONFIGURACIÓN
@@ -797,6 +864,7 @@ function renderClientsTable(clients) {
         <div class="actions">
           <button class="btn btn-mail" onclick="openSendModal('${c.alias}', 'mail')">✉️ Mail</button>
           <button class="btn btn-ws" onclick="openSendModal('${c.alias}', 'ws')">💬 WS</button>
+          <button class="btn btn-delete" onclick="openDeleteModal('${c.alias}')">🗑️ Borrar</button>
         </div>
       </td>
     </tr>
@@ -922,6 +990,87 @@ $('btn-modal-send').addEventListener('click', async () => {
   
   $('btn-modal-send').disabled = false;
   $('btn-modal-send').textContent = 'Enviar';
+});
+
+
+// ============================================================
+// MODAL BORRAR CLIENTE
+// ============================================================
+
+let deleteAlias = '';
+
+function openDeleteModal(alias) {
+  deleteAlias = alias;
+  $('delete-alias-name').textContent = alias;
+  $('delete-confirm-input').value = '';
+  $('btn-delete-confirm').disabled = true;
+  $('btn-delete-confirm').textContent = 'Borrar definitivamente';
+  clearAlert('delete-alert');
+  $('modal-delete').classList.remove('hidden');
+  setTimeout(() => $('delete-confirm-input').focus(), 100);
+}
+
+$('btn-delete-cancel').addEventListener('click', () => {
+  $('modal-delete').classList.add('hidden');
+});
+
+$('delete-confirm-input').addEventListener('input', (e) => {
+  $('btn-delete-confirm').disabled = (e.target.value.trim() !== deleteAlias);
+});
+
+$('btn-delete-confirm').addEventListener('click', async () => {
+  if ($('delete-confirm-input').value.trim() !== deleteAlias) return;
+  
+  $('btn-delete-confirm').disabled = true;
+  $('btn-delete-confirm').textContent = 'Borrando...';
+  clearAlert('delete-alert');
+  
+  try {
+    const r = await callGAS('adminDeleteUser', {
+      token: state.token,
+      alias: deleteAlias
+    });
+    
+    if (r.ok) {
+      let msg = r.message || 'Cliente borrado';
+      if (r.report) {
+        const parts = [];
+        const labels = {
+          users: 'users',
+          sessions: 'sesiones',
+          filtros: 'filtros',
+          conversation_windows: 'ventanas',
+          billing: 'billing',
+          hoja1: 'logs',
+          onboarding_pending: 'onboarding',
+          verificaciones: 'verif.'
+        };
+        for (const k in labels) {
+          if (r.report[k] > 0) parts.push(labels[k] + ': ' + r.report[k]);
+        }
+        if (r.report.onboarding_preserved > 0) {
+          parts.push('onboarding preservado: ' + r.report.onboarding_preserved);
+        }
+        if (r.report.verificaciones_preserved > 0) {
+          parts.push('verif. preservadas: ' + r.report.verificaciones_preserved);
+        }
+        if (parts.length) msg += ' — ' + parts.join(', ');
+      }
+      showAlert('delete-alert', 'success', msg);
+      setTimeout(() => {
+        $('modal-delete').classList.add('hidden');
+        loadDashboard();
+      }, 2200);
+    } else {
+      showAlert('delete-alert', 'error', r.error || 'Error');
+      $('btn-delete-confirm').disabled = false;
+      $('btn-delete-confirm').textContent = 'Borrar definitivamente';
+    }
+  } catch (err) {
+    showAlert('delete-alert', 'error', 'Error de red');
+    $('btn-delete-confirm').disabled = false;
+    $('btn-delete-confirm').textContent = 'Borrar definitivamente';
+  }
 });
 
 
