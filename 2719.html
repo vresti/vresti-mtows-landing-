@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>mtows admin</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #f5f6fa;
+    color: #2c3e50;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+  
+  /* === LAYOUT === */
+  
+  .login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .login-card {
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-title {
+    color: #1a237e;
+    font-size: 24px;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  
+  .login-subtitle {
+    color: #7f8c8d;
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+  
+  .dashboard-container {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .header {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .header-left h1 {
+    color: #1a237e;
+    font-size: 20px;
+  }
+  
+  .header-left .subtitle {
+    color: #7f8c8d;
+    font-size: 13px;
+  }
+  
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  /* === RESUMEN === */
+  
+  .resumen {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .stat-card {
+    background: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  
+  .stat-card .label {
+    color: #7f8c8d;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .stat-card .value {
+    color: #1a237e;
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  
+  /* === TABLA === */
+  
+  .table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  
+  .table-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #ecf0f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .table-header h2 {
+    color: #2c3e50;
+    font-size: 16px;
+  }
+  
+  .table-wrapper {
+    overflow-x: auto;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  
+  th {
+    background: #f8f9fa;
+    color: #7f8c8d;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 2px solid #ecf0f1;
+    white-space: nowrap;
+  }
+  
+  td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #ecf0f1;
+    vertical-align: middle;
+  }
+  
+  tbody tr:hover {
+    background: #f8f9fa;
+  }
+  
+  /* === ESTADOS DE VENTANA === */
+  
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  
+  .badge-abierta {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+  
+  .badge-cerrada {
+    background: #ffebee;
+    color: #c62828;
+  }
+  
+  /* === ACCIONES === */
+  
+  .actions {
+    display: flex;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  
+  .btn-primary {
+    background: #1a237e;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background: #283593;
+  }
+  
+  .btn-primary:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+  }
+  
+  .btn-secondary {
+    background: #ecf0f1;
+    color: #2c3e50;
+  }
+  
+  .btn-secondary:hover {
+    background: #d5dbdb;
+  }
+  
+  .btn-mail {
+    background: #fff3e0;
+    color: #e65100;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .btn-mail:hover {
+    background: #ffe0b2;
+  }
+  
+  .btn-ws {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .btn-ws:hover {
+    background: #c8e6c9;
+  }
+  
+  .btn-logout {
+    background: transparent;
+    color: #c0392b;
+    padding: 6px 12px;
+    font-size: 13px;
+    border: 1px solid #e74c3c;
+  }
+  
+  .btn-logout:hover {
+    background: #fef5f5;
+  }
+  
+  /* === INPUTS === */
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    color: #2c3e50;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  
+  input[type="email"],
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d5dbdb;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: #1a237e;
+  }
+  
+  .code-input {
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 8px;
+    font-family: monospace;
+    font-weight: 700;
+  }
+  
+  /* === MODAL === */
+  
+  .modal-backdrop {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  
+  .modal {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .modal h2 {
+    color: #1a237e;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  
+  .modal p {
+    color: #7f8c8d;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  
+  /* === MISC === */
+  
+  .alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  
+  .alert-info {
+    background: #e3f2fd;
+    color: #1565c0;
+  }
+  
+  .alert-success {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  
+  .alert-error {
+    background: #ffebee;
+    color: #c62828;
+  }
+  
+  .last-update {
+    color: #95a5a6;
+    font-size: 12px;
+  }
+  
+  .telefono {
+    font-family: monospace;
+    font-size: 12px;
+    color: #7f8c8d;
+  }
+  
+  .mail-link {
+    color: #1a237e;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  
+  .mail-link:hover { text-decoration: underline; }
+  
+  .alias {
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  
+  .empty {
+    text-align: center;
+    padding: 40px;
+    color: #95a5a6;
+  }
+  
+  .hidden { display: none !important; }
+  
+  .text-right { text-align: right; }
+  .text-center { text-align: center; }
+  
+  @media (max-width: 768px) {
+    .header { flex-direction: column; align-items: flex-start; }
+    .table-header { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- VISTA LOGIN -->
+<div id="view-login" class="login-container">
+  <div class="login-card">
+    <h1 class="login-title">mtows admin</h1>
+    <p class="login-subtitle">Acceso administrativo</p>
+    
+    <div id="login-alert"></div>
+    
+    <!-- Paso 1: Email -->
+    <div id="login-step-email">
+      <div class="form-group">
+        <label for="email">Email de administrador</label>
+        <input type="email" id="email" placeholder="admin@mtows.com" autocomplete="email">
+      </div>
+      <button id="btn-request-code" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px;">
+        Enviar código por mail
+      </button>
+    </div>
+    
+    <!-- Paso 2: Código -->
+    <div id="login-step-code" class="hidden">
+      <div class="form-group">
+        <label for="code">Código (6 dígitos)</label>
+        <input type="text" id="code" class="code-input" maxlength="6" placeholder="------" autocomplete="off" inputmode="numeric">
+      </div>
+      <button id="btn-verify-code" class="btn btn-primary" style="width: 100%; justify-content: center; padding: 12px;">
+        Verificar e ingresar
+      </button>
+      <button id="btn-back-to-email" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 12px; margin-top: 8px;">
+        Volver
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- VISTA DASHBOARD -->
+<div id="view-dashboard" class="dashboard-container hidden">
+  <div class="header">
+    <div class="header-left">
+      <h1>mtows admin</h1>
+      <div class="subtitle" id="welcome-text"></div>
+    </div>
+    <div class="header-right">
+      <span class="last-update" id="last-update">—</span>
+      <button id="btn-refresh" class="btn btn-secondary">🔄 Actualizar</button>
+      <button id="btn-logout" class="btn btn-logout">Cerrar sesión</button>
+    </div>
+  </div>
+  
+  <div class="resumen">
+    <div class="stat-card">
+      <div class="label">Clientes activos</div>
+      <div class="value" id="stat-clientes">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Ventanas abiertas</div>
+      <div class="value" id="stat-ventanas">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Saldo pendiente</div>
+      <div class="value" id="stat-saldo">—</div>
+    </div>
+  </div>
+  
+  <div class="table-container">
+    <div class="table-header">
+      <h2>Clientes</h2>
+    </div>
+    <div class="table-wrapper">
+      <table id="clients-table">
+        <thead>
+          <tr>
+            <th>Alias</th>
+            <th>Contacto</th>
+            <th>Teléfono</th>
+            <th>Mail destino</th>
+            <th class="text-right">Mails</th>
+            <th class="text-right">Prom/día</th>
+            <th class="text-right">Saldo</th>
+            <th>Última ventana</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="clients-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL ENVIAR MENSAJE -->
+<div id="modal-send" class="modal-backdrop hidden">
+  <div class="modal">
+    <h2 id="modal-title">Enviar mensaje</h2>
+    <p id="modal-subtitle"></p>
+    
+    <div id="modal-alert"></div>
+    
+    <div class="form-group" id="modal-subject-group">
+      <label for="modal-subject">Asunto</label>
+      <input type="text" id="modal-subject" placeholder="Asunto del mail">
+    </div>
+    
+    <div class="form-group">
+      <label for="modal-message">Mensaje</label>
+      <textarea id="modal-message" rows="6" placeholder="Tu mensaje..."></textarea>
+    </div>
+    
+    <div class="modal-actions">
+      <button id="btn-modal-cancel" class="btn btn-secondary">Cancelar</button>
+      <button id="btn-modal-send" class="btn btn-primary">Enviar</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ============================================================
+// CONFIGURACIÓN
+// ============================================================
+//
+// IMPORTANTE: reemplazar con la URL real de tu Apps Script deployment
+//
+const GAS_URL = 'AKfycbyYOJhoh5zwQUxMiPneD8qYpAEwtnzEOJ-hWPLFWupX2mQJxQOR1vmFayu27dNPcrDN5Q'; 
+// Ejemplo: 'AKfycbxw-68nGGiJVxzHMCCAzFX0YsUzSN58T_mtdvLsB1VSSYA-4oWPHCZ1hoV16Fxap5p_fg'
+
+const GAS_ENDPOINT = 'https://script.google.com/macros/s/' + GAS_URL + '/exec';
+
+const REFRESH_INTERVAL_MS = 60 * 1000; // 60 segundos
+
+// ============================================================
+// ESTADO
+// ============================================================
+
+let state = {
+  email: '',
+  token: localStorage.getItem('mtows_admin_token') || '',
+  nombre: '',
+  refreshTimer: null,
+  lastUpdate: null,
+  clients: []
+};
+
+// ============================================================
+// UTILS
+// ============================================================
+
+function $(id) { return document.getElementById(id); }
+
+function showAlert(containerId, type, message) {
+  const c = $(containerId);
+  c.innerHTML = '<div class="alert alert-' + type + '">' + message + '</div>';
+  if (type === 'success' || type === 'info') {
+    setTimeout(() => { c.innerHTML = ''; }, 4000);
+  }
+}
+
+function clearAlert(containerId) {
+  $(containerId).innerHTML = '';
+}
+
+function callGAS(action, params) {
+  const form = new FormData();
+  form.append('action', action);
+  for (const k in params) {
+    form.append(k, params[k] || '');
+  }
+  
+  return fetch(GAS_ENDPOINT, {
+    method: 'POST',
+    body: form
+  }).then(r => r.json());
+}
+
+function formatDateTime(isoString) {
+  if (!isoString) return '—';
+  try {
+    const d = new Date(isoString);
+    // Hora local del navegador (que será Argentina si el admin está acá)
+    return d.toLocaleString('es-AR', {
+      day: '2-digit', month: '2-digit', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  } catch (e) { return isoString; }
+}
+
+function formatRelativeTime(isoString) {
+  if (!isoString) return '—';
+  const diff = Date.now() - new Date(isoString).getTime();
+  const seconds = Math.floor(diff / 1000);
+  if (seconds < 60) return 'hace ' + seconds + ' seg';
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return 'hace ' + minutes + ' min';
+  const hours = Math.floor(minutes / 60);
+  return 'hace ' + hours + ' h';
+}
+
+function setView(viewName) {
+  $('view-login').classList.add('hidden');
+  $('view-dashboard').classList.add('hidden');
+  $('view-' + viewName).classList.remove('hidden');
+}
+
+// ============================================================
+// LOGIN FLOW
+// ============================================================
+
+function showLoginEmail() {
+  $('login-step-email').classList.remove('hidden');
+  $('login-step-code').classList.add('hidden');
+  $('email').focus();
+}
+
+function showLoginCode() {
+  $('login-step-email').classList.add('hidden');
+  $('login-step-code').classList.remove('hidden');
+  $('code').focus();
+}
+
+$('btn-request-code').addEventListener('click', async () => {
+  const email = $('email').value.trim();
+  
+  if (!email || !email.includes('@')) {
+    showAlert('login-alert', 'error', 'Ingresá un email válido');
+    return;
+  }
+  
+  $('btn-request-code').disabled = true;
+  $('btn-request-code').textContent = 'Enviando...';
+  clearAlert('login-alert');
+  
+  try {
+    const r = await callGAS('adminRequestCode', { email });
+    
+    if (r.ok) {
+      state.email = email;
+      showAlert('login-alert', 'info', r.message || 'Si tu email es válido, recibirás un código.');
+      setTimeout(showLoginCode, 800);
+    } else {
+      showAlert('login-alert', 'error', r.error || 'Error');
+    }
+  } catch (err) {
+    showAlert('login-alert', 'error', 'Error de red');
+  }
+  
+  $('btn-request-code').disabled = false;
+  $('btn-request-code').textContent = 'Enviar código por mail';
+});
+
+$('btn-verify-code').addEventListener('click', async () => {
+  const code = $('code').value.trim();
+  
+  if (!code || code.length !== 6) {
+    showAlert('login-alert', 'error', 'El código tiene 6 dígitos');
+    return;
+  }
+  
+  $('btn-verify-code').disabled = true;
+  $('btn-verify-code').textContent = 'Verificando...';
+  clearAlert('login-alert');
+  
+  try {
+    const r = await callGAS('adminVerifyCode', { 
+      email: state.email, 
+      code: code 
+    });
+    
+    if (r.ok) {
+      state.token = r.token;
+      state.nombre = r.nombre;
+      localStorage.setItem('mtows_admin_token', r.token);
+      showAlert('login-alert', 'success', '¡Bienvenido!');
+      setTimeout(() => enterDashboard(), 600);
+    } else {
+      showAlert('login-alert', 'error', 'Código inválido o expirado');
+    }
+  } catch (err) {
+    showAlert('login-alert', 'error', 'Error de red');
+  }
+  
+  $('btn-verify-code').disabled = false;
+  $('btn-verify-code').textContent = 'Verificar e ingresar';
+});
+
+$('btn-back-to-email').addEventListener('click', () => {
+  $('code').value = '';
+  clearAlert('login-alert');
+  showLoginEmail();
+});
+
+$('code').addEventListener('input', (e) => {
+  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 6);
+  if (e.target.value.length === 6) {
+    $('btn-verify-code').click();
+  }
+});
+
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+
+async function enterDashboard() {
+  setView('dashboard');
+  $('welcome-text').textContent = 'Bienvenido' + (state.nombre ? ', ' + state.nombre : '');
+  
+  await loadDashboard();
+  
+  // Setup auto-refresh
+  if (state.refreshTimer) clearInterval(state.refreshTimer);
+  state.refreshTimer = setInterval(loadDashboard, REFRESH_INTERVAL_MS);
+  
+  // Update "last update" text every 10s
+  setInterval(() => {
+    if (state.lastUpdate) {
+      $('last-update').textContent = 'Última actualización: ' + formatRelativeTime(state.lastUpdate);
+    }
+  }, 10000);
+}
+
+async function loadDashboard() {
+  try {
+    const r = await callGAS('adminGetDashboard', { token: state.token });
+    
+    if (!r.ok) {
+      if (r.error === 'invalid_session') {
+        logout();
+        return;
+      }
+      console.error('Error dashboard:', r.error);
+      return;
+    }
+    
+    state.clients = r.clients;
+    state.lastUpdate = new Date().toISOString();
+    
+    // Resumen
+    $('stat-clientes').textContent = r.resumen.total_clientes;
+    $('stat-ventanas').textContent = r.resumen.ventanas_abiertas;
+    $('stat-saldo').textContent = 'USD ' + r.resumen.saldo_total.toFixed(2);
+    $('last-update').textContent = 'Actualizado ahora';
+    
+    // Tabla
+    renderClientsTable(r.clients);
+    
+  } catch (err) {
+    console.error('Error loadDashboard:', err);
+  }
+}
+
+function renderClientsTable(clients) {
+  const tbody = $('clients-tbody');
+  
+  if (!clients || clients.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" class="empty">No hay clientes activos</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = clients.map(c => `
+    <tr>
+      <td><span class="alias">${escapeHtml(c.alias)}</span></td>
+      <td>${escapeHtml(c.nombre_contacto || '—')}</td>
+      <td><span class="telefono">${escapeHtml(c.telefono)}</span></td>
+      <td><a href="mailto:${escapeHtml(c.mail_destino)}" class="mail-link">${escapeHtml(c.mail_destino)}</a></td>
+      <td class="text-right">${c.mails_totales}</td>
+      <td class="text-right">${c.promedio_diario}</td>
+      <td class="text-right">USD ${c.saldo_deudor.toFixed(2)}</td>
+      <td>${formatDateTime(c.ultima_ventana_at)}</td>
+      <td>
+        <span class="badge ${c.ventana_abierta ? 'badge-abierta' : 'badge-cerrada'}">
+          ${c.ventana_abierta ? '● Abierta' : '○ Cerrada'}
+        </span>
+      </td>
+      <td>
+        <div class="actions">
+          <button class="btn btn-mail" onclick="openSendModal('${c.alias}', 'mail')">✉️ Mail</button>
+          <button class="btn btn-ws" onclick="openSendModal('${c.alias}', 'ws')">💬 WS</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+$('btn-refresh').addEventListener('click', () => {
+  $('btn-refresh').disabled = true;
+  $('btn-refresh').textContent = '🔄 Actualizando...';
+  loadDashboard().finally(() => {
+    $('btn-refresh').disabled = false;
+    $('btn-refresh').textContent = '🔄 Actualizar';
+  });
+});
+
+$('btn-logout').addEventListener('click', () => {
+  if (confirm('¿Cerrar sesión?')) logout();
+});
+
+async function logout() {
+  if (state.refreshTimer) clearInterval(state.refreshTimer);
+  
+  if (state.token) {
+    try {
+      await callGAS('adminLogout', { token: state.token });
+    } catch (e) {}
+  }
+  
+  localStorage.removeItem('mtows_admin_token');
+  state.token = '';
+  state.email = '';
+  setView('login');
+  $('email').value = '';
+  $('code').value = '';
+  showLoginEmail();
+}
+
+
+// ============================================================
+// MODAL ENVIAR MENSAJE
+// ============================================================
+
+let modalState = { alias: '', channel: '' };
+
+function openSendModal(alias, channel) {
+  const client = state.clients.find(c => c.alias === alias);
+  if (!client) return;
+  
+  modalState = { alias, channel };
+  
+  $('modal-title').textContent = channel === 'mail' 
+    ? '✉️ Enviar mail' 
+    : '💬 Enviar mensaje WhatsApp';
+    
+  $('modal-subtitle').textContent = channel === 'mail'
+    ? 'A: ' + client.mail_destino
+    : 'A: ' + (client.nombre_contacto || client.telefono) + ' (' + client.telefono + ')';
+  
+  // Mostrar/ocultar campo asunto
+  if (channel === 'mail') {
+    $('modal-subject-group').classList.remove('hidden');
+    $('modal-subject').value = '';
+  } else {
+    $('modal-subject-group').classList.add('hidden');
+  }
+  
+  $('modal-message').value = '';
+  clearAlert('modal-alert');
+  
+  $('modal-send').classList.remove('hidden');
+  setTimeout(() => $('modal-message').focus(), 100);
+}
+
+$('btn-modal-cancel').addEventListener('click', () => {
+  $('modal-send').classList.add('hidden');
+});
+
+$('btn-modal-send').addEventListener('click', async () => {
+  const message = $('modal-message').value.trim();
+  const subject = $('modal-subject').value.trim();
+  
+  if (!message) {
+    showAlert('modal-alert', 'error', 'El mensaje no puede estar vacío');
+    return;
+  }
+  
+  if (modalState.channel === 'mail' && !subject) {
+    showAlert('modal-alert', 'error', 'El mail necesita un asunto');
+    return;
+  }
+  
+  $('btn-modal-send').disabled = true;
+  $('btn-modal-send').textContent = 'Enviando...';
+  
+  try {
+    const r = await callGAS('adminSendMessage', {
+      token: state.token,
+      alias: modalState.alias,
+      channel: modalState.channel,
+      subject: subject,
+      message: message
+    });
+    
+    if (r.ok) {
+      showAlert('modal-alert', 'success', r.message || 'Enviado');
+      setTimeout(() => $('modal-send').classList.add('hidden'), 1500);
+    } else {
+      showAlert('modal-alert', 'error', r.error || 'Error');
+    }
+  } catch (err) {
+    showAlert('modal-alert', 'error', 'Error de red');
+  }
+  
+  $('btn-modal-send').disabled = false;
+  $('btn-modal-send').textContent = 'Enviar';
+});
+
+
+// ============================================================
+// INIT
+// ============================================================
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (state.token) {
+    // Intentar restaurar sesión
+    callGAS('adminGetDashboard', { token: state.token }).then(r => {
+      if (r.ok) {
+        enterDashboard();
+      } else {
+        localStorage.removeItem('mtows_admin_token');
+        state.token = '';
+        setView('login');
+        showLoginEmail();
+      }
+    }).catch(() => {
+      setView('login');
+      showLoginEmail();
+    });
+  } else {
+    setView('login');
+    showLoginEmail();
+  }
+});
+
+</script>
+
+</body>
+</html>
