@@ -983,6 +983,15 @@
       <input type="email" id="mail-destino-nuevo" placeholder="tu@nuevo-mail.com" autocapitalize="off" autocorrect="off">
     </div>
 
+    <div class="form-field">
+      <label>Código de confirmación (WhatsApp)</label>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="mail-destino-fresh-code" placeholder="6 dígitos" inputmode="numeric" maxlength="6" style="flex:1;">
+        <button class="btn-secondary" id="btn-request-mail-code" onclick="requestMailDestinoCode()" style="width:auto; white-space:nowrap;">Pedir código</button>
+      </div>
+      <small style="color: var(--text-muted); font-size: 12px;">Por seguridad, te mandamos un código por WhatsApp antes de cambiar el mail.</small>
+    </div>
+
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal('modal-mail-destino')">Cancelar</button>
       <button class="btn-primary" id="btn-save-mail-destino" onclick="saveMailDestino()" style="width: auto;">Cambiar</button>
@@ -1051,6 +1060,15 @@
       <li>No elimina tu historial</li>
       <li>No te corre el cobro de saldo pendiente</li>
     </ul>
+
+    <div class="form-field">
+      <label>Código de confirmación (WhatsApp)</label>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="cancel-fresh-code" placeholder="6 dígitos" inputmode="numeric" maxlength="6" style="flex:1;">
+        <button class="btn-secondary" id="btn-request-cancel-code" onclick="requestCancelCode()" style="width:auto; white-space:nowrap;">Pedir código</button>
+      </div>
+      <small style="color: var(--text-muted); font-size: 12px;">Por seguridad, te mandamos un código por WhatsApp antes de cancelar.</small>
+    </div>
 
     <div class="modal-actions">
       <button class="btn-secondary" onclick="closeModal('modal-cancel')">Mantener mi cuenta</button>
@@ -1614,8 +1632,29 @@ function openMailDestinoModal() {
   setTimeout(() => $('mail-destino-nuevo').focus(), 100);
 }
 
+async function requestMailDestinoCode() {
+  setLoading('btn-request-mail-code', true);
+  try {
+    const result = await apiPost('requestActionCode', {
+      session_token: SESSION_TOKEN,
+      user_action: 'updateMailDestino'
+    });
+    if (result.ok) {
+      alert('Te mandamos un código por WhatsApp. Ingresalo abajo y dale Cambiar.');
+      setTimeout(() => $('mail-destino-fresh-code').focus(), 100);
+    } else {
+      alert(result.message || 'No pudimos enviar el código.');
+    }
+  } catch (err) {
+    alert('Error de conexión');
+  } finally {
+    setLoading('btn-request-mail-code', false, 'Pedir código');
+  }
+}
+
 async function saveMailDestino() {
   const nuevo = $('mail-destino-nuevo').value.trim().toLowerCase();
+  const freshCode = $('mail-destino-fresh-code').value.trim();
   
   if (!nuevo || nuevo.indexOf('@') === -1) {
     alert('Ingresá un mail válido');
@@ -1627,12 +1666,18 @@ async function saveMailDestino() {
     return;
   }
   
+  if (!freshCode || freshCode.length !== 6) {
+    alert('Ingresá el código de 6 dígitos que te llegó por WhatsApp. Si no lo pediste, hacé clic en "Pedir código".');
+    return;
+  }
+  
   setLoading('btn-save-mail-destino', true);
   
   try {
     const result = await apiPost('updateMailDestino', {
       session_token: SESSION_TOKEN,
-      new_mail: nuevo
+      new_mail: nuevo,
+      fresh_code: freshCode
     });
     
     if (result.ok) {
@@ -1651,17 +1696,46 @@ async function saveMailDestino() {
 // ====================== CANCELAR CUENTA ======================
 
 function openCancelModal() {
+  $('cancel-fresh-code').value = '';
   openModal('modal-cancel');
 }
 
+async function requestCancelCode() {
+  setLoading('btn-request-cancel-code', true);
+  try {
+    const result = await apiPost('requestActionCode', {
+      session_token: SESSION_TOKEN,
+      user_action: 'cancelAccount'
+    });
+    if (result.ok) {
+      alert('Te mandamos un código por WhatsApp. Ingresalo abajo y confirmá.');
+      setTimeout(() => $('cancel-fresh-code').focus(), 100);
+    } else {
+      alert(result.message || 'No pudimos enviar el código.');
+    }
+  } catch (err) {
+    alert('Error de conexión');
+  } finally {
+    setLoading('btn-request-cancel-code', false, 'Pedir código');
+  }
+}
+
 async function confirmCancel() {
+  const freshCode = $('cancel-fresh-code').value.trim();
+  
+  if (!freshCode || freshCode.length !== 6) {
+    alert('Ingresá el código de 6 dígitos que te llegó por WhatsApp. Si no lo pediste, hacé clic en "Pedir código".');
+    return;
+  }
+  
   if (!confirm('¿Confirmás cancelar tu cuenta?')) return;
   
   setLoading('btn-confirm-cancel', true);
   
   try {
     const result = await apiPost('cancelAccount', {
-      session_token: SESSION_TOKEN
+      session_token: SESSION_TOKEN,
+      fresh_code: freshCode
     });
     
     if (result.ok) {

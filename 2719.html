@@ -595,6 +595,15 @@
       <input type="text" id="delete-confirm-input" placeholder="alias" autocomplete="off">
     </div>
     
+    <div class="form-group">
+      <label for="delete-fresh-code">Código de confirmación (mail)</label>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="delete-fresh-code" placeholder="6 dígitos" inputmode="numeric" maxlength="6" autocomplete="off" style="flex:1;">
+        <button id="btn-request-delete-code" class="btn btn-secondary" style="white-space:nowrap;">Pedir código</button>
+      </div>
+      <small style="color: #666; font-size: 12px;">Te mandamos un código fresh a tu mail. Sin ese código no se borra.</small>
+    </div>
+    
     <div class="modal-actions">
       <button id="btn-delete-cancel" class="btn btn-secondary">Cancelar</button>
       <button id="btn-delete-confirm" class="btn btn-danger" disabled>Borrar definitivamente</button>
@@ -1003,8 +1012,11 @@ function openDeleteModal(alias) {
   deleteAlias = alias;
   $('delete-alias-name').textContent = alias;
   $('delete-confirm-input').value = '';
+  $('delete-fresh-code').value = '';
   $('btn-delete-confirm').disabled = true;
   $('btn-delete-confirm').textContent = 'Borrar definitivamente';
+  $('btn-request-delete-code').disabled = false;
+  $('btn-request-delete-code').textContent = 'Pedir código';
   clearAlert('delete-alert');
   $('modal-delete').classList.remove('hidden');
   setTimeout(() => $('delete-confirm-input').focus(), 100);
@@ -1015,11 +1027,44 @@ $('btn-delete-cancel').addEventListener('click', () => {
 });
 
 $('delete-confirm-input').addEventListener('input', (e) => {
-  $('btn-delete-confirm').disabled = (e.target.value.trim() !== deleteAlias);
+  updateDeleteConfirmState();
+});
+
+$('delete-fresh-code').addEventListener('input', (e) => {
+  e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
+  updateDeleteConfirmState();
+});
+
+function updateDeleteConfirmState() {
+  const aliasOk = $('delete-confirm-input').value.trim() === deleteAlias;
+  const codeOk = $('delete-fresh-code').value.trim().length === 6;
+  $('btn-delete-confirm').disabled = !(aliasOk && codeOk);
+}
+
+$('btn-request-delete-code').addEventListener('click', async () => {
+  $('btn-request-delete-code').disabled = true;
+  $('btn-request-delete-code').textContent = 'Enviando...';
+  clearAlert('delete-alert');
+  try {
+    const r = await callGAS('adminRequestFreshCode', { token: state.token });
+    if (r.ok) {
+      showAlert('delete-alert', 'success', 'Código enviado al mail del admin. Revisalo y pegalo abajo.');
+      setTimeout(() => $('delete-fresh-code').focus(), 100);
+    } else {
+      showAlert('delete-alert', 'error', r.error || 'No se pudo enviar el código');
+    }
+  } catch (err) {
+    showAlert('delete-alert', 'error', 'Error de red');
+  } finally {
+    $('btn-request-delete-code').disabled = false;
+    $('btn-request-delete-code').textContent = 'Pedir código';
+  }
 });
 
 $('btn-delete-confirm').addEventListener('click', async () => {
+  const freshCode = $('delete-fresh-code').value.trim();
   if ($('delete-confirm-input').value.trim() !== deleteAlias) return;
+  if (freshCode.length !== 6) return;
   
   $('btn-delete-confirm').disabled = true;
   $('btn-delete-confirm').textContent = 'Borrando...';
@@ -1028,7 +1073,8 @@ $('btn-delete-confirm').addEventListener('click', async () => {
   try {
     const r = await callGAS('adminDeleteUser', {
       token: state.token,
-      alias: deleteAlias
+      alias: deleteAlias,
+      fresh_code: freshCode
     });
     
     if (r.ok) {
