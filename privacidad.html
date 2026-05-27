@@ -298,7 +298,8 @@
 
 <div class="highlight">
   <p><strong>No leemos tu mail. Aunque quisiéramos.</strong></p>
-  <p style="margin: 0;">mtows está diseñado para procesar tus correos electrónicos, resumirlos con inteligencia artificial y enviártelos por WhatsApp. Para hacerlo, tu correo pasa por nuestros sistemas. Pero nuestra filosofía es minimizar todo lo que recolectamos, guardamos y compartimos.</p>
+  <p>mtows está diseñado para procesar tus correos electrónicos, resumirlos con inteligencia artificial y enviártelos por WhatsApp. Para hacerlo, tu correo pasa por nuestros sistemas. Pero nuestra filosofía es minimizar todo lo que recolectamos, guardamos y compartimos.</p>
+  <p style="margin: 0;"><strong>Qué significa "no leemos":</strong> ninguna persona en mtows lee tus correos. No los guardamos en bases de datos. No los usamos para publicidad ni para entrenar modelos de IA. Para hacer el resumen, el contenido pasa por un modelo de IA (Claude, de Anthropic) que lo procesa y lo descarta. Detalle técnico completo en la <strong>Sección 3.3</strong>.</p>
 </div>
 
 <p>Esta política explica con claridad qué datos tomamos, por qué, con quién los compartimos y cuáles son tus derechos. Si algo no te queda claro, escribinos a <a href="mailto:info@mtows.com">info@mtows.com</a>.</p>
@@ -337,10 +338,10 @@
 <ol>
   <li>Recibimos el correo a través de Cloudflare Email Routing</li>
   <li>Extraemos el remitente, asunto y cuerpo del mensaje</li>
-  <li>Pedimos a Anthropic (Claude) que genere un resumen corto</li>
+  <li>Enviamos el contenido a Anthropic (Claude) que genera un resumen corto. <strong>El contenido NO se usa para entrenar modelos de IA</strong> (la API comercial de Anthropic no entrena con datos de clientes por default). Anthropic puede retener registros operativos por un período acotado (típicamente hasta 30 días) con fines de seguridad y detección de abuso, y luego los elimina.</li>
   <li>Te enviamos el resumen por WhatsApp</li>
   <li>Reenviamos el correo original a tu dirección de correo destino</li>
-  <li>Descartamos el contenido procesado</li>
+  <li>Descartamos el contenido procesado de nuestros sistemas</li>
 </ol>
 
 <p>Solo registramos <strong>metadatos mínimos</strong> de cada procesamiento (timestamp, alias del usuario, longitud del correo) para fines técnicos y de facturación. Estos metadatos <strong>no incluyen</strong> el remitente específico, el asunto, ni el contenido del correo.</p>
@@ -399,7 +400,7 @@
     <tr>
       <td><strong>Anthropic</strong></td>
       <td>El texto de cada correo (en el momento del resumen)</td>
-      <td>Generación del resumen con IA (Claude)</td>
+      <td>Generación del resumen con IA (Claude). El contenido no se usa para entrenar modelos. Anthropic puede retener registros operativos hasta 30 días para detección de abuso y luego los elimina.</td>
     </tr>
     <tr>
       <td><strong>Meta / WhatsApp</strong></td>
