@@ -1,1825 +1,628 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
-<title>Mi cuenta — mtows.com</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #fafafa;
-    --bg-card: #ffffff;
-    --text: #0a0a0a;
-    --text-muted: #6b7280;
-    --text-light: #9ca3af;
-    --border: #e5e7eb;
-    --border-strong: #d1d5db;
-    --accent: #25D366;
-    --accent-dark: #1ea952;
-    --danger: #ef4444;
-    --warn: #f59e0b;
-    --bg-soft: #f5f5f5;
-    --radius: 12px;
-    --radius-lg: 16px;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-lg: 0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
-  }
-
-  .container {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 32px 20px 64px;
-  }
-
-  /* Header */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 48px;
-  }
-
-  .logo {
-    font-weight: 700;
-    font-size: 24px;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    text-decoration: none;
-  }
-
-  .logo-dot {
-    color: var(--accent);
-  }
-
-  .user-menu {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    color: var(--text-muted);
-  }
-
-  .btn-logout {
-    background: transparent;
-    border: 1px solid var(--border);
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    color: var(--text-muted);
-    transition: all 0.15s;
-    font-family: inherit;
-  }
-
-  .btn-logout:hover {
-    border-color: var(--border-strong);
-    color: var(--text);
-  }
-
-  /* LOGIN SCREENS */
-  .login-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 40px 32px;
-    box-shadow: var(--shadow);
-    max-width: 440px;
-    margin: 60px auto 0;
-  }
-
-  .login-card h1 {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    letter-spacing: -0.01em;
-  }
-
-  .login-card p {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 24px;
-  }
-
-  .login-card .field {
-    margin-bottom: 16px;
-  }
-
-  .login-card label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 6px;
-    color: var(--text);
-  }
-
-  .email-input-group {
-    display: flex;
-    align-items: stretch;
-    border: 1px solid var(--border-strong);
-    border-radius: 10px;
-    background: white;
-    overflow: hidden;
-    transition: all 0.15s;
-  }
-
-  .email-input-group:focus-within {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(37,211,102,0.1);
-  }
-
-  .email-input-group input {
-    flex: 1;
-    border: none;
-    padding: 12px 14px;
-    font-size: 15px;
-    font-family: inherit;
-    background: transparent;
-    outline: none;
-    min-width: 0;
-  }
-
-  .email-suffix {
-    background: var(--bg-soft);
-    color: var(--text-muted);
-    padding: 12px 14px;
-    font-size: 15px;
-    border-left: 1px solid var(--border);
-    font-family: 'Geist Mono', monospace;
-  }
-
-  .code-input {
-    width: 100%;
-    border: 1px solid var(--border-strong);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 24px;
-    font-family: 'Geist Mono', monospace;
-    text-align: center;
-    letter-spacing: 0.4em;
-    outline: none;
-    transition: all 0.15s;
-  }
-
-  .code-input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(37,211,102,0.1);
-  }
-
-  /* BUTTONS */
-  .btn-primary {
-    width: 100%;
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 13px 20px;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-    margin-top: 8px;
-  }
-
-  .btn-primary:hover:not(:disabled) {
-    background: var(--accent-dark);
-  }
-
-  .btn-primary:disabled {
-    background: var(--border-strong);
-    cursor: not-allowed;
-  }
-
-  .btn-secondary {
-    background: white;
-    color: var(--text);
-    border: 1px solid var(--border-strong);
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-  }
-
-  .btn-secondary:hover:not(:disabled) {
-    border-color: var(--text-muted);
-  }
-
-  .btn-secondary:disabled {
-    color: var(--text-light);
-    cursor: not-allowed;
-  }
-
-  .btn-link {
-    background: transparent;
-    border: none;
-    color: var(--accent);
-    cursor: pointer;
-    font-size: 14px;
-    padding: 8px 4px;
-    font-family: inherit;
-    text-decoration: underline;
-  }
-
-  .btn-link:hover { color: var(--accent-dark); }
-
-  .btn-danger {
-    background: white;
-    color: var(--danger);
-    border: 1px solid var(--border-strong);
-    padding: 10px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-  }
-
-  .btn-danger:hover {
-    border-color: var(--danger);
-    background: #fef2f2;
-  }
-
-  /* GREETING */
-  .greeting {
-    margin-bottom: 36px;
-  }
-  .greeting-label {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 4px;
-  }
-  .greeting-email {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    word-break: break-all;
-    color: var(--text);
-    font-family: 'Geist Mono', monospace;
-  }
-
-  /* SECTIONS */
-  .section {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    margin-bottom: 16px;
-    box-shadow: var(--shadow-sm);
-  }
-
-  .section-title {
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .section-title-icon {
-    font-size: 16px;
-  }
-
-  /* CUENTA — datos clave */
-  .info-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--bg-soft);
-    font-size: 14px;
-  }
-  .info-row:last-child { border-bottom: none; }
-  .info-label { color: var(--text-muted); }
-  .info-value { color: var(--text); font-weight: 500; }
-
-  /* SALDO destacado */
-  .balance-card {
-    text-align: center;
-    padding: 8px 0 16px;
-  }
-  .balance-label {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-  }
-  .balance-amount {
-    font-size: 44px;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    margin-bottom: 6px;
-    font-family: 'Geist', sans-serif;
-  }
-  .balance-amount.zero { color: var(--text-light); }
-  .balance-currency {
-    font-size: 14px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-  }
-
-  .balance-actions {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  /* PAYMENT BUTTONS — placeholder */
-  .btn-pay {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 11px 22px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.15s;
-    position: relative;
-  }
-  .btn-pay:hover:not(:disabled) { background: var(--accent-dark); }
-  .btn-pay:disabled {
-    background: var(--border-strong);
-    cursor: not-allowed;
-    color: white;
-  }
-
-  .pay-soon-note {
-    text-align: center;
-    font-size: 12px;
-    color: var(--text-light);
-    margin-top: 12px;
-    font-style: italic;
-  }
-
-  /* FILTROS */
-  .filter-group {
-    margin-bottom: 20px;
-  }
-  .filter-group:last-child { margin-bottom: 0; }
-
-  .filter-group-title {
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .filter-pass { color: var(--accent-dark); }
-  .filter-block { color: var(--danger); }
-
-  .filter-list {
-    list-style: none;
-    margin: 0 0 10px;
-    padding: 0;
-  }
-
-  .filter-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 14px;
-    background: var(--bg-soft);
-    border-radius: 8px;
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-family: 'Geist Mono', monospace;
-  }
-
-  .filter-item-text {
-    color: var(--text);
-  }
-
-  .filter-remove {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    font-size: 12px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-family: inherit;
-  }
-  .filter-remove:hover {
-    color: var(--danger);
-    background: white;
-  }
-
-  .filter-empty {
-    color: var(--text-light);
-    font-size: 13px;
-    font-style: italic;
-    padding: 8px 0;
-  }
-
-  .btn-add-filter {
-    background: transparent;
-    border: 1px dashed var(--border-strong);
-    color: var(--text-muted);
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-family: inherit;
-    transition: all 0.15s;
-  }
-  .btn-add-filter:hover {
-    border-color: var(--accent);
-    color: var(--accent-dark);
-    background: rgba(37,211,102,0.04);
-  }
-
-  /* CONFIG */
-  .config-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  /* MODAL */
-  .modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    padding: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-  }
-  .modal-backdrop.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .modal {
-    background: white;
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    max-width: 480px;
-    width: 100%;
-    box-shadow: var(--shadow-lg);
-    max-height: 85vh;
-    overflow-y: auto;
-    transform: translateY(20px);
-    transition: transform 0.2s;
-  }
-  .modal-backdrop.active .modal {
-    transform: translateY(0);
-  }
-
-  .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
-  .modal-title {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  .modal-close {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--text-muted);
-    font-size: 20px;
-    padding: 4px 8px;
-    line-height: 1;
-  }
-
-  .modal-actions {
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-
-  /* CTA CORRIENTE TABLE */
-  .cc-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 16px;
-    font-size: 13px;
-  }
-  .cc-table th {
-    text-align: left;
-    padding: 8px 6px;
-    border-bottom: 2px solid var(--border);
-    font-weight: 600;
-    color: var(--text-muted);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .cc-table th.amount, .cc-table td.amount {
-    text-align: right;
-    font-family: 'Geist Mono', monospace;
-  }
-  .cc-table td {
-    padding: 10px 6px;
-    border-bottom: 1px solid var(--bg-soft);
-    color: var(--text);
-  }
-  .cc-table td.fecha {
-    color: var(--text-muted);
-    font-family: 'Geist Mono', monospace;
-    font-size: 12px;
-  }
-  .cc-amount-charge { color: var(--text); }
-  .cc-amount-pay { color: var(--accent-dark); }
-
-  .cc-saldo-row {
-    background: var(--bg-soft);
-    font-weight: 600;
-  }
-  .cc-saldo-row td {
-    border-bottom: none;
-    padding: 12px 6px;
-  }
-  .cc-empty {
-    text-align: center;
-    color: var(--text-light);
-    font-style: italic;
-    padding: 24px 0;
-  }
-
-  /* FORM in modals */
-  .form-field {
-    margin-bottom: 14px;
-  }
-  .form-field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    margin-bottom: 6px;
-  }
-  .form-field input[type="text"], .form-field input[type="email"] {
-    width: 100%;
-    border: 1px solid var(--border-strong);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: all 0.15s;
-  }
-  .form-field input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(37,211,102,0.1);
-  }
-  .form-field-hint {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 4px;
-  }
-
-  .radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .radio-option {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .radio-option:hover {
-    border-color: var(--border-strong);
-  }
-  .radio-option.selected {
-    border-color: var(--accent);
-    background: rgba(37,211,102,0.04);
-  }
-  .radio-option input[type="radio"] { accent-color: var(--accent); }
-  .radio-option-label {
-    font-size: 14px;
-    font-weight: 500;
-  }
-  .radio-option-desc {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
-
-  /* ALERTS */
-  .alert {
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    margin-bottom: 12px;
-    border: 1px solid;
-  }
-  .alert-info {
-    background: rgba(37,211,102,0.06);
-    border-color: rgba(37,211,102,0.2);
-    color: var(--accent-dark);
-  }
-  .alert-warn {
-    background: #fffbeb;
-    border-color: #fde68a;
-    color: #b45309;
-  }
-  .alert-error {
-    background: #fef2f2;
-    border-color: #fecaca;
-    color: var(--danger);
-  }
-
-  /* LOADING SPINNER */
-  .spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid currentColor;
-    border-bottom-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    vertical-align: middle;
-  }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .loading-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 20px;
-    color: var(--text-muted);
-    font-size: 14px;
-  }
-  .loading-screen .spinner {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 14px;
-  }
-
-  /* HIDDEN UTIL */
-  .hidden { display: none !important; }
-
-  /* RESPONSIVE */
-  @media (max-width: 540px) {
-    .container { padding: 20px 16px 40px; }
-    .login-card { padding: 28px 20px; }
-    .greeting-email { font-size: 18px; }
-    .balance-amount { font-size: 36px; }
-    .header { margin-bottom: 32px; }
-  }
-
-  /* Subtle plan badge */
-  .plan-badge {
-    display: inline-block;
-    background: rgba(37,211,102,0.1);
-    color: var(--accent-dark);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-left: 8px;
-  }
-
-  .plan-actions {
-    margin-top: 10px;
-  }
-
-  .plan-toggle {
-    font-size: 12px;
-    color: var(--accent);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 0;
-    text-decoration: underline;
-    font-family: inherit;
-  }
-  .plan-toggle:hover { color: var(--accent-dark); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#25D366">
+  <title>Mi cuenta — mtows</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-tertiary: #FAFAFA;
+      --bg-secondary: #F0F2F5;
+      --text-primary: #111B21;
+      --text-secondary: #667781;
+      --text-tertiary: #8696A0;
+      --ws-green: #25D366;
+      --ws-green-dark: #128C7E;
+      --ws-green-darker: #075E54;
+      --ws-green-light: #DCF8C6;
+      --border-subtle: #E9EDEF;
+      --border-input: #D1D7DB;
+      --error: #DC2626;
+      --error-bg: #FEF2F2;
+      --info-bg: #EFF6FF;
+      --info-text: #1E40AF;
+      --warning-bg: #FFFBEB;
+      --warning-text: #92400E;
+      --shadow-sm: 0 1px 2px rgba(11, 20, 26, 0.05);
+      --shadow-md: 0 4px 12px rgba(11, 20, 26, 0.08);
+      --shadow-input-focus: 0 0 0 3px rgba(37, 211, 102, 0.15);
+      --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Geist Mono', 'SF Mono', Menlo, monospace;
+    }
+    html { -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font-sans); font-size: 16px; line-height: 1.6; color: var(--text-primary); background: var(--bg-tertiary); min-height: 100vh; }
+    body::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='nf'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23nf)'/%3E%3C/svg%3E"); opacity: 0.02; pointer-events: none; z-index: 100; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    input { font-family: inherit; }
+    a { color: inherit; text-decoration: none; }
+    .login-container { min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 24px 20px 60px; }
+    .login-header { max-width: 480px; width: 100%; display: flex; justify-content: space-between; margin-bottom: 32px; }
+    .wordmark { font-family: var(--font-mono); font-size: 22px; font-weight: 600; letter-spacing: -0.03em; }
+    .wordmark .dot { color: var(--ws-green); }
+    .back-link { font-size: 14px; color: var(--text-secondary); }
+    .login-card { width: 100%; max-width: 480px; background: white; border-radius: 16px; padding: 40px 36px; box-shadow: var(--shadow-md); border: 1px solid var(--border-subtle); }
+    .login-title { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 10px; line-height: 1.2; }
+    .login-subtitle { font-size: 15px; color: var(--text-secondary); margin-bottom: 28px; line-height: 1.5; }
+    .login-eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--ws-green-dark); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 8px; }
+    .dashboard-container { padding: 24px 20px 60px; max-width: 980px; margin: 0 auto; }
+    .dashboard-header { background: white; padding: 18px 24px; border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+    .dashboard-header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+    .dashboard-header .subtitle { color: var(--text-secondary); font-size: 13px; font-family: var(--font-mono); }
+    .section { background: white; padding: 22px 24px; border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle); margin-bottom: 16px; }
+    .section-title { font-size: 15px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .section-subtitle { color: var(--text-secondary); font-size: 13px; margin-bottom: 16px; line-height: 1.5; }
+    .section-label { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); margin: 0 4px 8px; }
+    .carteleras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+    @media (max-width: 720px) { .carteleras { grid-template-columns: 1fr; } }
+    .cartelera { background: white; padding: 16px 18px; border-radius: 12px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle); border-left: 3px solid var(--ws-green); }
+    .cartelera-label { color: var(--text-tertiary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; font-family: var(--font-mono); }
+    .cartelera-value { font-size: 14px; font-weight: 600; font-family: var(--font-mono); word-break: break-all; }
+    .saldo-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .saldo-amount { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; font-family: var(--font-mono); }
+    .saldo-amount.deudor { color: var(--error); }
+    .saldo-amount.al-dia { color: var(--ws-green-dark); }
+    .saldo-label { color: var(--text-secondary); font-size: 13px; margin-top: 2px; }
+    .toggle-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .toggle-label-title { font-weight: 600; margin-bottom: 4px; }
+    .toggle-label-desc { color: var(--text-secondary); font-size: 13px; line-height: 1.4; }
+    .switch { position: relative; display: inline-block; width: 52px; height: 30px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #BDBDBD; transition: 0.3s; border-radius: 30px; }
+    .switch .slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 3px; bottom: 3px; background-color: white; transition: 0.3s; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .switch input:checked + .slider { background-color: var(--ws-green); }
+    .switch input:checked + .slider:before { transform: translateX(22px); }
+    .ganchos-info { margin-top: 14px; padding: 12px 14px; background: var(--ws-green-light); border-radius: 8px; font-size: 13px; color: var(--ws-green-darker); line-height: 1.5; }
+    .ganchos-info.disabled { background: var(--bg-secondary); color: var(--text-secondary); }
+    .ganchos-info code { background: white; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 12px; color: var(--ws-green-darker); font-weight: 600; }
+    .filter-list { list-style: none; margin-bottom: 12px; }
+    .filter-list li { padding: 10px 14px; background: var(--bg-tertiary); border: 1px solid var(--border-subtle); border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-family: var(--font-mono); }
+    .filter-list li.empty { color: var(--text-tertiary); font-style: italic; font-family: inherit; text-align: center; justify-content: center; }
+    .filter-remove { background: none; border: none; color: var(--error); cursor: pointer; font-size: 14px; padding: 4px 10px; border-radius: 4px; font-weight: 600; }
+    .filter-remove:hover { background: var(--error-bg); }
+    .input-group { margin-bottom: 18px; }
+    .input-label { display: block; font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+    .input { width: 100%; padding: 12px 14px; font-size: 15px; color: var(--text-primary); background: white; border: 1.5px solid var(--border-input); border-radius: 10px; transition: all 0.2s ease; }
+    .input::placeholder { color: var(--text-tertiary); }
+    .input:focus { outline: none; border-color: var(--ws-green); box-shadow: var(--shadow-input-focus); }
+    .input-help { font-size: 12px; color: var(--text-tertiary); margin-top: 6px; line-height: 1.4; }
+    .btn { padding: 11px 18px; font-size: 14px; font-weight: 600; border-radius: 10px; transition: all 0.15s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: var(--ws-green); color: white; box-shadow: var(--shadow-sm); }
+    .btn-primary:hover:not(:disabled) { background: var(--ws-green-dark); }
+    .btn-secondary { background: var(--bg-secondary); color: var(--text-primary); }
+    .btn-secondary:hover:not(:disabled) { background: var(--border-subtle); }
+    .btn-danger { background: var(--error-bg); color: var(--error); }
+    .btn-danger:hover:not(:disabled) { background: #FEE2E2; }
+    .btn-danger-strong { background: var(--error); color: white; }
+    .btn-danger-strong:hover:not(:disabled) { background: #B91C1C; }
+    .btn-block { width: 100%; }
+    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+    .modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(11, 20, 26, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+    .modal-backdrop.hidden { display: none; }
+    .modal { background: white; border-radius: 16px; padding: 28px 26px; width: 100%; max-width: 440px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-md); }
+    .modal h2 { font-size: 20px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.02em; }
+    .modal p { font-size: 14px; line-height: 1.5; color: var(--text-secondary); margin-bottom: 14px; }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; margin-top: 18px; }
+    .modal-warning { background: var(--warning-bg); border-left: 3px solid #D97706; padding: 12px 14px; border-radius: 6px; font-size: 13px; color: var(--warning-text); margin-bottom: 16px; line-height: 1.5; }
+    .pay-box { background: var(--ws-green-light); border-radius: 10px; padding: 16px; text-align: center; margin: 12px 0; }
+    .pay-box .pay-label { color: var(--ws-green-darker); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); margin-bottom: 6px; }
+    .pay-box .pay-value { font-size: 22px; font-weight: 700; font-family: var(--font-mono); color: var(--ws-green-darker); }
+    .copy-btn { background: white; border: 1px solid var(--ws-green); color: var(--ws-green-dark); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; margin-left: 8px; font-family: var(--font-sans); }
+    .copy-btn:hover { background: var(--bg-tertiary); }
+    .alert { padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 14px; display: none; line-height: 1.4; }
+    .alert.show { display: block; }
+    .alert-success { background: var(--ws-green-light); color: var(--ws-green-darker); }
+    .alert-error { background: var(--error-bg); color: #7F1D1D; }
+    .alert-info { background: var(--info-bg); color: var(--info-text); }
+    .alias-option { padding: 16px 18px; background: white; border: 2px solid var(--border-input); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; font-family: var(--font-mono); font-size: 14px; text-align: center; font-weight: 600; }
+    .alias-option:hover { background: var(--ws-green-light); border-color: var(--ws-green); }
+    .hidden { display: none !important; }
+    .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 540px) { .login-card { padding: 28px 22px; border-radius: 12px; } .login-title { font-size: 24px; } .section { padding: 18px 18px; } .dashboard-container { padding: 16px 14px; } }
+  </style>
 </head>
 <body>
 
-<!-- ========================================= -->
-<!-- VISTA 1: LOGIN — pedir email                -->
-<!-- ========================================= -->
-<div id="view-login" class="container">
-  <header class="header">
-    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
-  </header>
-  
+<div id="screen-login" class="login-container">
+  <div class="login-header">
+    <div class="wordmark">mtows<span class="dot">.</span></div>
+    <a href="https://mtows.com" class="back-link">← Volver</a>
+  </div>
   <div class="login-card">
-    <h1>Ingresá a tu cuenta</h1>
-    <p>Te mandamos un código por WhatsApp para verificar.</p>
-    
-    <div id="login-alert" class="alert alert-error hidden"></div>
-    
-    <div class="field">
-      <label for="login-email">Tu dirección @mtows.com</label>
-      <div class="email-input-group">
-        <input type="text" id="login-email" placeholder="tu-direccion" autocomplete="username" autocapitalize="off" autocorrect="off">
-        <span class="email-suffix">@mtows.com</span>
-      </div>
+    <p class="login-eyebrow">Ingreso a tu cuenta</p>
+    <h1 class="login-title">Hola</h1>
+    <p class="login-subtitle">Te mandamos un código a tu mail destino — el correo que usás en mtows para recibir los reenvíos.</p>
+    <div id="login-alert" class="alert"></div>
+    <div class="input-group">
+      <label for="login-email" class="input-label">Tu mail destino</label>
+      <input type="email" id="login-email" class="input" placeholder="tu.correo@gmail.com" autocomplete="email" autocapitalize="off" autocorrect="off">
+      <p class="input-help">El mismo correo al que mtows te reenvía los mails.</p>
     </div>
-    
-    <button class="btn-primary" id="btn-request-code" onclick="requestLoginCode()">
-      Enviar código por WhatsApp →
-    </button>
+    <button class="btn btn-primary btn-block" id="btn-request-code">Mandame el código</button>
   </div>
 </div>
 
-<!-- ========================================= -->
-<!-- VISTA 2: VERIFICACIÓN — pegar código       -->
-<!-- ========================================= -->
-<div id="view-code" class="container hidden">
-  <header class="header">
-    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
-  </header>
-  
+<div id="screen-code" class="login-container hidden">
+  <div class="login-header">
+    <div class="wordmark">mtows<span class="dot">.</span></div>
+    <a href="https://mtows.com" class="back-link">← Volver</a>
+  </div>
   <div class="login-card">
-    <h1>Revisá tu WhatsApp</h1>
-    <p>Te mandamos un código de 6 dígitos a <strong id="code-target-phone"></strong>.</p>
-    
-    <div id="code-alert" class="alert alert-error hidden"></div>
-    
-    <div class="field">
-      <label for="login-code">Código</label>
-      <input type="text" id="login-code" class="code-input" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="······">
+    <p class="login-eyebrow">Casi listo</p>
+    <h1 class="login-title">Revisá tu mail</h1>
+    <p class="login-subtitle">Te mandamos un código de 6 dígitos a <strong id="code-email-display"></strong></p>
+    <div id="code-alert" class="alert"></div>
+    <div class="input-group">
+      <label for="login-code" class="input-label">Código de 6 dígitos</label>
+      <input type="text" id="login-code" class="input" placeholder="000000" inputmode="numeric" maxlength="6" autocomplete="off">
     </div>
-    
-    <button class="btn-primary" id="btn-verify-code" onclick="verifyLoginCode()">
-      Verificar →
-    </button>
-    
-    <div style="text-align: center; margin-top: 16px;">
-      <button class="btn-link" onclick="requestLoginCode()">¿No te llegó? Reenviar código</button>
-    </div>
-    <div style="text-align: center; margin-top: 4px;">
-      <button class="btn-link" onclick="backToLogin()" style="color: var(--text-muted);">← Cambiar email</button>
+    <button class="btn btn-primary btn-block" id="btn-verify-code">Entrar</button>
+    <div style="margin-top: 14px; text-align: center;">
+      <button class="btn btn-secondary" id="btn-back-to-login" style="font-size: 13px; padding: 7px 14px;">← Cambiar email</button>
     </div>
   </div>
 </div>
 
-<!-- ========================================= -->
-<!-- VISTA 3: LOADING                           -->
-<!-- ========================================= -->
-<div id="view-loading" class="container hidden">
-  <header class="header">
-    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
-  </header>
-  <div class="loading-screen">
-    <div class="spinner"></div>
-    <div>Cargando tu cuenta…</div>
+<div id="screen-select-alias" class="login-container hidden">
+  <div class="login-header">
+    <div class="wordmark">mtows<span class="dot">.</span></div>
+    <a href="https://mtows.com" class="back-link">← Volver</a>
+  </div>
+  <div class="login-card">
+    <p class="login-eyebrow">Tu mail tiene varias cuentas</p>
+    <h1 class="login-title">¿Con cuál entrás?</h1>
+    <p class="login-subtitle">Elegí la cuenta mtows que querés ver.</p>
+    <div id="select-alert" class="alert"></div>
+    <div id="alias-options"></div>
   </div>
 </div>
 
-<!-- ========================================= -->
-<!-- VISTA 4: DASHBOARD principal               -->
-<!-- ========================================= -->
-<div id="view-dashboard" class="container hidden">
-  <header class="header">
-    <a href="/" class="logo">mtows<span class="logo-dot">.</span></a>
-    <div class="user-menu">
-      <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+<div id="screen-dashboard" class="dashboard-container hidden">
+  <div class="dashboard-header">
+    <div>
+      <h1>Hola 👋</h1>
+      <div class="subtitle" id="dashboard-greeting">Cargando...</div>
     </div>
-  </header>
+    <div>
+      <button class="btn btn-secondary" id="btn-logout">Cerrar sesión</button>
+    </div>
+  </div>
+  <div id="dashboard-alert" class="alert"></div>
 
-  <div class="greeting">
-    <div class="greeting-label">Hola,</div>
-    <div class="greeting-email" id="dash-email">—</div>
+  <div class="section-label">Tus datos</div>
+  <div class="carteleras">
+    <div class="cartelera">
+      <div class="cartelera-label">📞 WhatsApp</div>
+      <div class="cartelera-value" id="cart-telefono">—</div>
+    </div>
+    <div class="cartelera">
+      <div class="cartelera-label">📧 Mail destino</div>
+      <div class="cartelera-value" id="cart-mail-destino">—</div>
+    </div>
+    <div class="cartelera">
+      <div class="cartelera-label">@ Mail mtows</div>
+      <div class="cartelera-value" id="cart-mail-mtows">—</div>
+    </div>
   </div>
 
-  <!-- DATOS DE LA CUENTA -->
-  <section class="section">
-    <div class="section-title">
-      <span class="section-title-icon">📊</span>
-      <span>Tu cuenta</span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">Suscripto desde</span>
-      <span class="info-value" id="dash-creado">—</span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">Tiempo activo</span>
-      <span class="info-value" id="dash-dias">—</span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">Plan</span>
-      <span class="info-value" id="dash-plan-text">—</span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">Próxima factura</span>
-      <span class="info-value" id="dash-proxima">—</span>
-    </div>
-    <div class="info-row">
-      <span class="info-label">Última factura</span>
-      <span class="info-value" id="dash-ultima">—</span>
-    </div>
-    <div class="plan-actions">
-      <button class="plan-toggle" id="btn-toggle-plan" onclick="openPlanModal()">Cambiar plan</button>
-    </div>
-  </section>
-
-  <!-- A PAGAR -->
-  <section class="section">
-    <div class="section-title">
-      <span class="section-title-icon">💰</span>
-      <span>A pagar</span>
-    </div>
-    <div class="balance-card">
-      <div class="balance-amount" id="dash-balance">USD 0</div>
-      <div class="balance-actions">
-        <button class="btn-pay" id="btn-pay" disabled>Pagar ahora</button>
-        <button class="btn-secondary" onclick="openCtaCteModal()">Ver cta. cte.</button>
+  <div class="section">
+    <div class="section-title">💰 Saldo</div>
+    <div class="saldo-row">
+      <div>
+        <div class="saldo-amount" id="saldo-amount">USD 0.00</div>
+        <div class="saldo-label" id="saldo-label">—</div>
       </div>
-      <div class="pay-soon-note">Próximamente: pago con Mercado Pago / Stripe</div>
+      <button class="btn btn-primary" id="btn-open-pay">Pagar</button>
     </div>
-  </section>
+  </div>
 
-  <!-- FILTROS -->
-  <section class="section">
-    <div class="section-title">
-      <span class="section-title-icon">🛡️</span>
-      <span>Filtros de correo</span>
-    </div>
-    
-    <div class="filter-group">
-      <div class="filter-group-title filter-pass">
-        <span>✅</span>
-        <span>Pasar directo (sin resumen IA)</span>
+  <div class="section">
+    <div class="section-title">📡 Panel de información</div>
+    <div class="toggle-row">
+      <div>
+        <div class="toggle-label-title">Consultas por WhatsApp</div>
+        <div class="toggle-label-desc">Habilitá para pedir dólar, clima y cripto por WhatsApp.</div>
       </div>
-      <ul class="filter-list" id="whitelist-list"></ul>
-      <button class="btn-add-filter" onclick="openFilterModal('whitelist')">+ Agregar a whitelist</button>
+      <label class="switch">
+        <input type="checkbox" id="toggle-ganchos">
+        <span class="slider"></span>
+      </label>
     </div>
+    <div id="ganchos-info-enabled" class="ganchos-info hidden">
+      Mandanos por WhatsApp: <code>dolar</code> · <code>clima</code> · <code>cripto</code> y te respondemos al toque.
+    </div>
+    <div id="ganchos-info-disabled" class="ganchos-info disabled">
+      Está apagado. Cuando lo encendés, podés pedir info en vivo por WhatsApp.
+    </div>
+  </div>
 
-    <div class="filter-group">
-      <div class="filter-group-title filter-block">
-        <span>🚫</span>
-        <span>Rechazar (no llega WhatsApp)</span>
-      </div>
-      <ul class="filter-list" id="blacklist-list"></ul>
-      <button class="btn-add-filter" onclick="openFilterModal('blacklist')">+ Agregar a blacklist</button>
-    </div>
-  </section>
+  <div class="section">
+    <div class="section-title">✓ Whitelist <span style="color: var(--text-tertiary); font-weight: 400; font-size: 13px;">(pasan directo)</span></div>
+    <div class="section-subtitle">Remitentes que se envían siempre, sin importar la ventana de 24h. Mail completo o dominio (con @ adelante).</div>
+    <ul class="filter-list" id="whitelist-list"></ul>
+    <button class="btn btn-secondary" onclick="openFilterModal('whitelist')">+ Agregar a whitelist</button>
+  </div>
 
-  <!-- CONFIG -->
-  <section class="section">
-    <div class="section-title">
-      <span class="section-title-icon">⚙️</span>
-      <span>Configuración</span>
+  <div class="section">
+    <div class="section-title">✗ Blacklist <span style="color: var(--text-tertiary); font-weight: 400; font-size: 13px;">(rechazar)</span></div>
+    <div class="section-subtitle">Remitentes que nunca te molestan.</div>
+    <ul class="filter-list" id="blacklist-list"></ul>
+    <button class="btn btn-secondary" onclick="openFilterModal('blacklist')">+ Agregar a blacklist</button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">⚙️ Cuenta</div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="openMailDestinoModal()">Cambiar mail destino</button>
+      <button class="btn btn-danger" onclick="openCancelModal()">Cancelar cuenta</button>
     </div>
-    <div class="config-actions">
-      <button class="btn-secondary" onclick="openMailDestinoModal()">Cambiar mail destino</button>
-      <button class="btn-danger" onclick="openCancelModal()">Cancelar cuenta</button>
-    </div>
-  </section>
+  </div>
 </div>
 
-<!-- ========================================= -->
-<!-- MODAL: CUENTA CORRIENTE                    -->
-<!-- ========================================= -->
-<div class="modal-backdrop" id="modal-cta-cte">
+<div id="modal-pay" class="modal-backdrop hidden">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Cuenta corriente</div>
-      <button class="modal-close" onclick="closeModal('modal-cta-cte')">✕</button>
+    <h2>💸 Pagar saldo</h2>
+    <p>Hacé una transferencia con este alias y mandanos el comprobante por mail. Acreditamos en 24 hs.</p>
+    <div class="pay-box">
+      <div class="pay-label">Total a pagar</div>
+      <div class="pay-value" id="pay-monto">USD 0.00</div>
     </div>
-    <div id="cta-cte-body">
-      <div class="loading-screen" style="padding: 40px 0;">
-        <div class="spinner"></div>
-        <div>Cargando movimientos…</div>
+    <div class="pay-box" style="background: #FEF3C7;">
+      <div class="pay-label" style="color: #92400E;">Alias para transferir</div>
+      <div class="pay-value" style="color: #92400E;">
+        <span id="pay-alias-text">vresti.ca.pesos</span>
+        <button class="copy-btn" onclick="copyAlias()">Copiar</button>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ========================================= -->
-<!-- MODAL: AGREGAR FILTRO                      -->
-<!-- ========================================= -->
-<div class="modal-backdrop" id="modal-add-filter">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title" id="filter-modal-title">Agregar filtro</div>
-      <button class="modal-close" onclick="closeModal('modal-add-filter')">✕</button>
-    </div>
-    
-    <div id="filter-alert" class="alert alert-error hidden"></div>
-    
-    <div class="form-field">
-      <label>Patrón a filtrar</label>
-      <input type="text" id="filter-patron" placeholder="@empresa.com o nombre@empresa.com" autocapitalize="off" autocorrect="off">
-      <div class="form-field-hint">
-        Podés filtrar un dominio completo (<code>@empresa.com</code>) 
-        o un mail específico (<code>juan@empresa.com</code>).
-      </div>
-    </div>
-
-    <input type="hidden" id="filter-tipo">
-
+    <p style="font-size: 13px;">Mandá el comprobante a <strong>hello@mtows.com</strong> indicando tu alias <strong id="pay-mtows-alias">—</strong>.</p>
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('modal-add-filter')">Cancelar</button>
-      <button class="btn-primary" id="btn-save-filter" onclick="saveFilter()" style="width: auto;">Agregar</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-pay')">Cerrar</button>
     </div>
   </div>
 </div>
 
-<!-- ========================================= -->
-<!-- MODAL: CAMBIAR MAIL DESTINO                -->
-<!-- ========================================= -->
-<div class="modal-backdrop" id="modal-mail-destino">
+<div id="modal-filter" class="modal-backdrop hidden">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Cambiar mail destino</div>
-      <button class="modal-close" onclick="closeModal('modal-mail-destino')">✕</button>
+    <h2 id="filter-modal-title">Agregar filtro</h2>
+    <div id="filter-alert" class="alert"></div>
+    <div class="input-group">
+      <label for="filter-patron" class="input-label">Mail o dominio</label>
+      <input type="text" id="filter-patron" class="input" placeholder="juan@gmail.com o @gmail.com" autocapitalize="off" autocorrect="off">
+      <p class="input-help">Mail completo (juan@gmail.com) o dominio entero (@gmail.com).</p>
     </div>
-    
-    <div id="mail-destino-alert" class="alert alert-warn">
-      ⚠️ El mail nuevo se valida con Cloudflare antes de quedar activo. Te avisamos cuando esté listo.
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('modal-filter')">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-filter">Agregar</button>
     </div>
+  </div>
+</div>
 
-    <div class="form-field">
-      <label>Mail destino actual</label>
-      <input type="text" id="mail-destino-actual" readonly style="background: var(--bg-soft); color: var(--text-muted);">
+<div id="modal-mail-destino" class="modal-backdrop hidden">
+  <div class="modal">
+    <h2>📧 Cambiar mail destino</h2>
+    <p>Por seguridad, te mandamos un código por WhatsApp antes de cambiar tu mail destino.</p>
+    <div id="mail-destino-alert" class="alert"></div>
+    <div class="input-group">
+      <label for="mail-destino-nuevo" class="input-label">Nuevo mail destino</label>
+      <input type="email" id="mail-destino-nuevo" class="input" placeholder="tu@nuevo-mail.com" autocapitalize="off" autocorrect="off">
     </div>
-
-    <div class="form-field">
-      <label>Nuevo mail destino</label>
-      <input type="email" id="mail-destino-nuevo" placeholder="tu@nuevo-mail.com" autocapitalize="off" autocorrect="off">
-    </div>
-
-    <div class="form-field">
-      <label>Código de confirmación (WhatsApp)</label>
+    <div class="input-group">
+      <label for="mail-destino-fresh-code" class="input-label">Código de confirmación (WhatsApp)</label>
       <div style="display:flex; gap:8px;">
-        <input type="text" id="mail-destino-fresh-code" placeholder="6 dígitos" inputmode="numeric" maxlength="6" style="flex:1;">
-        <button class="btn-secondary" id="btn-request-mail-code" onclick="requestMailDestinoCode()" style="width:auto; white-space:nowrap;">Pedir código</button>
+        <input type="text" id="mail-destino-fresh-code" class="input" placeholder="6 dígitos" inputmode="numeric" maxlength="6" style="flex:1;">
+        <button class="btn btn-secondary" id="btn-request-mail-code" style="white-space:nowrap;">Pedir código</button>
       </div>
-      <small style="color: var(--text-muted); font-size: 12px;">Por seguridad, te mandamos un código por WhatsApp antes de cambiar el mail.</small>
     </div>
-
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('modal-mail-destino')">Cancelar</button>
-      <button class="btn-primary" id="btn-save-mail-destino" onclick="saveMailDestino()" style="width: auto;">Cambiar</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-mail-destino')">Cancelar</button>
+      <button class="btn btn-primary" id="btn-save-mail-destino">Cambiar</button>
     </div>
   </div>
 </div>
 
-<!-- ========================================= -->
-<!-- MODAL: CAMBIAR PLAN                        -->
-<!-- ========================================= -->
-<div class="modal-backdrop" id="modal-plan">
+<div id="modal-cancel" class="modal-backdrop hidden">
   <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Cambiar plan</div>
-      <button class="modal-close" onclick="closeModal('modal-plan')">✕</button>
-    </div>
-
-    <div id="plan-alert" class="alert alert-error hidden"></div>
-
-    <div class="form-field">
-      <label>Elegí tu plan</label>
-      <div class="radio-group" id="plan-options">
-        <label class="radio-option" data-plan="mensual">
-          <input type="radio" name="plan" value="mensual">
-          <div>
-            <div class="radio-option-label">Mensual — USD 6/mes</div>
-            <div class="radio-option-desc">Se factura el 1° de cada mes</div>
-          </div>
-        </label>
-        <label class="radio-option" data-plan="anual">
-          <input type="radio" name="plan" value="anual">
-          <div>
-            <div class="radio-option-label">Anual — USD 60/año <span class="plan-badge">Ahorra 12</span></div>
-            <div class="radio-option-desc">Pago anual, 2 meses gratis</div>
-          </div>
-        </label>
-      </div>
-    </div>
-
-    <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('modal-plan')">Cancelar</button>
-      <button class="btn-primary" id="btn-save-plan" onclick="savePlan()" style="width: auto;">Guardar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ========================================= -->
-<!-- MODAL: CANCELAR CUENTA                     -->
-<!-- ========================================= -->
-<div class="modal-backdrop" id="modal-cancel">
-  <div class="modal">
-    <div class="modal-header">
-      <div class="modal-title">Cancelar cuenta</div>
-      <button class="modal-close" onclick="closeModal('modal-cancel')">✕</button>
-    </div>
-
-    <div class="alert alert-warn">
-      ⚠️ Si cancelás, dejamos de procesar mails que lleguen a tu @mtows.com.
-      Si tenés saldo pendiente, seguirá registrado.
-    </div>
-
-    <p style="font-size: 14px; margin-bottom: 8px;">Estás a punto de cancelar tu cuenta. Esta acción:</p>
-    <ul style="font-size: 14px; padding-left: 24px; margin-bottom: 20px; color: var(--text-muted); line-height: 1.7;">
-      <li>Deja de procesar mails entrantes</li>
-      <li>Cierra tu sesión actual</li>
-      <li>No elimina tu historial</li>
-      <li>No te corre el cobro de saldo pendiente</li>
-    </ul>
-
-    <div class="form-field">
-      <label>Código de confirmación (WhatsApp)</label>
+    <h2 style="color: var(--error);">⚠️ Cancelar cuenta</h2>
+    <div class="modal-warning">Vamos a dejar de procesar tus mails y cerrar tu sesión. El historial no se elimina; el saldo pendiente sigue registrado.</div>
+    <div id="cancel-alert" class="alert"></div>
+    <div class="input-group">
+      <label for="cancel-fresh-code" class="input-label">Código de confirmación (WhatsApp)</label>
       <div style="display:flex; gap:8px;">
-        <input type="text" id="cancel-fresh-code" placeholder="6 dígitos" inputmode="numeric" maxlength="6" style="flex:1;">
-        <button class="btn-secondary" id="btn-request-cancel-code" onclick="requestCancelCode()" style="width:auto; white-space:nowrap;">Pedir código</button>
+        <input type="text" id="cancel-fresh-code" class="input" placeholder="6 dígitos" inputmode="numeric" maxlength="6" style="flex:1;">
+        <button class="btn btn-secondary" id="btn-request-cancel-code" style="white-space:nowrap;">Pedir código</button>
       </div>
-      <small style="color: var(--text-muted); font-size: 12px;">Por seguridad, te mandamos un código por WhatsApp antes de cancelar.</small>
     </div>
-
     <div class="modal-actions">
-      <button class="btn-secondary" onclick="closeModal('modal-cancel')">Mantener mi cuenta</button>
-      <button class="btn-danger" id="btn-confirm-cancel" onclick="confirmCancel()">Sí, cancelar</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-cancel')">Mantener mi cuenta</button>
+      <button class="btn btn-danger-strong" id="btn-confirm-cancel">Sí, cancelar</button>
     </div>
   </div>
 </div>
-
 
 <script>
-'use strict';
-
-// ====================== CONFIG ======================
-const API_BASE = 'https://script.google.com/macros/s/AKfycbyYOJhoh5zwQUxMiPneD8qYpAEwtnzEOJ-hWPLFWupX2mQJxQOR1vmFayu27dNPcrDN5Q/exec';
-const SESSION_KEY = 'mtows_session_token';
-
-// State
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyYOJhoh5zwQUxMiPneD8qYpAEwtnzEOJ-hWPLFWupX2mQJxQOR1vmFayu27dNPcrDN5Q/exec';
+const SESSION_KEY = 'mtows_user_session';
 let SESSION_TOKEN = null;
-let ACCOUNT_DATA = null;
-let PENDING_EMAIL = null;
+let LOGIN_EMAIL = '';
+let LOGIN_CODE = '';
+let CURRENT_FILTER_TYPE = '';
+const $ = (id) => document.getElementById(id);
 
-// ====================== HELPERS ======================
-function $(id) { return document.getElementById(id); }
-
-function showView(viewId) {
-  ['view-login', 'view-code', 'view-loading', 'view-dashboard'].forEach(id => {
-    $(id).classList.add('hidden');
-  });
-  $(viewId).classList.remove('hidden');
-}
-
-function showAlert(alertId, message, type = 'error') {
-  const el = $(alertId);
-  el.textContent = message;
-  el.className = 'alert alert-' + type;
-  el.classList.remove('hidden');
-}
-
-function hideAlert(alertId) {
-  $(alertId).classList.add('hidden');
-}
-
-function openModal(modalId) {
-  $(modalId).classList.add('active');
-}
-
-function closeModal(modalId) {
-  $(modalId).classList.remove('active');
-}
-
-function setLoading(btnId, loading, normalText) {
+function showAlert(id, type, msg) { const el = $(id); el.className = 'alert alert-' + type + ' show'; el.textContent = msg; }
+function clearAlert(id) { const el = $(id); el.className = 'alert'; el.textContent = ''; }
+function showScreen(name) { ['screen-login','screen-code','screen-select-alias','screen-dashboard'].forEach(s => $(s).classList.add('hidden')); $('screen-' + name).classList.remove('hidden'); }
+function openModal(id) { $(id).classList.remove('hidden'); }
+function closeModal(id) { $(id).classList.add('hidden'); }
+function setLoading(btnId, loading, restoreText) {
   const btn = $(btnId);
-  if (loading) {
-    btn.disabled = true;
-    btn._originalText = btn._originalText || btn.textContent;
-    btn.innerHTML = '<span class="spinner"></span>';
-  } else {
-    btn.disabled = false;
-    btn.textContent = normalText || btn._originalText || btn.textContent;
-  }
+  if (loading) { btn._originalText = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>'; }
+  else { btn.disabled = false; btn.innerHTML = restoreText || btn._originalText || btn.innerHTML; }
 }
 
-async function apiPost(action, params = {}) {
-  const formData = new URLSearchParams();
-  formData.append('action', action);
-  Object.keys(params).forEach(k => {
-    if (params[k] !== undefined && params[k] !== null) {
-      formData.append(k, params[k]);
-    }
-  });
-  const res = await fetch(API_BASE, {
-    method: 'POST',
-    body: formData
-  });
-  return await res.json();
+async function apiPost(action, params) {
+  const fd = new FormData();
+  fd.append('action', action);
+  for (const k in params) { if (params[k] !== undefined && params[k] !== null) fd.append(k, params[k]); }
+  const resp = await fetch(GAS_URL, { method: 'POST', body: fd });
+  return await resp.json();
+}
+async function apiGet(action, params) {
+  const url = new URL(GAS_URL);
+  url.searchParams.set('action', action);
+  for (const k in params) { if (params[k] !== undefined && params[k] !== null) url.searchParams.set(k, params[k]); }
+  const resp = await fetch(url.toString());
+  return await resp.json();
 }
 
-async function apiGet(action, params = {}) {
-  const qs = new URLSearchParams();
-  qs.append('action', action);
-  Object.keys(params).forEach(k => {
-    if (params[k] !== undefined && params[k] !== null) {
-      qs.append(k, params[k]);
-    }
-  });
-  const res = await fetch(API_BASE + '?' + qs.toString());
-  return await res.json();
+function copyAlias() {
+  const text = $('pay-alias-text').textContent.trim();
+  navigator.clipboard.writeText(text);
 }
 
-// ====================== LOGIN FLOW ======================
-
-async function requestLoginCode() {
-  hideAlert('login-alert');
-  hideAlert('code-alert');
-  
-  const raw = $('login-email').value.trim().toLowerCase();
-  
-  // 1. Validar que NO esté vacío
-  if (!raw) {
-    showAlert('login-alert', 'Ingresá tu dirección @mtows.com');
-    $('login-email').focus();
-    return;
-  }
-  
-  // 2. Si tipearon un @, tomar solo lo de antes del @
-  //    (acepta "alias", "alias@mtows.com", o "alias@otrodominio.com" y se queda con "alias")
-  let alias = raw;
-  if (alias.indexOf('@') !== -1) {
-    alias = alias.split('@')[0].trim();
-  }
-  
-  // 3. Validar alias no vacío después de procesar
-  if (!alias || alias.length < 2) {
-    showAlert('login-alert', 'Ingresá tu dirección @mtows.com');
-    $('login-email').focus();
-    return;
-  }
-  
-  // 4. Validar caracteres permitidos en el alias
-  if (!/^[a-z0-9._-]+$/.test(alias)) {
-    showAlert('login-alert', 'El alias solo puede tener letras, números, puntos, guiones y guiones bajos');
-    $('login-email').focus();
-    return;
-  }
-  
-  // 5. Validar longitud razonable
-  if (alias.length > 50) {
-    showAlert('login-alert', 'Alias demasiado largo');
-    return;
-  }
-  
-  // 6. Construir email final
-  const email = alias + '@mtows.com';
-  PENDING_EMAIL = email;
-  
+$('btn-request-code').addEventListener('click', async () => {
+  const email = $('login-email').value.trim().toLowerCase();
+  if (!email || email.indexOf('@') === -1) { showAlert('login-alert', 'error', 'Ingresá un mail válido'); return; }
+  clearAlert('login-alert');
   setLoading('btn-request-code', true);
-  setLoading('btn-verify-code', true);
-  
   try {
-    const result = await apiPost('requestPanelLogin', { email: email });
-    
-    if (result.ok) {
-      // Mostramos vista de código (no revelamos si el mail existía o no)
-      $('code-target-phone').textContent = 'tu número registrado';
-      showView('view-code');
-      setTimeout(() => $('login-code').focus(), 100);
-    } else {
-      const msg = result.retry_in_seconds 
-        ? `Esperá ${result.retry_in_seconds}s antes de pedir otro código.`
-        : (result.message || 'No pudimos enviar el código. Probá de nuevo.');
-      showAlert('login-alert', msg);
-    }
-  } catch (err) {
-    showAlert('login-alert', 'Error de conexión. Revisá tu internet.');
-  } finally {
-    setLoading('btn-request-code', false, 'Enviar código por WhatsApp →');
-    setLoading('btn-verify-code', false, 'Verificar →');
-  }
-}
+    const r = await apiPost('requestPanelLogin', { email });
+    if (r.ok) { LOGIN_EMAIL = email; $('code-email-display').textContent = email; showScreen('code'); setTimeout(() => $('login-code').focus(), 100); }
+    else { showAlert('login-alert', 'error', r.message || 'No pudimos mandar el código'); }
+  } catch (err) { showAlert('login-alert', 'error', 'Error de red'); }
+  finally { setLoading('btn-request-code', false, 'Mandame el código'); }
+});
 
-async function verifyLoginCode() {
-  hideAlert('code-alert');
+$('btn-back-to-login').addEventListener('click', () => { showScreen('login'); $('login-code').value = ''; clearAlert('code-alert'); });
+
+$('btn-verify-code').addEventListener('click', async () => {
   const code = $('login-code').value.trim();
-  
-  // Código debe ser exactamente 6 dígitos numéricos
-  if (!code) {
-    showAlert('code-alert', 'Ingresá el código que te llegó por WhatsApp');
-    $('login-code').focus();
-    return;
-  }
-  
-  if (code.length !== 6 || !/^\d{6}$/.test(code)) {
-    showAlert('code-alert', 'El código son 6 números');
-    $('login-code').focus();
-    return;
-  }
-  
-  if (!PENDING_EMAIL) {
-    backToLogin();
-    return;
-  }
-  
-  setLoading('btn-verify-code', true);
-  
+  if (code.length !== 6) { showAlert('code-alert', 'error', 'Ingresá los 6 dígitos'); return; }
+  LOGIN_CODE = code;
+  await verifyCode();
+});
+
+async function verifyCode(selectedAlias) {
+  clearAlert('code-alert');
+  clearAlert('select-alert');
+  if (!selectedAlias) setLoading('btn-verify-code', true);
   try {
-    const result = await apiPost('verifyPanelLogin', {
-      email: PENDING_EMAIL,
-      code: code
-    });
-    
-    if (result.ok && result.session_token) {
-      SESSION_TOKEN = result.session_token;
+    const params = { email: LOGIN_EMAIL, code: LOGIN_CODE };
+    if (selectedAlias) params.selected_alias = selectedAlias;
+    const r = await apiPost('verifyPanelLogin', params);
+    if (r.needs_selection) { renderAliasOptions(r.aliases); showScreen('select-alias'); return; }
+    if (r.ok && r.session_token) {
+      SESSION_TOKEN = r.session_token;
       localStorage.setItem(SESSION_KEY, SESSION_TOKEN);
       await loadDashboard();
+      showScreen('dashboard');
     } else {
-      showAlert('code-alert', result.message || 'Código incorrecto');
+      const alertId = selectedAlias ? 'select-alert' : 'code-alert';
+      showAlert(alertId, 'error', r.message || 'Código inválido');
     }
-  } catch (err) {
-    showAlert('code-alert', 'Error de conexión.');
-  } finally {
-    setLoading('btn-verify-code', false, 'Verificar →');
-  }
+  } catch (err) { showAlert('code-alert', 'error', 'Error de red'); }
+  finally { setLoading('btn-verify-code', false, 'Entrar'); }
 }
 
-function backToLogin() {
-  PENDING_EMAIL = null;
-  $('login-code').value = '';
-  hideAlert('code-alert');
-  hideAlert('login-alert');
-  showView('view-login');
+function renderAliasOptions(aliases) {
+  const container = $('alias-options');
+  container.innerHTML = '';
+  aliases.forEach(a => {
+    const div = document.createElement('div');
+    div.className = 'alias-option';
+    div.textContent = a.email;
+    div.onclick = () => verifyCode(a.alias);
+    container.appendChild(div);
+  });
 }
-
-async function logout() {
-  if (!confirm('¿Cerrar sesión?')) return;
-  try {
-    if (SESSION_TOKEN) await apiPost('logoutPanel', { session_token: SESSION_TOKEN });
-  } catch (e) { /* ignorar */ }
-  localStorage.removeItem(SESSION_KEY);
-  SESSION_TOKEN = null;
-  ACCOUNT_DATA = null;
-  PENDING_EMAIL = null;
-  $('login-email').value = '';
-  backToLogin();
-}
-
-// ====================== DASHBOARD ======================
 
 async function loadDashboard() {
-  showView('view-loading');
-  
   try {
-    const acc = await apiGet('getPanelAccount', { session_token: SESSION_TOKEN });
-    
-    if (!acc.ok) {
-      // sesión inválida
-      localStorage.removeItem(SESSION_KEY);
-      SESSION_TOKEN = null;
-      backToLogin();
-      showAlert('login-alert', acc.message || 'Tu sesión expiró. Ingresá de nuevo.');
-      return;
-    }
-    
-    ACCOUNT_DATA = acc;
-    renderDashboard();
+    const r = await apiGet('getPanelAccount', { session_token: SESSION_TOKEN });
+    if (!r.ok) { localStorage.removeItem(SESSION_KEY); SESSION_TOKEN = null; showScreen('login'); return; }
+    $('dashboard-greeting').textContent = r.mail_destino;
+    $('cart-telefono').textContent = '+' + r.telefono;
+    $('cart-mail-destino').textContent = r.mail_destino;
+    $('cart-mail-mtows').textContent = r.mail_mtows;
+    const saldoEl = $('saldo-amount');
+    const saldoLbl = $('saldo-label');
+    const saldo = r.saldo || 0;
+    saldoEl.textContent = 'USD ' + saldo.toFixed(2);
+    saldoEl.classList.remove('deudor', 'al-dia');
+    if (saldo > 0) { saldoEl.classList.add('deudor'); saldoLbl.textContent = 'Pendiente de pago'; $('btn-open-pay').disabled = false; }
+    else { saldoEl.classList.add('al-dia'); saldoLbl.textContent = 'Al día ✓'; $('btn-open-pay').disabled = true; }
+    $('toggle-ganchos').checked = !!r.ganchos_habilitados;
+    updateGanchosInfo();
+    $('pay-monto').textContent = 'USD ' + saldo.toFixed(2);
+    $('pay-alias-text').textContent = r.pago_alias || 'vresti.ca.pesos';
+    $('pay-mtows-alias').textContent = r.alias;
     await loadFilters();
-    showView('view-dashboard');
-    
-  } catch (err) {
-    showAlert('login-alert', 'Error al cargar tu cuenta.');
-    backToLogin();
-  }
+  } catch (err) { console.error(err); showAlert('dashboard-alert', 'error', 'Error cargando datos'); }
 }
 
-function renderDashboard() {
-  const acc = ACCOUNT_DATA;
-  
-  $('dash-email').textContent = acc.email;
-  $('dash-creado').textContent = acc.creado;
-  $('dash-dias').textContent = acc.dias_activa + (acc.dias_activa === 1 ? ' día' : ' días');
-  
-  // Plan
-  const planText = acc.plan === 'anual' 
-    ? `USD ${acc.precio_anual}/año` 
-    : `USD ${acc.precio_mensual}/mes`;
-  $('dash-plan-text').textContent = planText;
-  
-  $('dash-proxima').textContent = acc.proxima_factura;
-  $('dash-ultima').textContent = acc.ultima_factura;
-  
-  // Balance
-  const balanceEl = $('dash-balance');
-  if (acc.balance === 0) {
-    balanceEl.textContent = 'USD 0';
-    balanceEl.classList.add('zero');
-  } else {
-    balanceEl.textContent = `USD ${acc.balance}`;
-    balanceEl.classList.remove('zero');
-  }
+function updateGanchosInfo() {
+  const enabled = $('toggle-ganchos').checked;
+  $('ganchos-info-enabled').classList.toggle('hidden', !enabled);
+  $('ganchos-info-disabled').classList.toggle('hidden', enabled);
 }
 
-// ====================== FILTROS ======================
+$('toggle-ganchos').addEventListener('change', async (e) => {
+  const enabled = e.target.checked;
+  updateGanchosInfo();
+  try {
+    const r = await apiPost('toggleGanchos', { session_token: SESSION_TOKEN, enabled: enabled ? 'true' : 'false' });
+    if (!r.ok) { e.target.checked = !enabled; updateGanchosInfo(); showAlert('dashboard-alert', 'error', r.message || 'No se pudo guardar'); }
+  } catch (err) { e.target.checked = !enabled; updateGanchosInfo(); showAlert('dashboard-alert', 'error', 'Error de red'); }
+});
 
 async function loadFilters() {
   try {
-    const result = await apiGet('getFilters', { session_token: SESSION_TOKEN });
-    if (!result.ok) return;
-    
-    renderFilterList('whitelist-list', result.whitelist, 'whitelist');
-    renderFilterList('blacklist-list', result.blacklist, 'blacklist');
-  } catch (err) {
-    console.error('Error cargando filtros:', err);
-  }
+    const r = await apiGet('getFilters', { session_token: SESSION_TOKEN });
+    if (!r.ok) return;
+    renderFilterList('whitelist-list', r.whitelist || [], 'whitelist');
+    renderFilterList('blacklist-list', r.blacklist || [], 'blacklist');
+  } catch (err) { console.error(err); }
 }
 
 function renderFilterList(elId, items, tipo) {
-  const el = $(elId);
-  el.innerHTML = '';
-  
-  if (!items || items.length === 0) {
+  const ul = $(elId);
+  ul.innerHTML = '';
+  if (items.length === 0) {
     const li = document.createElement('li');
-    li.className = 'filter-empty';
-    li.textContent = 'Ningún filtro todavía.';
-    el.appendChild(li);
+    li.className = 'empty';
+    li.textContent = '(sin entradas)';
+    ul.appendChild(li);
     return;
   }
-  
   items.forEach(item => {
     const li = document.createElement('li');
-    li.className = 'filter-item';
-    li.innerHTML = `
-      <span class="filter-item-text"></span>
-      <button class="filter-remove">Quitar</button>
-    `;
-    li.querySelector('.filter-item-text').textContent = item.patron;
-    li.querySelector('.filter-remove').onclick = () => removeFilter(tipo, item.patron);
-    el.appendChild(li);
+    const span = document.createElement('span');
+    span.textContent = item.patron;
+    const btn = document.createElement('button');
+    btn.className = 'filter-remove';
+    btn.textContent = '✕';
+    btn.onclick = () => removeFilterEntry(tipo, item.patron);
+    li.appendChild(span);
+    li.appendChild(btn);
+    ul.appendChild(li);
   });
 }
 
 function openFilterModal(tipo) {
-  $('filter-tipo').value = tipo;
+  CURRENT_FILTER_TYPE = tipo;
+  $('filter-modal-title').textContent = tipo === 'whitelist' ? '✓ Agregar a whitelist' : '✗ Agregar a blacklist';
   $('filter-patron').value = '';
-  $('filter-modal-title').textContent = tipo === 'whitelist' 
-    ? 'Agregar a whitelist (paso directo)' 
-    : 'Agregar a blacklist (rechazar)';
-  hideAlert('filter-alert');
-  openModal('modal-add-filter');
+  clearAlert('filter-alert');
+  openModal('modal-filter');
   setTimeout(() => $('filter-patron').focus(), 100);
 }
 
-async function saveFilter() {
-  hideAlert('filter-alert');
-  
-  const tipo = $('filter-tipo').value;
+$('btn-save-filter').addEventListener('click', async () => {
   const patron = $('filter-patron').value.trim().toLowerCase();
-  
-  // 1. Validar que NO esté vacío
-  if (!patron) {
-    showAlert('filter-alert', 'Ingresá un patrón');
-    $('filter-patron').focus();
-    return;
-  }
-  
-  // 2. Validar longitud mínima razonable
-  if (patron.length < 4) {
-    showAlert('filter-alert', 'Patrón demasiado corto');
-    return;
-  }
-  
-  // 3. Validar longitud máxima
-  if (patron.length > 100) {
-    showAlert('filter-alert', 'Patrón demasiado largo');
-    return;
-  }
-  
-  // 4. Validar que sean caracteres permitidos en emails
-  //    Letras, números, puntos, guiones, guiones bajos, @ y +
-  if (!/^[a-z0-9._@+-]+$/.test(patron)) {
-    showAlert('filter-alert', 'El patrón solo puede tener letras, números, puntos, guiones, @ y +');
-    return;
-  }
-  
-  // 5. Validar formato: debe ser @dominio.com o usuario@dominio.com
-  const isDomain = patron.startsWith('@') && patron.indexOf('.') > 1;
-  const isFullEmail = patron.indexOf('@') > 0 && patron.indexOf('.', patron.indexOf('@')) > patron.indexOf('@');
-  
-  if (!isDomain && !isFullEmail) {
-    showAlert('filter-alert', 'Formato inválido. Usá @dominio.com o usuario@dominio.com');
-    return;
-  }
-  
-  // 6. No puede ser solo "@" o "@."
-  if (patron === '@' || patron.startsWith('@.') || patron.endsWith('@')) {
-    showAlert('filter-alert', 'Formato inválido');
-    return;
-  }
-  
+  if (!patron) { showAlert('filter-alert', 'error', 'Ingresá un mail o dominio'); return; }
   setLoading('btn-save-filter', true);
-  
   try {
-    const result = await apiPost('addFilter', {
-      session_token: SESSION_TOKEN,
-      tipo: tipo,
-      patron: patron
-    });
-    
-    if (result.ok) {
-      closeModal('modal-add-filter');
-      await loadFilters();
-    } else {
-      showAlert('filter-alert', result.message || 'No pudimos agregar el filtro');
-    }
-  } catch (err) {
-    showAlert('filter-alert', 'Error de conexión');
-  } finally {
-    setLoading('btn-save-filter', false, 'Agregar');
-  }
-}
-
-async function removeFilter(tipo, patron) {
-  if (!confirm(`¿Quitar "${patron}" de ${tipo}?`)) return;
-  
-  try {
-    const result = await apiPost('removeFilter', {
-      session_token: SESSION_TOKEN,
-      tipo: tipo,
-      patron: patron
-    });
-    
-    if (result.ok) {
-      await loadFilters();
-    } else {
-      alert(result.message || 'No pudimos quitar el filtro');
-    }
-  } catch (err) {
-    alert('Error de conexión');
-  }
-}
-
-// ====================== CTA CTE ======================
-
-async function openCtaCteModal() {
-  openModal('modal-cta-cte');
-  $('cta-cte-body').innerHTML = `
-    <div class="loading-screen" style="padding: 40px 0;">
-      <div class="spinner"></div>
-      <div>Cargando movimientos…</div>
-    </div>
-  `;
-  
-  try {
-    const result = await apiGet('getBilling', { session_token: SESSION_TOKEN });
-    
-    if (!result.ok) {
-      $('cta-cte-body').innerHTML = `<div class="alert alert-error">${result.message || 'Error al cargar'}</div>`;
-      return;
-    }
-    
-    renderCtaCte(result.movimientos, result.balance);
-    
-  } catch (err) {
-    $('cta-cte-body').innerHTML = `<div class="alert alert-error">Error de conexión</div>`;
-  }
-}
-
-function renderCtaCte(movimientos, balance) {
-  const body = $('cta-cte-body');
-  
-  if (!movimientos || movimientos.length === 0) {
-    body.innerHTML = `
-      <div class="cc-empty">Todavía no hay movimientos.</div>
-      <div style="text-align: center; padding: 20px 0;">
-        <div class="balance-label">Saldo actual</div>
-        <div class="balance-amount zero" style="font-size: 28px;">USD 0</div>
-      </div>
-    `;
-    return;
-  }
-  
-  let html = `
-    <table class="cc-table">
-      <thead>
-        <tr>
-          <th>Fecha</th>
-          <th>Concepto</th>
-          <th class="amount">Monto</th>
-        </tr>
-      </thead>
-      <tbody>
-  `;
-  
-  movimientos.forEach(m => {
-    const isCharge = m.monto > 0;
-    const amountClass = isCharge ? 'cc-amount-charge' : 'cc-amount-pay';
-    const sign = isCharge ? '+' : '';
-    html += `
-      <tr>
-        <td class="fecha">${m.fecha}</td>
-        <td>${m.descripcion}</td>
-        <td class="amount ${amountClass}">${sign}USD ${m.monto}</td>
-      </tr>
-    `;
-  });
-  
-  html += `
-        <tr class="cc-saldo-row">
-          <td colspan="2">Saldo actual</td>
-          <td class="amount">USD ${balance}</td>
-        </tr>
-      </tbody>
-    </table>
-  `;
-  
-  body.innerHTML = html;
-}
-
-// ====================== CAMBIAR PLAN ======================
-
-function openPlanModal() {
-  $('plan-alert').classList.add('hidden');
-  
-  // Marcar el plan actual
-  document.querySelectorAll('input[name="plan"]').forEach(r => {
-    r.checked = (r.value === ACCOUNT_DATA.plan);
-  });
-  document.querySelectorAll('.radio-option').forEach(opt => {
-    opt.classList.toggle('selected', opt.dataset.plan === ACCOUNT_DATA.plan);
-  });
-  
-  openModal('modal-plan');
-}
-
-document.querySelectorAll('.radio-option').forEach(opt => {
-  opt.addEventListener('click', () => {
-    document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
-    opt.classList.add('selected');
-    opt.querySelector('input[type="radio"]').checked = true;
-  });
+    const r = await apiPost('addFilter', { session_token: SESSION_TOKEN, tipo: CURRENT_FILTER_TYPE, patron: patron });
+    if (r.ok) { closeModal('modal-filter'); await loadFilters(); }
+    else { showAlert('filter-alert', 'error', r.message || 'No se pudo agregar'); }
+  } catch (err) { showAlert('filter-alert', 'error', 'Error de red'); }
+  finally { setLoading('btn-save-filter', false, 'Agregar'); }
 });
 
-async function savePlan() {
-  const selected = document.querySelector('input[name="plan"]:checked');
-  if (!selected) {
-    showAlert('plan-alert', 'Elegí un plan');
-    return;
-  }
-  
-  const newPlan = selected.value;
-  if (newPlan === ACCOUNT_DATA.plan) {
-    closeModal('modal-plan');
-    return;
-  }
-  
-  setLoading('btn-save-plan', true);
-  
+async function removeFilterEntry(tipo, patron) {
+  if (!confirm('¿Quitar "' + patron + '" de la ' + tipo + '?')) return;
   try {
-    const result = await apiPost('updatePlan', {
-      session_token: SESSION_TOKEN,
-      new_plan: newPlan
-    });
-    
-    if (result.ok) {
-      closeModal('modal-plan');
-      await loadDashboard();
-    } else {
-      showAlert('plan-alert', result.message || 'No pudimos cambiar el plan');
-    }
-  } catch (err) {
-    showAlert('plan-alert', 'Error de conexión');
-  } finally {
-    setLoading('btn-save-plan', false, 'Guardar');
-  }
+    const r = await apiPost('removeFilter', { session_token: SESSION_TOKEN, tipo: tipo, patron: patron });
+    if (r.ok) await loadFilters();
+  } catch (err) { console.error(err); }
 }
 
-// ====================== CAMBIAR MAIL DESTINO ======================
+$('btn-open-pay').addEventListener('click', () => openModal('modal-pay'));
 
 function openMailDestinoModal() {
-  $('mail-destino-actual').value = ACCOUNT_DATA.mail_destino || '';
   $('mail-destino-nuevo').value = '';
+  $('mail-destino-fresh-code').value = '';
+  clearAlert('mail-destino-alert');
   openModal('modal-mail-destino');
-  setTimeout(() => $('mail-destino-nuevo').focus(), 100);
 }
 
-async function requestMailDestinoCode() {
+$('btn-request-mail-code').addEventListener('click', async () => {
   setLoading('btn-request-mail-code', true);
   try {
-    const result = await apiPost('requestActionCode', {
-      session_token: SESSION_TOKEN,
-      user_action: 'updateMailDestino'
-    });
-    if (result.ok) {
-      alert('Te mandamos un código por WhatsApp. Ingresalo abajo y dale Cambiar.');
-      setTimeout(() => $('mail-destino-fresh-code').focus(), 100);
-    } else {
-      alert(result.message || 'No pudimos enviar el código.');
-    }
-  } catch (err) {
-    alert('Error de conexión');
-  } finally {
-    setLoading('btn-request-mail-code', false, 'Pedir código');
-  }
-}
+    const r = await apiPost('requestActionCode', { session_token: SESSION_TOKEN, user_action: 'updateMailDestino' });
+    if (r.ok) { showAlert('mail-destino-alert', 'info', 'Código mandado por WhatsApp.'); setTimeout(() => $('mail-destino-fresh-code').focus(), 100); }
+    else { showAlert('mail-destino-alert', 'error', r.message || 'No se pudo enviar'); }
+  } catch (err) { showAlert('mail-destino-alert', 'error', 'Error de red'); }
+  finally { setLoading('btn-request-mail-code', false, 'Pedir código'); }
+});
 
-async function saveMailDestino() {
+$('btn-save-mail-destino').addEventListener('click', async () => {
   const nuevo = $('mail-destino-nuevo').value.trim().toLowerCase();
   const freshCode = $('mail-destino-fresh-code').value.trim();
-  
-  if (!nuevo || nuevo.indexOf('@') === -1) {
-    alert('Ingresá un mail válido');
-    return;
-  }
-  
-  if (nuevo === ACCOUNT_DATA.mail_destino) {
-    closeModal('modal-mail-destino');
-    return;
-  }
-  
-  if (!freshCode || freshCode.length !== 6) {
-    alert('Ingresá el código de 6 dígitos que te llegó por WhatsApp. Si no lo pediste, hacé clic en "Pedir código".');
-    return;
-  }
-  
+  if (!nuevo || nuevo.indexOf('@') === -1) { showAlert('mail-destino-alert', 'error', 'Mail inválido'); return; }
+  if (freshCode.length !== 6) { showAlert('mail-destino-alert', 'error', 'Ingresá el código'); return; }
   setLoading('btn-save-mail-destino', true);
-  
   try {
-    const result = await apiPost('updateMailDestino', {
-      session_token: SESSION_TOKEN,
-      new_mail: nuevo,
-      fresh_code: freshCode
-    });
-    
-    if (result.ok) {
-      closeModal('modal-mail-destino');
-      await loadDashboard();
-    } else {
-      alert(result.message || 'No pudimos cambiar el mail. Probá de nuevo.');
-    }
-  } catch (err) {
-    alert('Error de conexión');
-  } finally {
-    setLoading('btn-save-mail-destino', false, 'Cambiar');
-  }
-}
-
-// ====================== CANCELAR CUENTA ======================
+    const r = await apiPost('updateMailDestino', { session_token: SESSION_TOKEN, new_mail: nuevo, fresh_code: freshCode });
+    if (r.ok) { closeModal('modal-mail-destino'); await loadDashboard(); }
+    else { showAlert('mail-destino-alert', 'error', r.message || 'No se pudo cambiar'); }
+  } catch (err) { showAlert('mail-destino-alert', 'error', 'Error de red'); }
+  finally { setLoading('btn-save-mail-destino', false, 'Cambiar'); }
+});
 
 function openCancelModal() {
   $('cancel-fresh-code').value = '';
+  clearAlert('cancel-alert');
   openModal('modal-cancel');
 }
 
-async function requestCancelCode() {
+$('btn-request-cancel-code').addEventListener('click', async () => {
   setLoading('btn-request-cancel-code', true);
   try {
-    const result = await apiPost('requestActionCode', {
-      session_token: SESSION_TOKEN,
-      user_action: 'cancelAccount'
-    });
-    if (result.ok) {
-      alert('Te mandamos un código por WhatsApp. Ingresalo abajo y confirmá.');
-      setTimeout(() => $('cancel-fresh-code').focus(), 100);
-    } else {
-      alert(result.message || 'No pudimos enviar el código.');
-    }
-  } catch (err) {
-    alert('Error de conexión');
-  } finally {
-    setLoading('btn-request-cancel-code', false, 'Pedir código');
-  }
-}
+    const r = await apiPost('requestActionCode', { session_token: SESSION_TOKEN, user_action: 'cancelAccount' });
+    if (r.ok) { showAlert('cancel-alert', 'info', 'Código mandado por WhatsApp.'); setTimeout(() => $('cancel-fresh-code').focus(), 100); }
+    else { showAlert('cancel-alert', 'error', r.message || 'No se pudo enviar'); }
+  } catch (err) { showAlert('cancel-alert', 'error', 'Error de red'); }
+  finally { setLoading('btn-request-cancel-code', false, 'Pedir código'); }
+});
 
-async function confirmCancel() {
+$('btn-confirm-cancel').addEventListener('click', async () => {
   const freshCode = $('cancel-fresh-code').value.trim();
-  
-  if (!freshCode || freshCode.length !== 6) {
-    alert('Ingresá el código de 6 dígitos que te llegó por WhatsApp. Si no lo pediste, hacé clic en "Pedir código".');
-    return;
-  }
-  
+  if (freshCode.length !== 6) { showAlert('cancel-alert', 'error', 'Ingresá el código'); return; }
   if (!confirm('¿Confirmás cancelar tu cuenta?')) return;
-  
   setLoading('btn-confirm-cancel', true);
-  
   try {
-    const result = await apiPost('cancelAccount', {
-      session_token: SESSION_TOKEN,
-      fresh_code: freshCode
-    });
-    
-    if (result.ok) {
-      closeModal('modal-cancel');
-      alert('Tu cuenta fue cancelada. ¡Gracias por usar mtows!');
-      localStorage.removeItem(SESSION_KEY);
-      SESSION_TOKEN = null;
-      ACCOUNT_DATA = null;
-      window.location.href = '/';
-    } else {
-      alert(result.message || 'No pudimos cancelar. Probá de nuevo.');
-    }
-  } catch (err) {
-    alert('Error de conexión');
-  } finally {
-    setLoading('btn-confirm-cancel', false, 'Sí, cancelar');
-  }
-}
-
-// ====================== EVENT LISTENERS GENERALES ======================
-
-// Enter en email → request code
-$('login-email').addEventListener('keypress', e => {
-  if (e.key === 'Enter') requestLoginCode();
+    const r = await apiPost('cancelAccount', { session_token: SESSION_TOKEN, fresh_code: freshCode });
+    if (r.ok) { closeModal('modal-cancel'); alert('Tu cuenta fue cancelada. ¡Gracias por usar mtows!'); localStorage.removeItem(SESSION_KEY); SESSION_TOKEN = null; window.location.href = '/'; }
+    else { showAlert('cancel-alert', 'error', r.message || 'No se pudo cancelar'); }
+  } catch (err) { showAlert('cancel-alert', 'error', 'Error de red'); }
+  finally { setLoading('btn-confirm-cancel', false, 'Sí, cancelar'); }
 });
 
-// Enter en code → verify
-$('login-code').addEventListener('keypress', e => {
-  if (e.key === 'Enter') verifyLoginCode();
+$('btn-logout').addEventListener('click', async () => {
+  try { await apiPost('logoutPanel', { session_token: SESSION_TOKEN }); } catch (err) {}
+  localStorage.removeItem(SESSION_KEY);
+  SESSION_TOKEN = null;
+  showScreen('login');
+  $('login-email').value = '';
+  $('login-code').value = '';
 });
-
-// Solo números en code input
-$('login-code').addEventListener('input', e => {
-  e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
-});
-
-// Enter en filter patron → save
-$('filter-patron').addEventListener('keypress', e => {
-  if (e.key === 'Enter') saveFilter();
-});
-
-// Click backdrop cierra modal
-document.querySelectorAll('.modal-backdrop').forEach(bd => {
-  bd.addEventListener('click', e => {
-    if (e.target === bd) bd.classList.remove('active');
-  });
-});
-
-// ESC cierra modales
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-backdrop.active').forEach(m => m.classList.remove('active'));
-  }
-});
-
-// ====================== INIT ======================
 
 (async function init() {
-  const savedToken = localStorage.getItem(SESSION_KEY);
-  
-  if (savedToken) {
-    SESSION_TOKEN = savedToken;
-    // Intentar cargar dashboard con token guardado
-    showView('view-loading');
-    try {
-      const acc = await apiGet('getPanelAccount', { session_token: SESSION_TOKEN });
-      if (acc.ok) {
-        ACCOUNT_DATA = acc;
-        renderDashboard();
-        await loadFilters();
-        showView('view-dashboard');
-        return;
-      }
-    } catch (err) {
-      // ignorar y seguir al login
-    }
-    localStorage.removeItem(SESSION_KEY);
-    SESSION_TOKEN = null;
+  SESSION_TOKEN = localStorage.getItem(SESSION_KEY);
+  if (SESSION_TOKEN) {
+    const r = await apiGet('getPanelAccount', { session_token: SESSION_TOKEN });
+    if (r.ok) { await loadDashboard(); showScreen('dashboard'); return; }
+    else { localStorage.removeItem(SESSION_KEY); SESSION_TOKEN = null; }
   }
-  
-  showView('view-login');
-  setTimeout(() => $('login-email').focus(), 100);
+  showScreen('login');
 })();
 </script>
-
 </body>
 </html>
